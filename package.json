@@ -1,6 +1,6 @@
 {
   "name": "craftjs",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Craft 3D Printable Stuff",
   "main": "lib/craft.js",
   "scripts": {
