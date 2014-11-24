@@ -36,24 +36,25 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['simplemocha']);
 
 
-    grunt.registerTask('page', 'Generate page given an xml specification', function(input){
+    grunt.registerTask('craft', 'Generate page given an xml specification', function(input){
         var fs = require('fs')
         var ejs = require('ejs')
         var path = require('path')
+        var craft = require('./lib/craft')
+
 
         var xmlstring = fs.readFileSync(input,'utf8');
-        
-        var maker = require('./src/maker')
-        var csg = maker.make(xmlstring);
+        var csg = craft.makeFromXML(xmlstring);
 
         var stlstring = csg.toStlString();
 
-        var template = fs.readFileSync('views/one.ejs','utf8');
+        var templateFile = grunt.config.get('templates_root') + '/' + 'one.ejs';
+        var template = fs.readFileSync(templateFile,'utf8');
 
         var basename = path.basename(input,'.xml')
         
         var viewerHtml = ejs.render(template, {stlstring: stlstring, xmlstring: xmlstring});
-        var viewerFile = 'html/page_' + basename + '.html';
+        var viewerFile = 'build/page_' + basename + '.html';
 
         fs.writeFileSync(viewerFile, viewerHtml);
 
@@ -70,20 +71,19 @@ module.exports = function(grunt) {
 
         var ejs = require('ejs')
         var fs = require('fs')
+        var craft = require('./lib/craft')
 
 
         var componentName = arg1;
-        var componentPath = grunt.config.get('component_root') + '/' + componentName;
-        var c = require(componentPath);
+
+        var c = craft.lookup(componentName);
 
         var templateFile = grunt.config.get('templates_root') + '/' + 'three.ejs';
         var template = fs.readFileSync(templateFile,'utf8');
-        // console.log(template)
-
-        var renderedExamples = [];
 
         var examples = c.examples;
         var info = c.info;
+        console.log(c)
 
         examples.forEach(function(example, i) {
 
