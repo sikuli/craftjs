@@ -1,7 +1,7 @@
 var should = require('chai').should();
 var things = require('../lib/craft').things;
 var craft = require('../lib/craft');
-var CSG = require('../lib/components/node_modules/csg').CSG;
+var CSG = require('../lib/things/node_modules/csg').CSG;
 
 describe('craft', function() {
 
@@ -25,7 +25,7 @@ describe('craft', function() {
 
             craft.connect(pin, 'back').to(canvas, 'front');
         });
-        
+
     });
 
     describe('make', function() {

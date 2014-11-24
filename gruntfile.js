@@ -25,8 +25,7 @@ module.exports = function(grunt) {
                 src: ['test/*.js']
             }
         },
-        component_root: './lib/components',
-        templates_root: './lib/viewers/templates'
+        templates_root: './lib/viewers/templates',
     });
 
     // grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -81,8 +80,9 @@ module.exports = function(grunt) {
         var templateFile = grunt.config.get('templates_root') + '/' + 'three.ejs';
         var template = fs.readFileSync(templateFile,'utf8');
 
-        var examples = c.examples;
+        // var examples = c.examples;
         var info = c.info;
+        var examples = info.examples;
 
         examples.forEach(function(example, i) {
 
@@ -96,7 +96,7 @@ module.exports = function(grunt) {
         });
 
         var viewerHtml = ejs.render(template, {examples: examples, component: info});
-        var viewerFile = 'build/' + 'component_' + componentName + '.html';
+        var viewerFile = 'build/thing_' + componentName + '.html';
 
         fs.writeFileSync(viewerFile, viewerHtml);
 
