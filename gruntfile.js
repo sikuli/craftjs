@@ -44,7 +44,7 @@ module.exports = function(grunt) {
 
 
         var xmlstring = fs.readFileSync(input,'utf8');
-        var csg = craft.makeFromXML(xmlstring);
+        var csg = craft.makeFromXml(xmlstring);
 
         var stlstring = csg.toStlString();
 
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
         grunt.log.writeln("viewer is saved as [" + viewerFile + "]");        
     });
 
-    grunt.registerTask('component', 'Generate examples and a THREE.js viewer for a component.', function(arg1) {
+    grunt.registerTask('thing', 'Generate examples and a THREE.js viewer for a component.', function(arg1) {
         if (arguments.length === 0) {
             grunt.log.writeln("please specify a component name");
             return;
@@ -76,14 +76,13 @@ module.exports = function(grunt) {
 
         var componentName = arg1;
 
-        var c = craft.lookup(componentName);
+        var c = craft.things[componentName];
 
         var templateFile = grunt.config.get('templates_root') + '/' + 'three.ejs';
         var template = fs.readFileSync(templateFile,'utf8');
 
         var examples = c.examples;
         var info = c.info;
-        console.log(c)
 
         examples.forEach(function(example, i) {
 
