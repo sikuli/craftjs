@@ -1,7 +1,6 @@
 craftjs
 =======
 
-
 ## Installation
 
 	npm install craftjs --save
@@ -10,6 +9,14 @@ craftjs
 
 
 ## Development
+
+Clonse the repo
+
+	git clone git@github.com:sikuli/craftjs.git
+
+List all available parts:
+
+	ls lib/parts/
 
 To build and view a part:
 
