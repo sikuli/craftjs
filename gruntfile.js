@@ -60,7 +60,7 @@ module.exports = function(grunt) {
         grunt.log.writeln("viewer is saved as [" + viewerFile + "]");        
     });
 
-    grunt.registerTask('thing', 'Generate examples and a THREE.js viewer for a component.', function(arg1) {
+    grunt.registerTask('part', 'Generate examples and a THREE.js viewer for a component.', function(arg1) {
         if (arguments.length === 0) {
             grunt.log.writeln("please specify a component name");
             return;
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
 
         var componentName = arg1;
 
-        var c = craft.things[componentName];
+        var c = craft.parts[componentName];
 
         var templateFile = grunt.config.get('templates_root') + '/' + 'three.ejs';
         var template = fs.readFileSync(templateFile,'utf8');
@@ -96,7 +96,7 @@ module.exports = function(grunt) {
         });
 
         var viewerHtml = ejs.render(template, {examples: examples, component: info});
-        var viewerFile = 'build/thing_' + componentName + '.html';
+        var viewerFile = 'build/part_' + componentName + '.html';
 
         fs.writeFileSync(viewerFile, viewerHtml);
 
