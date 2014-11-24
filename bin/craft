@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+
+var templates_root = 'lib/viewers/templates'
+
+program
+    .version('0.0.1')
+
+program
+    .command('part')
+    .description('build and view examples')
+    .action(function(arg1) {
+
+        var ejs = require('ejs')
+        var fs = require('fs')
+        var craft = require('../lib/craft')
+        var open = require('open')
+        var S = require('../lib/node_modules/openscad');
+
+        var componentName = arg1;
+
+        var c = craft.parts[componentName];
+
+        var templateFile = templates_root + '/' + 'three.ejs';
+        var template = fs.readFileSync(templateFile,'utf8');
+
+        var info = c.info;
+        var examples = info.examples;        
+
+        examples.forEach(function(example, i) {
+
+            var example_id = componentName + i;
+
+            var csg = c.generate(example.parameters);    
+
+            example.stl = csg.toStlString();
+
+            console.log("example " + (i+1) + " generated");
+        });
+
+        var viewerHtml = ejs.render(template, {examples: examples, component: info});
+        var viewerFile = 'build/part_' + componentName + '.html';
+
+        fs.writeFileSync(viewerFile, viewerHtml);
+
+        console.log("viewer is saved as [" + viewerFile + "]");   
+
+        open(viewerFile);
+    });
+
+
+program
+    .command('xml')
+    .description('create a craftML model')
+    .action(function(input) {
+
+        var fs = require('fs')
+        var ejs = require('ejs')
+        var path = require('path')
+        var craft = require('../lib/craft')
+        var open = require('open')
+
+
+        var xmlstring = fs.readFileSync(input,'utf8');
+        var csg = craft.makeFromXml(xmlstring);
+
+        var stlstring = csg.toStlString();
+
+        var templateFile = templates_root + '/' + 'one.ejs';
+        var template = fs.readFileSync(templateFile,'utf8');
+
+        var basename = path.basename(input,'.xml')
+        
+        var viewerHtml = ejs.render(template, {stlstring: stlstring, xmlstring: xmlstring});
+        var viewerFile = 'build/page_' + basename + '.html';
+
+        fs.writeFileSync(viewerFile, viewerHtml);
+
+        console.log("viewer is saved as [" + viewerFile + "]");
+
+        open(viewerFile);   
+    });
+
+program.parse(process.argv);

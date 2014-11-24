@@ -15,6 +15,18 @@ describe('craft', function() {
             parts.pin.generate().should.be.an.instanceof(CSG);
         });
 
+        it('generate a cross', function() {
+            parts.cross.generate().should.be.an.instanceof(CSG);
+        });
+
+        describe('grill', function() {
+
+        	it('can generate', function() {
+            	parts.grill.generate().should.be.an.instanceof(CSG);
+        	});        
+
+        });
+
     });
 
     describe('connect', function() {
