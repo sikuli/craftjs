@@ -1,0 +1,4 @@
+<canvas width="50" height="50" padding="2">
+	<wave width="30"></wave>
+	<grill y="15" width="30" bar_count="15"></grill>
+</canvas>
