@@ -1,8 +1,8 @@
 <canvas width="50" height="50">
     <pin head_radius="3" x="10" y="10" depth="5"></pin>
     <pin head_radius="5" x="20" y="20" depth="6"></pin>
-    <pin head_radius="7" x="30" y="40" depth="10">
-    	<pin head_radius="3" depth="5">
+    <pin head_radius="7" x="30" y="40" depth="10" text-align="center" vertical-align="middle">
+    	<pin head_radius="3" depth="5" text-align="center"  vertical-align="middle">
     		<pin head_radius="2" depth="5"></pin>
     	</pin>
     </pin>

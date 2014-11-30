@@ -1,18 +1,8 @@
-<canvas width="40" height="40" padding="2">
 <table>
 	<table>
-		<table>
-			<table>
-				<table>
-					<table>
-						<table>
-							<table>
-							</table>
-						</table>
-					</table>
-				</table>
-			</table>
-		</table>
+		<pin>
+			<pin>
+			</pin>
+		</pin>
 	</table>
 </table>
-</canvas>
