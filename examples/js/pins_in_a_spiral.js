@@ -25,10 +25,10 @@ var g = craft.make(function($$$) {
             depth: depth
         })
 
-        a = $$$.connect(a, 'base').to(c, 'container')
+        a = $$$.connect(a, 'base').to(c, 'top')
 
         var x = 35 + radius * Math.cos(theta)
-        var y = 25 + radius * Math.sin(theta)
+        var y = -30 + radius * Math.sin(theta)
         a = a.translate([x, y, 0])
 
         as.push(a)
