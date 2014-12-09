@@ -3,10 +3,15 @@
 
 (function(window, document) {
 
+
   var angular;
 
   // jQuery
   window.jQuery = require('jquery');
+
+  // var key = require('keymaster')
+  // console.log(key)
+  // key('shift+return', function(){ alert('stopped reload!'); return false });
 
   // AngularJS
   angular = require('exports?angular!angular');

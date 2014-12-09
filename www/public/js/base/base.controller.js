@@ -34,6 +34,18 @@ module.exports =
         $rootScope.editor.setOption('minLines', 50);
         $rootScope.editor.setOption('maxLines', 90000);
 
+
+        $rootScope.editor.commands.addCommand({
+            name: "refresh",
+            bindKey: {
+                win: "Shift-Return",
+                mac: "Shift-Return"
+            },
+            exec: function(editor) {
+                updatePreview();
+            }
+        })
+
         var updatePreview = function() {
             $rootScope.currentDocument = documentsService.getCurrentDocument();
 
@@ -41,7 +53,8 @@ module.exports =
             var csg = craft.xml.generate(src)
             var stlString = csg.toStlString()
             $rootScope.viewer.setStl(csg.toStlString())
-            return $rootScope.editor.getSession().setValue($rootScope.currentDocument.body);
+            return;
+            // return $rootScope.editor.getSession().setValue($rootScope.currentDocument.body);
         };
 
         $rootScope.$on('document.refresh', updatePreview);
@@ -50,6 +63,7 @@ module.exports =
         $rootScope.viewer.setCameraPosition(0, -0.5, 1);
 
         animate();
+
         function animate() {
             requestAnimationFrame(animate);
             $rootScope.viewer.render();

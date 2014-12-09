@@ -55,7 +55,7 @@
     @include from('tablet') {
       border-right: 1px solid $c-border;
       float: left;
-      height: calc(100vh - 130px);
+      height: calc(100vh - 92px);
       -webkit-overflow-scrolling: touch;
       padding-right: 16px;
       width: 40%;
@@ -84,7 +84,7 @@
     @include from('tablet') {
       display: block;
       float: right;
-      height: calc(100vh - 130px);
+      height: calc(100vh - 92px);
       -webkit-overflow-scrolling: touch;
       position: static;
       top: 0;
