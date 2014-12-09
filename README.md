@@ -14,19 +14,18 @@ Clonse the repo
 
 	git clone git@github.com:sikuli/craftjs.git
 
-List all available parts:
+Install node modules
 
-	ls lib/parts/
+	npm install
 
-To build and view a part:
+To build and view a model:
 
-	bin/craft part [name]
+	bin/craft model [name]
 
 e.g.,
 
-	bin/craft part canvas
-	bin/craft part pin
-
+	bin/craft model canvas
+	bin/craft model pin
 
 To build and view a design file:
 
@@ -34,7 +33,7 @@ To build and view a design file:
 
 e.g.,
 
-	bin/craft xml examples/xml/pins.xml
+	bin/craft xml examples/xml/patterns.xml
 
 
 ## Contributing
