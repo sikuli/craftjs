@@ -9,7 +9,7 @@ module.exports =
     .controller('DocumentsExport', function($scope, $timeout, documentsExportService) {
 
         var vm = this,
-            $downloader = document.getElementById('downloader');
+        $downloader = document.getElementById('downloader');
 
         // http://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link
 
@@ -24,10 +24,10 @@ module.exports =
         // vm.asMarkdown   = asMarkdown;
         // vm.asPDF        = asPDF;
 
+        $scope.asSTL = asSTL;
+        $scope.asSTLBinary = asSTLBinary;
+
         function initDownload() {
-            // $downloader.src = '/files/' + documentsExportService.type + '/' + documentsExportService.file;
-            // $downloader.download = 'test.stl';
-            // $downloader.src = documentsExportService.file;
             var url = documentsExportService.file;
             var name = documentsExportService.name;
             a.download = name;
@@ -36,15 +36,10 @@ module.exports =
                 a.click();
                 window.URL.revokeObjectURL(url);
             });
-            // 
             return false;
         }
 
         function asSTL(styled) {
-            // console.log(styled)
-
-            // initDownload();
-            // return documentsExportService.fetchHTML(styled).then(initDownload);
             return documentsExportService.fetchSTL().then(initDownload);
         }
 

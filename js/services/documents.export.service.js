@@ -23,7 +23,7 @@ module.exports =
 
         return service;
 
-        function fetchSTL(styled) {
+        function fetchSTL(styled) {    
             var di = diNotify('Fetching STL...');
 
             var src = documentsService.getCurrentDocumentBody();
