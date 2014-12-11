@@ -54,10 +54,14 @@ module.exports =
             var stlString = csg.toStlString()
             $rootScope.viewer.setStl(csg.toStlString())
             return;
-            // return $rootScope.editor.getSession().setValue($rootScope.currentDocument.body);
         };
 
-        $rootScope.$on('document.refresh', updatePreview);
+         var documentRefresh = function() {
+            updatePreview()            
+            return $rootScope.editor.getSession().setValue($rootScope.currentDocument.body);
+        };
+
+        $rootScope.$on('document.refresh', documentRefresh);
 
         $rootScope.viewer = new Viewer('preview')
         $rootScope.viewer.setCameraPosition(0, -0.5, 1);
