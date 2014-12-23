@@ -5,6 +5,7 @@ Collaboration using Git and GitHub.
 
 ### Set Up the Repositories
 The following instructions assume the user has
+
 1. A GitHub account
 2. Git installed on machine
     - Note to Windows users: during setup, make sure to select "Run Git From Windows Command Prompt"
