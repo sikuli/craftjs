@@ -49,10 +49,10 @@ module.exports =
         }
 
         function initDocument() {
-            var item;
+            // var item;
 
-            item = documentsService.getItemById($rootScope.currentDocument.id);
-            documentsService.setCurrentDocument(item);
+            // item = documentsService.getItemById($rootScope.currentDocument.id);                    
+            // documentsService.setCurrentDocument(item);
 
             return $rootScope.$emit('document.refresh');
         }
