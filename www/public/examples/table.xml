@@ -1,0 +1,9 @@
+<canvas>
+	<table>
+		<pin></pin>
+		<pin></pin>
+		<table width="8" height="8">
+			<pin></pin>
+		</table>	
+	</table>	
+</canvas>
