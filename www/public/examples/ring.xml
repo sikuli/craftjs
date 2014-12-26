@@ -1,0 +1,7 @@
+<canvas width="40" height="20">
+	<ring radius="20%width"></ring>
+	<ring radius="25%height"></ring>
+	<table width="30%" height="100%">
+		<ring radius="50%width"></ring>
+	</table>
+</canvas>
