@@ -20,7 +20,8 @@ exports.index = function(req, res) {
     isDropboxConfigured: Dropbox.isConfigured,
     isGithubConfigured: Github.isConfigured,
     isGoogleDriveConfigured: GoogleDrive.isConfigured,
-    isOneDriveConfigured: OneDrive.isConfigured
+    isOneDriveConfigured: OneDrive.isConfigured,
+    example: '<canvas></canvas>'
   }
 
   if (!req.session.isEvernoteSynced) {
