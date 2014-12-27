@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "commander": "^2.5.0",
+    "css": "^2.1.0",
     "ejs": "^1.0.0",
     "glob": "^4.2.1",
     "lodash": "^2.4.1",
