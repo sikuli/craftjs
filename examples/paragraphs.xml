@@ -1,0 +1,12 @@
+<canvas>
+	<p><text>1st paragraph</text></p>
+	<p><braille>2nd paragraph</braille></p>
+	<p>
+	    <pin></pin>
+	    <pin></pin>
+	    <pin></pin>
+	</p>
+	<p>
+	    <ring></ring>
+	</p>
+</canvas>

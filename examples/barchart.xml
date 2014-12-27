@@ -1,11 +1,12 @@
-<canvas>
-<barchart>
-<values>
-    <number>5</number>
-    <number>10</number>
-    <number>15</number>
-    <number>5</number>
-    <number>8</number>
-</values>
-</barchart>
+<canvas padding="2">
+    <barchart>
+        <values>
+            <number>5</number>
+            <number>10</number>
+            <number>15</number>
+            <number>5</number>
+            <number>8</number>
+        </values>
+    </barchart>
+    <text>bar chart</text>
 </canvas>
