@@ -70,10 +70,14 @@ module.exports =
         var updatePreview = function() {
             $rootScope.currentDocument = documentsService.getCurrentDocument();
             var src = $rootScope.currentDocument.body
-            var csg = craft.xml.generate(src)
-            var stlString = csg.toStlString()
+            var craftdom = craft.xml.generate(src)
+            // var stlString = craftdom.csg.toStlString()
 
-            $rootScope.viewer.setStl(csg.toStlString())
+            //$rootScope.viewer.setStl(stlString)
+
+            $rootScope.viewer.addCSGs(craftdom.csgs)
+            //var csgs = _.flatten(collect_csgs(craftdom))
+
             $rootScope.viewer.render();
             // TODO: update three.js viewer on demand
             return;

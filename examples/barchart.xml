@@ -1,4 +1,4 @@
-<canvas padding="2">
+<board>
     <barchart>
         <values>
             <number>5</number>
@@ -9,4 +9,4 @@
         </values>
     </barchart>
     <text>bar chart</text>
-</canvas>
+</board>
