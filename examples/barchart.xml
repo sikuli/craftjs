@@ -1,4 +1,6 @@
 <board>
+    <h1><text>Bar chart</text></h1>
+    <div>
     <barchart>
         <values>
             <number>5</number>
@@ -8,5 +10,5 @@
             <number>8</number>
         </values>
     </barchart>
-    <text>bar chart</text>
+    </div>
 </board>
