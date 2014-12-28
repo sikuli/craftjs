@@ -1,0 +1,22 @@
+<craft>
+	<style>
+    pin.short {
+        depth: 3
+    }
+    pin.tall {
+        depth: 6
+    }
+    pin.wide {
+        head_radius: 5
+    }
+    pin.narrow {
+        head_radius: 3
+    }
+    </style>
+    <board>
+        <pin class="narrow short"></pin>
+        <pin class="wide tall"></pin>
+        <pin class="wide short"></pin>
+        <pin class="narrow tall"></pin>
+    </board>
+</craft>
