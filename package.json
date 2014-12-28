@@ -19,10 +19,12 @@
     "url": "https://github.com/sikuli/craftjs/issues"
   },
   "dependencies": {
+    "cheerio": "^0.18.0",
     "commander": "^2.5.0",
     "css": "^2.1.0",
     "ejs": "^1.0.0",
     "glob": "^4.2.1",
+    "jsdom": "^1.5.0",
     "lodash": "^2.4.1",
     "open": "0.0.5",
     "xmldoc": "^0.1.3"

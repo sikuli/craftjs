@@ -1,4 +1,20 @@
-<canvas>
-	<pin></pin>
-	<pin></pin>
-</canvas>
+<craftml>
+	<style>
+    pin.short {
+        depth: 3
+    }
+    pin.tall {
+        depth: 6
+    }
+    pin.wide {
+        head_radius: 6
+    }
+    pin.narrow {
+        head_radius: 3
+    }
+    </style>
+    <canvas>
+        <pin class="narrow short"></pin>
+        <pin class="wide tall"></pin>
+    </canvas>
+</craftml>
