@@ -1,7 +1,7 @@
-<canvas>
-	<table>
+<board>
+	<desk>
 	    <pin></pin>
 	    <ring></ring>
 	    <pin></pin>
-	</table>	
-</canvas>
+	</desk>	
+</board>

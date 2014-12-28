@@ -1,4 +1,4 @@
-<canvas width="30">
+<board width="30">
     <pin></pin>
     <pin></pin>
     <pin></pin>
@@ -9,4 +9,4 @@
     <pin head_radius="3"></pin>
     <pin head_radius="3"></pin>
     <pin head_radius="3"></pin>
-</canvas>
+</board>
