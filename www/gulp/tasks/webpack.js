@@ -29,7 +29,9 @@ gulp.task('webpack:dev', function(cb) {
     hot:         false,
     stats: {
       colors: true
-    }
+    },
+    headers: {"Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}
   }).listen(8090, 'localhost', function(err) {
 
     if (err) {
