@@ -57,7 +57,7 @@ app.configure('development', function() {
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+// app.get('/', routes.index);
 
 app.get('/not-implemented', routes.not_implemented);
 

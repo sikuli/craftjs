@@ -19,21 +19,36 @@ module.exports =
         'diBase.directives.previewToggle',
         'diBase.directives.preview'
     ])
-    .controller('Base', function($scope, $timeout, $rootScope, userService, documentsService) {
+    .controller('BaseController', function($scope, $timeout, $rootScope, $http, $routeParams, userService, documentsService) {
 
+        var name = $routeParams.name
+        $http.get('/examples/' + name).
+        success(function(data, status, headers, config) {
+            
+            var item = documentsService.createItem();
+            item.title = name;
+            item.body = data;
+            documentsService.setCurrentDocument(item);
+
+            $rootScope.$emit('document.refresh');
+      
+        }).
+        error(function(data, status, headers, config) {
+            // file can not be loaded
+            // TODO: display an error message
+
+        });
 
         $scope.profile = userService.profile;
-        $rootScope.currentDocument = documentsService.getCurrentDocument();
-        $rootScope.editor = ace.edit('editor');
 
-        $rootScope.editor.getSession().setMode('ace/mode/markdown');
+        // Editor configurations
+        $rootScope.editor = ace.edit('editor');
+        $rootScope.editor.getSession().setMode('ace/mode/xml');
         $rootScope.editor.setTheme('ace/theme/dillinger');
         $rootScope.editor.getSession().setUseWrapMode(true);
         $rootScope.editor.setShowPrintMargin(false);
-        $rootScope.editor.getSession().setValue($rootScope.currentDocument.body);
         $rootScope.editor.setOption('minLines', 50);
         $rootScope.editor.setOption('maxLines', 90000);
-
 
         $rootScope.editor.commands.addCommand({
             name: "refresh",
@@ -46,18 +61,31 @@ module.exports =
             }
         })
 
+        $rootScope.editor.on('change', function(){
+            var item = documentsService.getCurrentDocument();
+            item.body = $rootScope.editor.getSession().getValue();
+            documentsService.setCurrentDocument(item);
+        });
+
         var updatePreview = function() {
             $rootScope.currentDocument = documentsService.getCurrentDocument();
-
             var src = $rootScope.currentDocument.body
-            var csg = craft.xml.generate(src)
-            var stlString = csg.toStlString()
-            $rootScope.viewer.setStl(csg.toStlString())
+            var craftdom = craft.xml.generate(src)
+            // var stlString = craftdom.csg.toStlString()
+
+            //$rootScope.viewer.setStl(stlString)
+
+            $rootScope.viewer.addCSGs(craftdom.csgs)
+            //var csgs = _.flatten(collect_csgs(craftdom))
+
+            $rootScope.viewer.render();
+            // TODO: update three.js viewer on demand
             return;
         };
 
-         var documentRefresh = function() {
-            updatePreview()            
+        var documentRefresh = function() {
+            $rootScope.currentDocument = documentsService.getCurrentDocument();
+            updatePreview()
             return $rootScope.editor.getSession().setValue($rootScope.currentDocument.body);
         };
 
@@ -69,7 +97,7 @@ module.exports =
         animate();
 
         function animate() {
-            requestAnimationFrame(animate);
+            // requestAnimationFrame(animate);
             $rootScope.viewer.render();
         }
 
