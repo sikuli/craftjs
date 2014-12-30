@@ -24,7 +24,7 @@ module.exports =
     .controller('BaseController', function($scope, $timeout, $q, $rootScope, $http, $routeParams, userService, documentsService) {
 
         var name = $routeParams.name
-        $http.get('/examples/' + name).
+        $http.get('examples/' + name).
         success(function(data, status, headers, config) {
 
             var item = documentsService.createItem();
