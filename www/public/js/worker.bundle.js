@@ -56,7 +56,7 @@
 	onmessage = function(e) {
 		var data = e.data
 	    try {
-	    	var s = __webpack_require__(33)
+	    	var s = __webpack_require__(37)
 
 	        s.xml.build(data.craftdom)
 
@@ -82,7 +82,7 @@
 
 /***/ },
 
-/***/ 33:
+/***/ 37:
 /***/ function(module, exports, __webpack_require__) {
 
 	var craft = module.exports = {};
@@ -95,15 +95,15 @@
 	    fn(craft)
 	}
 
-	craft.use(__webpack_require__(55))
-	craft.use(__webpack_require__(56))
-	craft.use(__webpack_require__(57))
 	craft.use(__webpack_require__(58))
+	craft.use(__webpack_require__(59))
+	craft.use(__webpack_require__(60))
+	craft.use(__webpack_require__(65))
 	// craft.use(require('./viewers'))
 
 /***/ },
 
-/***/ 55:
+/***/ 58:
 /***/ function(module, exports, __webpack_require__) {
 
 	var CSG = __webpack_require__(66).CSG
@@ -157,14 +157,14 @@
 
 /***/ },
 
-/***/ 56:
+/***/ 59:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__(67)
 
 /***/ },
 
-/***/ 57:
+/***/ 60:
 /***/ function(module, exports, __webpack_require__) {
 
 	var parser = __webpack_require__(68),
@@ -206,28 +206,28 @@
 
 /***/ },
 
-/***/ 58:
+/***/ 65:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(craft){
 		craft.pack()
 			.name('standard')
-			.add(__webpack_require__(71))
-			.add(__webpack_require__(72))
-			.add(__webpack_require__(73))
-			.add(__webpack_require__(74))	
-			.add(__webpack_require__(75))
-			.add(__webpack_require__(76))
-			.add(__webpack_require__(77))
-			.add(__webpack_require__(78))
-			.add(__webpack_require__(79))
-			.add(__webpack_require__(80))
-			.add(__webpack_require__(81))
-			.add(__webpack_require__(82))
-			.add(__webpack_require__(83))		
-			.add(__webpack_require__(84))
-			.add(__webpack_require__(85))
-			.add(__webpack_require__(86))
+			.add(__webpack_require__(183))
+			.add(__webpack_require__(184))
+			.add(__webpack_require__(185))
+			.add(__webpack_require__(186))	
+			.add(__webpack_require__(187))
+			.add(__webpack_require__(188))
+			.add(__webpack_require__(189))
+			.add(__webpack_require__(190))
+			.add(__webpack_require__(191))
+			.add(__webpack_require__(192))
+			.add(__webpack_require__(193))
+			.add(__webpack_require__(194))
+			.add(__webpack_require__(195))		
+			.add(__webpack_require__(196))
+			.add(__webpack_require__(197))
+			.add(__webpack_require__(198))
 
 	}
 
@@ -3230,7 +3230,7 @@
 	    Pack.prototype.addFolder = function(folder) {
 
 	        // var glob = require('glob');
-	        var path = __webpack_require__(202);
+	        var path = __webpack_require__(201);
 
 	        glob.glob(folder + '/*.js', {
 	            sync: true
@@ -3256,7 +3256,7 @@
 /***/ 68:
 /***/ function(module, exports, __webpack_require__) {
 
-	var css = __webpack_require__(201);
+	var css = __webpack_require__(202);
 
 	var parser = module.exports = {}
 
@@ -3710,7 +3710,7 @@
 
 /***/ },
 
-/***/ 71:
+/***/ 183:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -3761,7 +3761,7 @@
 
 /***/ },
 
-/***/ 72:
+/***/ 184:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -3823,7 +3823,7 @@
 
 /***/ },
 
-/***/ 73:
+/***/ 185:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -3918,7 +3918,7 @@
 
 /***/ },
 
-/***/ 74:
+/***/ 186:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -3974,7 +3974,7 @@
 
 /***/ },
 
-/***/ 75:
+/***/ 187:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -4053,7 +4053,7 @@
 
 /***/ },
 
-/***/ 76:
+/***/ 188:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -4101,7 +4101,7 @@
 
 /***/ },
 
-/***/ 77:
+/***/ 189:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -4224,7 +4224,7 @@
 
 /***/ },
 
-/***/ 78:
+/***/ 190:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -4289,7 +4289,7 @@
 
 /***/ },
 
-/***/ 79:
+/***/ 191:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -4351,7 +4351,7 @@
 
 /***/ },
 
-/***/ 80:
+/***/ 192:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -4433,7 +4433,7 @@
 
 /***/ },
 
-/***/ 81:
+/***/ 193:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -4475,7 +4475,7 @@
 
 /***/ },
 
-/***/ 82:
+/***/ 194:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -5049,7 +5049,7 @@
 
 /***/ },
 
-/***/ 83:
+/***/ 195:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -5130,7 +5130,7 @@
 
 /***/ },
 
-/***/ 84:
+/***/ 196:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -5238,7 +5238,7 @@
 
 /***/ },
 
-/***/ 85:
+/***/ 197:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -5334,7 +5334,7 @@
 
 /***/ },
 
-/***/ 86:
+/***/ 198:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(200).model.define()
@@ -11409,20 +11409,11 @@
 /***/ 200:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(33)
+	module.exports = __webpack_require__(37)
 
 /***/ },
 
 /***/ 201:
-/***/ function(module, exports, __webpack_require__) {
-
-	exports.parse = __webpack_require__(204);
-	// exports.stringify = require('./lib/stringify');
-
-
-/***/ },
-
-/***/ 202:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -11650,7 +11641,16 @@
 	    }
 	;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(205)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(206)))
+
+/***/ },
+
+/***/ 202:
+/***/ function(module, exports, __webpack_require__) {
+
+	exports.parse = __webpack_require__(204);
+	// exports.stringify = require('./lib/stringify');
+
 
 /***/ },
 
@@ -22513,7 +22513,7 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(206)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(205)(module), (function() { return this; }())))
 
 /***/ },
 
@@ -23123,6 +23123,23 @@
 /***/ 205:
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ },
+
+/***/ 206:
+/***/ function(module, exports, __webpack_require__) {
+
 	// shim for using process in browser
 
 	var process = module.exports = {};
@@ -23209,23 +23226,6 @@
 	process.chdir = function (dir) {
 	    throw new Error('process.chdir is not supported');
 	};
-
-
-/***/ },
-
-/***/ 206:
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
 
 
 /***/ }
