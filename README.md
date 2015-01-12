@@ -65,7 +65,7 @@ $ git pull upstream master
 
 ##### Adding Modules
 To add new modules from the OpenJSCAD library, 
-- Go to craftjs/lib/node_modules/openscad.js 
+- Go to craftjs/lib/scad/openscad.js 
 - Add new modules by following the format starting in line 2731. For instance, to include the chain hull functionality, insert
 ```sh
 chain_hull: chain_hull,
@@ -88,6 +88,16 @@ $ gulp watch
 ```
 
 This should open a tab in the web brower that allows users to view and test models. By keeping both terminals open during development, users can instantly see their rendered code, along with error messages (using DevTools) that allow for quicker debugging.
+
+##### Displaying Models
+To display a model, insert the model's name as tags in XML standard.
+```sh
+<chair1></chair1>
+```
+To add parameters,
+```sh
+<chair1 size = 2 seat_length = 20></chair>
+```
 
 ##### Debugging 
 If the viewer remains blank, there is probably a bug in the model code. 
