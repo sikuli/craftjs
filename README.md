@@ -42,7 +42,8 @@ $ git status                            # check if path is added
 $ git commit -m "messagehere"           # commit to fork
 $ git push                              # add modified fork to GitHub
 ```
- - Note that the commit message uses single quotes on Linux systems
+    - Note that the commit message uses single quotes on Linux systems
+    
 - Go to GitHub and create pull request from the fork
     - Click the green button in the upper left
 
@@ -76,6 +77,7 @@ chain_hull: chain_hull,
 For ease of use during development and modeling. This is also documented in craftjs/www/README.md .
 - Make sure Gulp has been installed globally
 ```sh
+# This is a one-time action
 $ npm i -g gulp
 ```
 - Open a terminal. At the level of craftjs/www, 
@@ -92,11 +94,11 @@ This should open a tab in the web brower that allows users to view and test mode
 ##### Displaying Models
 To display a model, insert the model's name as tags in XML standard.
 ```sh
-<chair1></chair1>
+<pencil></pencil>
 ```
 To add parameters,
 ```sh
-<chair1 size = 2 seat_length = 20></chair>
+<pencil size = 2 length = 50></pencil>
 ```
 
 ##### Debugging 
