@@ -97,7 +97,7 @@
                 controller: 'BaseController'
             }).
             otherwise({
-                redirectTo: '/examples/pins.html'
+                redirectTo: '/examples/pins.xml'
             });
         }
     ]);
