@@ -7,11 +7,22 @@ var
   nodeModulesPath = path.join(__dirname, 'node_modules');
 
 module.exports = {
-  cache: true,
-  entry: './public/js/app.js',
-  output: {
-    path: path.join(__dirname, 'public/js')
+  cache: false,
+  entry: {
+    main: './public/js/app.js',
+    worker: ['./public/doWork.js']
   },
+  output: {
+    path: path.join(__dirname, 'public/js'),
+    filename: '[name].bundle.js'
+  },
+  // worke: {
+  //   output: {
+  //     filename: "[name].worker.js",
+  //     chunkFilename: "[id].worker.js"
+  //   }
+  // }, 
+  // target: 'webworker',
   module: {
     noParse: [
       /brace/,

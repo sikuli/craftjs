@@ -50,8 +50,22 @@
 
             <div class="g-b g-b--t1of2 split split-preview" ng-controller="Preview">
                 <h3 class="title">Preview</h3>
-                <a class="btn btn--new" href="" ng-click="refresh()">Render (SHIFT-RETURN)</a>
-                <div id="preview" preview></div>
+                <a class="btn btn--new" href="" ng-click="refresh()" style="float:right">CRAFT<br>
+                    <span style="font-size:70%">(SHIFT-RETURN)</span>  
+                </a>
+
+                <div style="float:right; padding-left:10px">
+                    <h3 class="title" ng-if="isWorkerGeneratingModel">
+                            generating model
+                            <img src="img/busy.gif" style="margin-left:5px"></img>
+                    </h3>
+                    <h3 class="title" ng-if="errorMessage" style="color:red">
+                        {{ errorMessage }}
+                    </h3>
+                </div>
+
+                <div id="preview" preview>
+                </div>
             </div>
         </div>
 
