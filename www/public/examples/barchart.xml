@@ -1,5 +1,5 @@
 <board>
-    <h1><text>Bar chart</text></h1>
+    <h1>Bar chart</h1>
     <div>
     <barchart>
         <values>

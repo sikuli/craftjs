@@ -16,13 +16,6 @@ module.exports = {
     path: path.join(__dirname, 'public/js'),
     filename: '[name].bundle.js'
   },
-  // worke: {
-  //   output: {
-  //     filename: "[name].worker.js",
-  //     chunkFilename: "[id].worker.js"
-  //   }
-  // }, 
-  // target: 'webworker',
   module: {
     noParse: [
       /brace/,

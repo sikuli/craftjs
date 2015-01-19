@@ -2,13 +2,9 @@
 
 var ace = require('brace');
 
-require('brace/mode/markdown');
 require('../documents/theme-dillinger');
 
 var Viewer = require('../../../../lib/viewers/stlviewer')
-var craft = require('../../../../lib/craft')
-
-
 
 module.exports =
     angular
@@ -19,135 +15,118 @@ module.exports =
         'diBase.directives.menuToggle',
         'diBase.directives.settingsToggle',
         'diBase.directives.previewToggle',
-        'diBase.directives.preview'
+        'diBase.directives.preview',
+        'craft',
+        'project'
     ])
-    .controller('BaseController', function($scope, $timeout, $q, $rootScope, $http, $routeParams, userService, documentsService) {
+    .run(function($rootScope) {
 
-        var name = $routeParams.name
-        $http.get('examples/' + name).
-        success(function(data, status, headers, config) {
+    })
+    .controller('Export', function($scope, $rootScope, $timeout, projectService) {
 
-            var item = documentsService.createItem();
-            item.title = name;
-            item.body = data;
-            documentsService.setCurrentDocument(item);
+        // http://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = 'display: none';
 
-            $rootScope.$emit('document.refresh');
+        $scope.asSTL = asSTL;
 
-        }).
-        error(function(data, status, headers, config) {
-            // file can not be loaded
-            // TODO: display an error message
+        function initDownload(contentString, name) {
 
-        });
+            var blob = new Blob([contentString], {
+                type: 'application/stla'
+            })
+            var blobURL = URL.createObjectURL(blob)
+            
+            a.download = name
+            a.href = blobURL
+            $timeout(function() {
+                a.click();
+                window.URL.revokeObjectURL(blobURL);
+            })            
+        }
 
-        $scope.profile = userService.profile;
-        $scope.rendering = false
+        function asSTL() {
+            console.log('exporting done')
+            projectService
+                .build('export')
+                .then(function(doc){
+                    console.log('exporting done')
+                    var stl = doc.craftdom.csgs[0].stl
+                    var name = doc.name + '.stl'
+                    initDownload(stl, name)
+                })            
+        }
 
-        // Editor configurations
-        $rootScope.editor = ace.edit('editor');
-        $rootScope.editor.getSession().setMode('ace/mode/xml');
-        $rootScope.editor.setTheme('ace/theme/dillinger');
-        $rootScope.editor.getSession().setUseWrapMode(true);
-        $rootScope.editor.setShowPrintMargin(false);
-        $rootScope.editor.setOption('minLines', 50);
-        $rootScope.editor.setOption('maxLines', 90000);
+    })
+    .controller('Preview', function($scope, $rootScope, projectService) {
+        
+        var viewer = new Viewer('preview')
+        viewer.setCameraPosition(0, -0.5, 1);
+        viewer.render();
 
-        $rootScope.editor.commands.addCommand({
+        $scope.build = function(){
+            projectService.build('preview')
+        }
+
+        $rootScope.$on('craft.start', function(){
+            $scope.isWorkerGeneratingModel = true
+            delete $scope.errorMessage
+        })
+
+        $rootScope.$on('craft.end', function(){
+            $scope.isWorkerGeneratingModel = false
+        })
+
+        $rootScope.$on('craft.error', function(event, error){
+            $scope.isWorkerGeneratingModel = false
+            $scope.errorMessage = error
+        })
+
+        $rootScope.$on('document.built', function(event, doc) {            
+            var csgs = doc.craftdom.csgs
+            console.debug(csgs)
+            viewer.addCSGs(csgs)
+            viewer.render()
+        })
+
+    })
+    .controller('Editor', function($rootScope, projectService) {
+
+        var editor = ace.edit('editor');
+        editor.getSession().setMode('ace/mode/xml');
+        editor.setTheme('ace/theme/dillinger');
+        editor.getSession().setUseWrapMode(true);
+        editor.setShowPrintMargin(false);
+        editor.setOption('minLines', 50);
+        editor.setOption('maxLines', 90000);
+
+        $rootScope.$on('document.refresh', function(event, doc) {
+            editor.getSession().setValue(doc.body)
+        })
+
+        editor.on('change', function() {
+            var contents = editor.getSession().getValue()
+            $rootScope.$emit('editor.change', contents)
+        })
+
+        editor.commands.addCommand({
             name: "refresh",
             bindKey: {
                 win: "Shift-Return",
                 mac: "Shift-Return"
             },
             exec: function(editor) {
-                updatePreview();
-                $scope.$apply();
+                console.debug('shift-return pressed')
+                projectService.build('preview')
             }
         })
+    })
+    .controller('BaseController', function($routeParams, projectService) {
 
-        $rootScope.editor.on('change', function() {
-            var item = documentsService.getCurrentDocument();
-            item.body = $rootScope.editor.getSession().getValue();
-            documentsService.setCurrentDocument(item);
-        });
-
-        // configure web worker
-        var worker
-
-        // var url = 'http://localhost:8090/assets/worker.bundle.js'
-        var url = 'js/worker.bundle.js'
-        var xhr = new XMLHttpRequest()
-        xhr.open('GET', url)
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                var workerSrcBlob, workerBlobURL
-
-                workerSrcBlob = new Blob([xhr.responseText], {
-                    type: 'text/javascript'
-                })
-
-                workerBlobURL = window.URL.createObjectURL(workerSrcBlob)
-
-                worker = new Worker(workerBlobURL)
-                worker.addEventListener('message', workerMessageHandler, false)
-
-                updatePreview()
-                $scope.$apply()
-            }
-        }
-        xhr.send()
-
-        function workerMessageHandler(e) {
-            //console.log('Worker said: ', e.data);
-            if (e.data.type === 'stls') {
-                var csgs = e.data.stls
-                csgs.forEach(function(csg) {
-                    csg.toStlString = function() {
-                        return csg.stl
-                    }
-                })                
-                $rootScope.viewer.addCSGs(csgs)
-                $rootScope.viewer.render();                
-
-                $scope.isWorkerGeneratingModel = false
-                $scope.$apply()
-            }else if (e.data.type === 'error'){
-
-                $scope.isWorkerGeneratingModel = false
-                $scope.errorMessage = e.data.error
-                $scope.$apply()
-            }
-        }
-
-        function buildModelFromXmlAsync(src) {
-            if (worker !== undefined) {
-                $scope.isWorkerGeneratingModel = true
-                delete $scope.errorMessage
-                var craftdom = craft.xml.parse(src)
-                var msg = {
-                    command: 'generate',
-                    craftdom: craftdom
-                }
-                worker.postMessage(msg)
-            }
-        }
-
-        var updatePreview = function() {
-            $rootScope.currentDocument = documentsService.getCurrentDocument();
-            var src = $rootScope.currentDocument.body
-            buildModelFromXmlAsync(src)
-            return;
-        };
-
-        var documentRefresh = function() {
-            $rootScope.currentDocument = documentsService.getCurrentDocument();
-            updatePreview()
-            return $rootScope.editor.getSession().setValue($rootScope.currentDocument.body);
-        };
-
-        $rootScope.$on('document.refresh', documentRefresh);
-
-        $rootScope.viewer = new Viewer('preview')
-        $rootScope.viewer.setCameraPosition(0, -0.5, 1);
-        $rootScope.viewer.render();
-    });
+        projectService
+            .open('examples/' + $routeParams.name)
+            .then(function(){
+                projectService.build('preview')
+            })
+    })
