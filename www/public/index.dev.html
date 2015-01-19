@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>CraftJS</title>
+  <title>CraftML</title>
 
   <meta name="description" content="<%= description %>">
   <meta name="keywords" content="<%= keywords %>">
@@ -30,11 +30,39 @@
 
 </head>
 <body>
+
+  <div class="wrapper">
+
+    <div class="sidebar-wrapper">
+        <div class="sidebar" ng-controller="SideBar">   
+       <nav class="nav nav-sidebar">
+      <ul class="menu menu-sidebar">
+
+        <li ng-repeat="group in exampleGroups" class="menu-item menu-item--link-unlink in-sidebar">
+          <a class="menu-link" ng-click="group.collapse = !group.collapse">
+          <span ng-bind="group.title"></span> <span class="caret"></span></a>          
+
+          <ul class="sidebar-list" collapse="group.collapse">
+                <li ng-repeat="example in group.examples">
+                    <a ng-href="#/examples/{{example}}" class="import-dropbox unlinked">
+                        <span ng-bind="example"></span>             
+                    </a>
+                </li>
+          </ul>
+        </li>        
+
+        </ul>
+        </nav> 
+                   
+      </div>
+    </div>
   <div ng-view>
   </div>
+</div>
 
    <script src="http://code.jquery.com/jquery.js"></script>
-   <script src="http://localhost:8090/webpack-dev-server.js"></script>
+   <!--script src="js/main.bundle.js"></script-->
+      <script src="http://localhost:8090/webpack-dev-server.js"></script>
    <script src="http://localhost:8090/assets/main.bundle.js"></script>  
 
 </body>

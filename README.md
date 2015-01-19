@@ -48,9 +48,9 @@ Commit generated webpack bundles (e.g., app.css, main.bundle.js, worker.bundle.j
 
 	$ git commit -a -m 'production bundles'
 
-	
+In project root,  	
 
-	$ git subtree push --prefix www origin gh-pages
+	$ git subtree push --prefix www/public origin gh-pages
 
 
 ## Contributing

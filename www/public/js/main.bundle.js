@@ -66,7 +66,7 @@
 	    __webpack_require__(39);
 	    
 	    // // Angular Bootstrap UI
-	    __webpack_require__(44);
+	    __webpack_require__(43);
 
 	    var ace = __webpack_require__(36);
 	    __webpack_require__(37);
@@ -185,7 +185,7 @@
 
 	__webpack_require__(40);
 
-	var Viewer = __webpack_require__(43)
+	var Viewer = __webpack_require__(44)
 
 	module.exports =
 	    angular
@@ -498,7 +498,7 @@
 	'use strict';
 
 	var
-	  marked = __webpack_require__(61),
+	  marked = __webpack_require__(63),
 	  hljs = __webpack_require__(64);
 
 	marked.setOptions({
@@ -622,8 +622,8 @@
 
 	                    } else {
 	                        console.log('initiating craft worker')
-	                        var url = 'http://localhost:8090/assets/worker.bundle.js'
-	                            // var url = 'js/worker.bundle.js'
+	                        // var url = 'http://localhost:8090/assets/worker.bundle.js'
+	                        var url = 'js/worker.bundle.js'
 	                        var xhr = new XMLHttpRequest()
 	                        xhr.open('GET', url)
 	                        xhr.onload = function() {
@@ -60756,10 +60756,25 @@
 /* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/*
+	 * angular-bootstrap
+	 * http://angular-ui.github.io/bootstrap/
+
+	 * Version: 0.13.0-SNAPSHOT - 2015-01-09
+	 * License: MIT
+	 */
+	angular.module("ui.bootstrap",["ui.bootstrap.tpls","ui.bootstrap.transition","ui.bootstrap.collapse","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.bindHtml","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.position","ui.bootstrap.datepicker","ui.bootstrap.dropdown","ui.bootstrap.modal","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]),angular.module("ui.bootstrap.tpls",["template/accordion/accordion-group.html","template/accordion/accordion.html","template/alert/alert.html","template/carousel/carousel.html","template/carousel/slide.html","template/datepicker/datepicker.html","template/datepicker/day.html","template/datepicker/month.html","template/datepicker/popup.html","template/datepicker/year.html","template/modal/backdrop.html","template/modal/window.html","template/pagination/pager.html","template/pagination/pagination.html","template/tooltip/tooltip-html-unsafe-popup.html","template/tooltip/tooltip-popup.html","template/popover/popover.html","template/progressbar/bar.html","template/progressbar/progress.html","template/progressbar/progressbar.html","template/rating/rating.html","template/tabs/tab.html","template/tabs/tabset.html","template/timepicker/timepicker.html","template/typeahead/typeahead-match.html","template/typeahead/typeahead-popup.html"]),angular.module("ui.bootstrap.transition",[]).factory("$transition",["$q","$timeout","$rootScope",function(a,b,c){function d(a){for(var b in a)if(void 0!==f.style[b])return a[b]}var e=function(d,f,g){g=g||{};var h=a.defer(),i=e[g.animation?"animationEndEventName":"transitionEndEventName"],j=function(){c.$apply(function(){d.unbind(i,j),h.resolve(d)})};return i&&d.bind(i,j),b(function(){angular.isString(f)?d.addClass(f):angular.isFunction(f)?f(d):angular.isObject(f)&&d.css(f),i||h.resolve(d)}),h.promise.cancel=function(){i&&d.unbind(i,j),h.reject("Transition cancelled")},h.promise},f=document.createElement("trans"),g={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd",transition:"transitionend"},h={WebkitTransition:"webkitAnimationEnd",MozTransition:"animationend",OTransition:"oAnimationEnd",transition:"animationend"};return e.transitionEndEventName=d(g),e.animationEndEventName=d(h),e}]),angular.module("ui.bootstrap.collapse",["ui.bootstrap.transition"]).directive("collapse",["$transition",function(a){return{link:function(b,c,d){function e(b){function d(){j===e&&(j=void 0)}var e=a(c,b);return j&&j.cancel(),j=e,e.then(d,d),e}function f(){k?(k=!1,g()):(c.removeClass("collapse").addClass("collapsing"),e({height:c[0].scrollHeight+"px"}).then(g))}function g(){c.removeClass("collapsing"),c.addClass("collapse in"),c.css({height:"auto"})}function h(){if(k)k=!1,i(),c.css({height:0});else{c.css({height:c[0].scrollHeight+"px"});{c[0].offsetWidth}c.removeClass("collapse in").addClass("collapsing"),e({height:0}).then(i)}}function i(){c.removeClass("collapsing"),c.addClass("collapse")}var j,k=!0;b.$watch(d.collapse,function(a){a?h():f()})}}}]),angular.module("ui.bootstrap.accordion",["ui.bootstrap.collapse"]).constant("accordionConfig",{closeOthers:!0}).controller("AccordionController",["$scope","$attrs","accordionConfig",function(a,b,c){this.groups=[],this.closeOthers=function(d){var e=angular.isDefined(b.closeOthers)?a.$eval(b.closeOthers):c.closeOthers;e&&angular.forEach(this.groups,function(a){a!==d&&(a.isOpen=!1)})},this.addGroup=function(a){var b=this;this.groups.push(a),a.$on("$destroy",function(){b.removeGroup(a)})},this.removeGroup=function(a){var b=this.groups.indexOf(a);-1!==b&&this.groups.splice(b,1)}}]).directive("accordion",function(){return{restrict:"EA",controller:"AccordionController",transclude:!0,replace:!1,templateUrl:"template/accordion/accordion.html"}}).directive("accordionGroup",function(){return{require:"^accordion",restrict:"EA",transclude:!0,replace:!0,templateUrl:"template/accordion/accordion-group.html",scope:{heading:"@",isOpen:"=?",isDisabled:"=?"},controller:function(){this.setHeading=function(a){this.heading=a}},link:function(a,b,c,d){d.addGroup(a),a.$watch("isOpen",function(b){b&&d.closeOthers(a)}),a.toggleOpen=function(){a.isDisabled||(a.isOpen=!a.isOpen)}}}}).directive("accordionHeading",function(){return{restrict:"EA",transclude:!0,template:"",replace:!0,require:"^accordionGroup",link:function(a,b,c,d,e){d.setHeading(e(a,function(){}))}}}).directive("accordionTransclude",function(){return{require:"^accordionGroup",link:function(a,b,c,d){a.$watch(function(){return d[c.accordionTransclude]},function(a){a&&(b.html(""),b.append(a))})}}}),angular.module("ui.bootstrap.alert",[]).controller("AlertController",["$scope","$attrs",function(a,b){a.closeable="close"in b,this.close=a.close}]).directive("alert",function(){return{restrict:"EA",controller:"AlertController",templateUrl:"template/alert/alert.html",transclude:!0,replace:!0,scope:{type:"@",close:"&"}}}).directive("dismissOnTimeout",["$timeout",function(a){return{require:"alert",link:function(b,c,d,e){a(function(){e.close()},parseInt(d.dismissOnTimeout,10))}}}]),angular.module("ui.bootstrap.bindHtml",[]).directive("bindHtmlUnsafe",function(){return function(a,b,c){b.addClass("ng-binding").data("$binding",c.bindHtmlUnsafe),a.$watch(c.bindHtmlUnsafe,function(a){b.html(a||"")})}}),angular.module("ui.bootstrap.buttons",[]).constant("buttonConfig",{activeClass:"active",toggleEvent:"click"}).controller("ButtonsController",["buttonConfig",function(a){this.activeClass=a.activeClass||"active",this.toggleEvent=a.toggleEvent||"click"}]).directive("btnRadio",function(){return{require:["btnRadio","ngModel"],controller:"ButtonsController",link:function(a,b,c,d){var e=d[0],f=d[1];f.$render=function(){b.toggleClass(e.activeClass,angular.equals(f.$modelValue,a.$eval(c.btnRadio)))},b.bind(e.toggleEvent,function(){var d=b.hasClass(e.activeClass);(!d||angular.isDefined(c.uncheckable))&&a.$apply(function(){f.$setViewValue(d?null:a.$eval(c.btnRadio)),f.$render()})})}}}).directive("btnCheckbox",function(){return{require:["btnCheckbox","ngModel"],controller:"ButtonsController",link:function(a,b,c,d){function e(){return g(c.btnCheckboxTrue,!0)}function f(){return g(c.btnCheckboxFalse,!1)}function g(b,c){var d=a.$eval(b);return angular.isDefined(d)?d:c}var h=d[0],i=d[1];i.$render=function(){b.toggleClass(h.activeClass,angular.equals(i.$modelValue,e()))},b.bind(h.toggleEvent,function(){a.$apply(function(){i.$setViewValue(b.hasClass(h.activeClass)?f():e()),i.$render()})})}}}),angular.module("ui.bootstrap.carousel",["ui.bootstrap.transition"]).controller("CarouselController",["$scope","$timeout","$interval","$transition",function(a,b,c,d){function e(){f();var b=+a.interval;!isNaN(b)&&b>0&&(h=c(g,b))}function f(){h&&(c.cancel(h),h=null)}function g(){var b=+a.interval;i&&!isNaN(b)&&b>0?a.next():a.pause()}var h,i,j=this,k=j.slides=a.slides=[],l=-1;j.currentSlide=null;var m=!1;j.select=a.select=function(c,f){function g(){if(!m){if(j.currentSlide&&angular.isString(f)&&!a.noTransition&&c.$element){c.$element.addClass(f);{c.$element[0].offsetWidth}angular.forEach(k,function(a){angular.extend(a,{direction:"",entering:!1,leaving:!1,active:!1})}),angular.extend(c,{direction:f,active:!0,entering:!0}),angular.extend(j.currentSlide||{},{direction:f,leaving:!0}),a.$currentTransition=d(c.$element,{}),function(b,c){a.$currentTransition.then(function(){h(b,c)},function(){h(b,c)})}(c,j.currentSlide)}else h(c,j.currentSlide);j.currentSlide=c,l=i,e()}}function h(b,c){angular.extend(b,{direction:"",active:!0,leaving:!1,entering:!1}),angular.extend(c||{},{direction:"",active:!1,leaving:!1,entering:!1}),a.$currentTransition=null}var i=k.indexOf(c);void 0===f&&(f=i>l?"next":"prev"),c&&c!==j.currentSlide&&(a.$currentTransition?(a.$currentTransition.cancel(),b(g)):g())},a.$on("$destroy",function(){m=!0}),j.indexOfSlide=function(a){return k.indexOf(a)},a.next=function(){var b=(l+1)%k.length;return a.$currentTransition?void 0:j.select(k[b],"next")},a.prev=function(){var b=0>l-1?k.length-1:l-1;return a.$currentTransition?void 0:j.select(k[b],"prev")},a.isActive=function(a){return j.currentSlide===a},a.$watch("interval",e),a.$on("$destroy",f),a.play=function(){i||(i=!0,e())},a.pause=function(){a.noPause||(i=!1,f())},j.addSlide=function(b,c){b.$element=c,k.push(b),1===k.length||b.active?(j.select(k[k.length-1]),1==k.length&&a.play()):b.active=!1},j.removeSlide=function(a){var b=k.indexOf(a);k.splice(b,1),k.length>0&&a.active?j.select(b>=k.length?k[b-1]:k[b]):l>b&&l--}}]).directive("carousel",[function(){return{restrict:"EA",transclude:!0,replace:!0,controller:"CarouselController",require:"carousel",templateUrl:"template/carousel/carousel.html",scope:{interval:"=",noTransition:"=",noPause:"="}}}]).directive("slide",function(){return{require:"^carousel",restrict:"EA",transclude:!0,replace:!0,templateUrl:"template/carousel/slide.html",scope:{active:"=?"},link:function(a,b,c,d){d.addSlide(a,b),a.$on("$destroy",function(){d.removeSlide(a)}),a.$watch("active",function(b){b&&d.select(a)})}}}),angular.module("ui.bootstrap.dateparser",[]).service("dateParser",["$locale","orderByFilter",function(a,b){function c(a){var c=[],d=a.split("");return angular.forEach(e,function(b,e){var f=a.indexOf(e);if(f>-1){a=a.split(""),d[f]="("+b.regex+")",a[f]="$";for(var g=f+1,h=f+e.length;h>g;g++)d[g]="",a[g]="$";a=a.join(""),c.push({index:f,apply:b.apply})}}),{regex:new RegExp("^"+d.join("")+"$"),map:b(c,"index")}}function d(a,b,c){return 1===b&&c>28?29===c&&(a%4===0&&a%100!==0||a%400===0):3===b||5===b||8===b||10===b?31>c:!0}this.parsers={};var e={yyyy:{regex:"\\d{4}",apply:function(a){this.year=+a}},yy:{regex:"\\d{2}",apply:function(a){this.year=+a+2e3}},y:{regex:"\\d{1,4}",apply:function(a){this.year=+a}},MMMM:{regex:a.DATETIME_FORMATS.MONTH.join("|"),apply:function(b){this.month=a.DATETIME_FORMATS.MONTH.indexOf(b)}},MMM:{regex:a.DATETIME_FORMATS.SHORTMONTH.join("|"),apply:function(b){this.month=a.DATETIME_FORMATS.SHORTMONTH.indexOf(b)}},MM:{regex:"0[1-9]|1[0-2]",apply:function(a){this.month=a-1}},M:{regex:"[1-9]|1[0-2]",apply:function(a){this.month=a-1}},dd:{regex:"[0-2][0-9]{1}|3[0-1]{1}",apply:function(a){this.date=+a}},d:{regex:"[1-2]?[0-9]{1}|3[0-1]{1}",apply:function(a){this.date=+a}},EEEE:{regex:a.DATETIME_FORMATS.DAY.join("|")},EEE:{regex:a.DATETIME_FORMATS.SHORTDAY.join("|")}};this.parse=function(b,e){if(!angular.isString(b)||!e)return b;e=a.DATETIME_FORMATS[e]||e,this.parsers[e]||(this.parsers[e]=c(e));var f=this.parsers[e],g=f.regex,h=f.map,i=b.match(g);if(i&&i.length){for(var j,k={year:1900,month:0,date:1,hours:0},l=1,m=i.length;m>l;l++){var n=h[l-1];n.apply&&n.apply.call(k,i[l])}return d(k.year,k.month,k.date)&&(j=new Date(k.year,k.month,k.date,k.hours)),j}}}]),angular.module("ui.bootstrap.position",[]).factory("$position",["$document","$window",function(a,b){function c(a,c){return a.currentStyle?a.currentStyle[c]:b.getComputedStyle?b.getComputedStyle(a)[c]:a.style[c]}function d(a){return"static"===(c(a,"position")||"static")}var e=function(b){for(var c=a[0],e=b.offsetParent||c;e&&e!==c&&d(e);)e=e.offsetParent;return e||c};return{position:function(b){var c=this.offset(b),d={top:0,left:0},f=e(b[0]);f!=a[0]&&(d=this.offset(angular.element(f)),d.top+=f.clientTop-f.scrollTop,d.left+=f.clientLeft-f.scrollLeft);var g=b[0].getBoundingClientRect();return{width:g.width||b.prop("offsetWidth"),height:g.height||b.prop("offsetHeight"),top:c.top-d.top,left:c.left-d.left}},offset:function(c){var d=c[0].getBoundingClientRect();return{width:d.width||c.prop("offsetWidth"),height:d.height||c.prop("offsetHeight"),top:d.top+(b.pageYOffset||a[0].documentElement.scrollTop),left:d.left+(b.pageXOffset||a[0].documentElement.scrollLeft)}},positionElements:function(a,b,c,d){var e,f,g,h,i=c.split("-"),j=i[0],k=i[1]||"center";e=d?this.offset(a):this.position(a),f=b.prop("offsetWidth"),g=b.prop("offsetHeight");var l={center:function(){return e.left+e.width/2-f/2},left:function(){return e.left},right:function(){return e.left+e.width}},m={center:function(){return e.top+e.height/2-g/2},top:function(){return e.top},bottom:function(){return e.top+e.height}};switch(j){case"right":h={top:m[k](),left:l[j]()};break;case"left":h={top:m[k](),left:e.left-f};break;case"bottom":h={top:m[j](),left:l[k]()};break;default:h={top:e.top-g,left:l[k]()}}return h}}}]),angular.module("ui.bootstrap.datepicker",["ui.bootstrap.dateparser","ui.bootstrap.position"]).constant("datepickerConfig",{formatDay:"dd",formatMonth:"MMMM",formatYear:"yyyy",formatDayHeader:"EEE",formatDayTitle:"MMMM yyyy",formatMonthTitle:"yyyy",datepickerMode:"day",minMode:"day",maxMode:"year",showWeeks:!0,startingDay:0,yearRange:20,minDate:null,maxDate:null}).controller("DatepickerController",["$scope","$attrs","$parse","$interpolate","$timeout","$log","dateFilter","datepickerConfig",function(a,b,c,d,e,f,g,h){var i=this,j={$setViewValue:angular.noop};this.modes=["day","month","year"],angular.forEach(["formatDay","formatMonth","formatYear","formatDayHeader","formatDayTitle","formatMonthTitle","minMode","maxMode","showWeeks","startingDay","yearRange"],function(c,e){i[c]=angular.isDefined(b[c])?8>e?d(b[c])(a.$parent):a.$parent.$eval(b[c]):h[c]}),angular.forEach(["minDate","maxDate"],function(d){b[d]?a.$parent.$watch(c(b[d]),function(a){i[d]=a?new Date(a):null,i.refreshView()}):i[d]=h[d]?new Date(h[d]):null}),a.datepickerMode=a.datepickerMode||h.datepickerMode,a.uniqueId="datepicker-"+a.$id+"-"+Math.floor(1e4*Math.random()),this.activeDate=angular.isDefined(b.initDate)?a.$parent.$eval(b.initDate):new Date,a.isActive=function(b){return 0===i.compare(b.date,i.activeDate)?(a.activeDateId=b.uid,!0):!1},this.init=function(a){j=a,j.$render=function(){i.render()}},this.render=function(){if(j.$modelValue){var a=new Date(j.$modelValue),b=!isNaN(a);b?this.activeDate=a:f.error('Datepicker directive: "ng-model" value must be a Date object, a number of milliseconds since 01.01.1970 or a string representing an RFC2822 or ISO 8601 date.'),j.$setValidity("date",b)}this.refreshView()},this.refreshView=function(){if(this.element){this._refreshView();var a=j.$modelValue?new Date(j.$modelValue):null;j.$setValidity("date-disabled",!a||this.element&&!this.isDisabled(a))}},this.createDateObject=function(a,b){var c=j.$modelValue?new Date(j.$modelValue):null;return{date:a,label:g(a,b),selected:c&&0===this.compare(a,c),disabled:this.isDisabled(a),current:0===this.compare(a,new Date)}},this.isDisabled=function(c){return this.minDate&&this.compare(c,this.minDate)<0||this.maxDate&&this.compare(c,this.maxDate)>0||b.dateDisabled&&a.dateDisabled({date:c,mode:a.datepickerMode})},this.split=function(a,b){for(var c=[];a.length>0;)c.push(a.splice(0,b));return c},a.select=function(b){if(a.datepickerMode===i.minMode){var c=j.$modelValue?new Date(j.$modelValue):new Date(0,0,0,0,0,0,0);c.setFullYear(b.getFullYear(),b.getMonth(),b.getDate()),j.$setViewValue(c),j.$render()}else i.activeDate=b,a.datepickerMode=i.modes[i.modes.indexOf(a.datepickerMode)-1]},a.move=function(a){var b=i.activeDate.getFullYear()+a*(i.step.years||0),c=i.activeDate.getMonth()+a*(i.step.months||0);i.activeDate.setFullYear(b,c,1),i.refreshView()},a.toggleMode=function(b){b=b||1,a.datepickerMode===i.maxMode&&1===b||a.datepickerMode===i.minMode&&-1===b||(a.datepickerMode=i.modes[i.modes.indexOf(a.datepickerMode)+b])},a.keys={13:"enter",32:"space",33:"pageup",34:"pagedown",35:"end",36:"home",37:"left",38:"up",39:"right",40:"down"};var k=function(){e(function(){i.element[0].focus()},0,!1)};a.$on("datepicker.focus",k),a.keydown=function(b){var c=a.keys[b.which];if(c&&!b.shiftKey&&!b.altKey)if(b.preventDefault(),b.stopPropagation(),"enter"===c||"space"===c){if(i.isDisabled(i.activeDate))return;a.select(i.activeDate),k()}else!b.ctrlKey||"up"!==c&&"down"!==c?(i.handleKeyDown(c,b),i.refreshView()):(a.toggleMode("up"===c?1:-1),k())}}]).directive("datepicker",function(){return{restrict:"EA",replace:!0,templateUrl:"template/datepicker/datepicker.html",scope:{datepickerMode:"=?",dateDisabled:"&"},require:["datepicker","?^ngModel"],controller:"DatepickerController",link:function(a,b,c,d){var e=d[0],f=d[1];f&&e.init(f)}}}).directive("daypicker",["dateFilter",function(a){return{restrict:"EA",replace:!0,templateUrl:"template/datepicker/day.html",require:"^datepicker",link:function(b,c,d,e){function f(a,b){return 1!==b||a%4!==0||a%100===0&&a%400!==0?i[b]:29}function g(a,b){var c=new Array(b),d=new Date(a),e=0;for(d.setHours(12);b>e;)c[e++]=new Date(d),d.setDate(d.getDate()+1);return c}function h(a){var b=new Date(a);b.setDate(b.getDate()+4-(b.getDay()||7));var c=b.getTime();return b.setMonth(0),b.setDate(1),Math.floor(Math.round((c-b)/864e5)/7)+1}b.showWeeks=e.showWeeks,e.step={months:1},e.element=c;var i=[31,28,31,30,31,30,31,31,30,31,30,31];e._refreshView=function(){var c=e.activeDate.getFullYear(),d=e.activeDate.getMonth(),f=new Date(c,d,1),i=e.startingDay-f.getDay(),j=i>0?7-i:-i,k=new Date(f);j>0&&k.setDate(-j+1);for(var l=g(k,42),m=0;42>m;m++)l[m]=angular.extend(e.createDateObject(l[m],e.formatDay),{secondary:l[m].getMonth()!==d,uid:b.uniqueId+"-"+m});b.labels=new Array(7);for(var n=0;7>n;n++)b.labels[n]={abbr:a(l[n].date,e.formatDayHeader),full:a(l[n].date,"EEEE")};if(b.title=a(e.activeDate,e.formatDayTitle),b.rows=e.split(l,7),b.showWeeks){b.weekNumbers=[];for(var o=h(b.rows[0][0].date),p=b.rows.length;b.weekNumbers.push(o++)<p;);}},e.compare=function(a,b){return new Date(a.getFullYear(),a.getMonth(),a.getDate())-new Date(b.getFullYear(),b.getMonth(),b.getDate())},e.handleKeyDown=function(a){var b=e.activeDate.getDate();if("left"===a)b-=1;else if("up"===a)b-=7;else if("right"===a)b+=1;else if("down"===a)b+=7;else if("pageup"===a||"pagedown"===a){var c=e.activeDate.getMonth()+("pageup"===a?-1:1);e.activeDate.setMonth(c,1),b=Math.min(f(e.activeDate.getFullYear(),e.activeDate.getMonth()),b)}else"home"===a?b=1:"end"===a&&(b=f(e.activeDate.getFullYear(),e.activeDate.getMonth()));e.activeDate.setDate(b)},e.refreshView()}}}]).directive("monthpicker",["dateFilter",function(a){return{restrict:"EA",replace:!0,templateUrl:"template/datepicker/month.html",require:"^datepicker",link:function(b,c,d,e){e.step={years:1},e.element=c,e._refreshView=function(){for(var c=new Array(12),d=e.activeDate.getFullYear(),f=0;12>f;f++)c[f]=angular.extend(e.createDateObject(new Date(d,f,1),e.formatMonth),{uid:b.uniqueId+"-"+f});b.title=a(e.activeDate,e.formatMonthTitle),b.rows=e.split(c,3)},e.compare=function(a,b){return new Date(a.getFullYear(),a.getMonth())-new Date(b.getFullYear(),b.getMonth())},e.handleKeyDown=function(a){var b=e.activeDate.getMonth();if("left"===a)b-=1;else if("up"===a)b-=3;else if("right"===a)b+=1;else if("down"===a)b+=3;else if("pageup"===a||"pagedown"===a){var c=e.activeDate.getFullYear()+("pageup"===a?-1:1);e.activeDate.setFullYear(c)}else"home"===a?b=0:"end"===a&&(b=11);e.activeDate.setMonth(b)},e.refreshView()}}}]).directive("yearpicker",["dateFilter",function(){return{restrict:"EA",replace:!0,templateUrl:"template/datepicker/year.html",require:"^datepicker",link:function(a,b,c,d){function e(a){return parseInt((a-1)/f,10)*f+1}var f=d.yearRange;d.step={years:f},d.element=b,d._refreshView=function(){for(var b=new Array(f),c=0,g=e(d.activeDate.getFullYear());f>c;c++)b[c]=angular.extend(d.createDateObject(new Date(g+c,0,1),d.formatYear),{uid:a.uniqueId+"-"+c});a.title=[b[0].label,b[f-1].label].join(" - "),a.rows=d.split(b,5)},d.compare=function(a,b){return a.getFullYear()-b.getFullYear()},d.handleKeyDown=function(a){var b=d.activeDate.getFullYear();"left"===a?b-=1:"up"===a?b-=5:"right"===a?b+=1:"down"===a?b+=5:"pageup"===a||"pagedown"===a?b+=("pageup"===a?-1:1)*d.step.years:"home"===a?b=e(d.activeDate.getFullYear()):"end"===a&&(b=e(d.activeDate.getFullYear())+f-1),d.activeDate.setFullYear(b)},d.refreshView()}}}]).constant("datepickerPopupConfig",{datepickerPopup:"yyyy-MM-dd",currentText:"Today",clearText:"Clear",closeText:"Done",closeOnDateSelection:!0,appendToBody:!1,showButtonBar:!0}).directive("datepickerPopup",["$compile","$parse","$document","$position","dateFilter","dateParser","datepickerPopupConfig",function(a,b,c,d,e,f,g){return{restrict:"EA",require:"ngModel",scope:{isOpen:"=?",currentText:"@",clearText:"@",closeText:"@",dateDisabled:"&"},link:function(h,i,j,k){function l(a){return a.replace(/([A-Z])/g,function(a){return"-"+a.toLowerCase()})}function m(a){if(a){if(angular.isDate(a)&&!isNaN(a))return k.$setValidity("date",!0),a;if(angular.isString(a)){var b=f.parse(a,n)||new Date(a);return isNaN(b)?void k.$setValidity("date",!1):(k.$setValidity("date",!0),b)}return void k.$setValidity("date",!1)}return k.$setValidity("date",!0),null}var n,o=angular.isDefined(j.closeOnDateSelection)?h.$parent.$eval(j.closeOnDateSelection):g.closeOnDateSelection,p=angular.isDefined(j.datepickerAppendToBody)?h.$parent.$eval(j.datepickerAppendToBody):g.appendToBody;h.showButtonBar=angular.isDefined(j.showButtonBar)?h.$parent.$eval(j.showButtonBar):g.showButtonBar,h.getText=function(a){return h[a+"Text"]||g[a+"Text"]},j.$observe("datepickerPopup",function(a){n=a||g.datepickerPopup,k.$render()});var q=angular.element("<div datepicker-popup-wrap><div datepicker></div></div>");q.attr({"ng-model":"date","ng-change":"dateSelection()"});var r=angular.element(q.children()[0]);j.datepickerOptions&&angular.forEach(h.$parent.$eval(j.datepickerOptions),function(a,b){r.attr(l(b),a)}),h.watchData={},angular.forEach(["minDate","maxDate","datepickerMode"],function(a){if(j[a]){var c=b(j[a]);if(h.$parent.$watch(c,function(b){h.watchData[a]=b}),r.attr(l(a),"watchData."+a),"datepickerMode"===a){var d=c.assign;h.$watch("watchData."+a,function(a,b){a!==b&&d(h.$parent,a)})}}}),j.dateDisabled&&r.attr("date-disabled","dateDisabled({ date: date, mode: mode })"),k.$parsers.unshift(m),h.dateSelection=function(a){angular.isDefined(a)&&(h.date=a),k.$setViewValue(h.date),k.$render(),o&&(h.isOpen=!1,i[0].focus())},i.bind("input change keyup",function(){h.$apply(function(){h.date=k.$modelValue})}),k.$render=function(){var a=k.$viewValue?e(k.$viewValue,n):"";i.val(a),h.date=m(k.$modelValue)};var s=function(a){h.isOpen&&a.target!==i[0]&&h.$apply(function(){h.isOpen=!1})},t=function(a){h.keydown(a)};i.bind("keydown",t),h.keydown=function(a){27===a.which?(a.preventDefault(),a.stopPropagation(),h.close()):40!==a.which||h.isOpen||(h.isOpen=!0)},h.$watch("isOpen",function(a){a?(h.$broadcast("datepicker.focus"),h.position=p?d.offset(i):d.position(i),h.position.top=h.position.top+i.prop("offsetHeight"),c.bind("click",s)):c.unbind("click",s)}),h.select=function(a){if("today"===a){var b=new Date;angular.isDate(k.$modelValue)?(a=new Date(k.$modelValue),a.setFullYear(b.getFullYear(),b.getMonth(),b.getDate())):a=new Date(b.setHours(0,0,0,0))}h.dateSelection(a)},h.close=function(){h.isOpen=!1,i[0].focus()};var u=a(q)(h);q.remove(),p?c.find("body").append(u):i.after(u),h.$on("$destroy",function(){u.remove(),i.unbind("keydown",t),c.unbind("click",s)})}}}]).directive("datepickerPopupWrap",function(){return{restrict:"EA",replace:!0,transclude:!0,templateUrl:"template/datepicker/popup.html",link:function(a,b){b.bind("click",function(a){a.preventDefault(),a.stopPropagation()})}}}),angular.module("ui.bootstrap.dropdown",[]).constant("dropdownConfig",{openClass:"open"}).service("dropdownService",["$document",function(a){var b=null;this.open=function(e){b||(a.bind("click",c),a.bind("keydown",d)),b&&b!==e&&(b.isOpen=!1),b=e},this.close=function(e){b===e&&(b=null,a.unbind("click",c),a.unbind("keydown",d))};var c=function(a){if(b){var c=b.getToggleElement();a&&c&&c[0].contains(a.target)||b.$apply(function(){b.isOpen=!1})}},d=function(a){27===a.which&&(b.focusToggleElement(),c())}}]).controller("DropdownController",["$scope","$attrs","$parse","dropdownConfig","dropdownService","$animate",function(a,b,c,d,e,f){var g,h=this,i=a.$new(),j=d.openClass,k=angular.noop,l=b.onToggle?c(b.onToggle):angular.noop;this.init=function(d){h.$element=d,b.isOpen&&(g=c(b.isOpen),k=g.assign,a.$watch(g,function(a){i.isOpen=!!a}))},this.toggle=function(a){return i.isOpen=arguments.length?!!a:!i.isOpen},this.isOpen=function(){return i.isOpen},i.getToggleElement=function(){return h.toggleElement},i.focusToggleElement=function(){h.toggleElement&&h.toggleElement[0].focus()},i.$watch("isOpen",function(b,c){f[b?"addClass":"removeClass"](h.$element,j),b?(i.focusToggleElement(),e.open(i)):e.close(i),k(a,b),angular.isDefined(b)&&b!==c&&l(a,{open:!!b})}),a.$on("$locationChangeSuccess",function(){i.isOpen=!1}),a.$on("$destroy",function(){i.$destroy()})}]).directive("dropdown",function(){return{controller:"DropdownController",link:function(a,b,c,d){d.init(b)}}}).directive("dropdownToggle",function(){return{require:"?^dropdown",link:function(a,b,c,d){if(d){d.toggleElement=b;var e=function(e){e.preventDefault(),b.hasClass("disabled")||c.disabled||a.$apply(function(){d.toggle()})};b.bind("click",e),b.attr({"aria-haspopup":!0,"aria-expanded":!1}),a.$watch(d.isOpen,function(a){b.attr("aria-expanded",!!a)}),a.$on("$destroy",function(){b.unbind("click",e)})}}}}),angular.module("ui.bootstrap.modal",["ui.bootstrap.transition"]).factory("$$stackedMap",function(){return{createNew:function(){var a=[];return{add:function(b,c){a.push({key:b,value:c})},get:function(b){for(var c=0;c<a.length;c++)if(b==a[c].key)return a[c]},keys:function(){for(var b=[],c=0;c<a.length;c++)b.push(a[c].key);return b},top:function(){return a[a.length-1]},remove:function(b){for(var c=-1,d=0;d<a.length;d++)if(b==a[d].key){c=d;break}return a.splice(c,1)[0]},removeTop:function(){return a.splice(a.length-1,1)[0]},length:function(){return a.length}}}}}).directive("modalBackdrop",["$timeout",function(a){return{restrict:"EA",replace:!0,templateUrl:"template/modal/backdrop.html",link:function(b,c,d){b.backdropClass=d.backdropClass||"",b.animate=!1,a(function(){b.animate=!0})}}}]).directive("modalWindow",["$modalStack","$timeout",function(a,b){return{restrict:"EA",scope:{index:"@",animate:"="},replace:!0,transclude:!0,templateUrl:function(a,b){return b.templateUrl||"template/modal/window.html"},link:function(c,d,e){d.addClass(e.windowClass||""),c.size=e.size,d.on("click",function(a){c.close(a)}),b(function(){c.animate=!0,d[0].querySelectorAll("[autofocus]").length||d[0].focus()}),c.close=function(b){var c=a.getTop();c&&c.value.backdrop&&"static"!=c.value.backdrop&&b.target===b.currentTarget&&(b.preventDefault(),b.stopPropagation(),a.dismiss(c.key,"backdrop click"))}}}}]).directive("modalTransclude",function(){return{link:function(a,b,c,d,e){e(a.$parent,function(a){b.empty(),b.append(a)})}}}).factory("$modalStack",["$transition","$timeout","$document","$compile","$rootScope","$$stackedMap",function(a,b,c,d,e,f){function g(){for(var a=-1,b=n.keys(),c=0;c<b.length;c++)n.get(b[c]).value.backdrop&&(a=c);return a}function h(a){var b=c.find("body").eq(0),d=n.get(a).value;n.remove(a),j(d.modalDomEl,d.modalScope,300,function(){d.modalScope.$destroy(),b.toggleClass(m,n.length()>0),i()})}function i(){if(k&&-1==g()){var a=l;j(k,l,150,function(){a.$destroy(),a=null}),k=void 0,l=void 0}}function j(c,d,e,f){function g(){g.done||(g.done=!0,c.remove(),f&&f())}d.animate=!1;var h=a.transitionEndEventName;if(h){var i=b(g,e);c.bind(h,function(){b.cancel(i),g(),d.$apply()})}else b(g)}var k,l,m="modal-open",n=f.createNew(),o={};return e.$watch(g,function(a){l&&(l.index=a)}),c.bind("keydown",function(a){var b;27===a.which&&(b=n.top(),b&&b.value.keyboard&&(a.preventDefault(),e.$apply(function(){o.dismiss(b.key,"escape key press")})))}),o.open=function(a,b){n.add(a,{deferred:b.deferred,modalScope:b.scope,backdrop:b.backdrop,keyboard:b.keyboard});var f=c.find("body").eq(0),h=g();if(h>=0&&!k){l=e.$new(!0),l.index=h;var i=angular.element("<div modal-backdrop></div>");i.attr("backdrop-class",b.backdropClass),k=d(i)(l),f.append(k)}var j=angular.element("<div modal-window></div>");j.attr({"template-url":b.windowTemplateUrl,"window-class":b.windowClass,size:b.size,index:n.length()-1,animate:"animate"}).html(b.content);var o=d(j)(b.scope);n.top().value.modalDomEl=o,f.append(o),f.addClass(m)},o.close=function(a,b){var c=n.get(a);c&&(c.value.deferred.resolve(b),h(a))},o.dismiss=function(a,b){var c=n.get(a);c&&(c.value.deferred.reject(b),h(a))},o.dismissAll=function(a){for(var b=this.getTop();b;)this.dismiss(b.key,a),b=this.getTop()},o.getTop=function(){return n.top()},o}]).provider("$modal",function(){var a={options:{backdrop:!0,keyboard:!0},$get:["$injector","$rootScope","$q","$http","$templateCache","$controller","$modalStack",function(b,c,d,e,f,g,h){function i(a){return a.template?d.when(a.template):e.get(angular.isFunction(a.templateUrl)?a.templateUrl():a.templateUrl,{cache:f}).then(function(a){return a.data})}function j(a){var c=[];return angular.forEach(a,function(a){(angular.isFunction(a)||angular.isArray(a))&&c.push(d.when(b.invoke(a)))}),c}var k={};return k.open=function(b){var e=d.defer(),f=d.defer(),k={result:e.promise,opened:f.promise,close:function(a){h.close(k,a)},dismiss:function(a){h.dismiss(k,a)}};if(b=angular.extend({},a.options,b),b.resolve=b.resolve||{},!b.template&&!b.templateUrl)throw new Error("One of template or templateUrl options is required.");var l=d.all([i(b)].concat(j(b.resolve)));return l.then(function(a){var d=(b.scope||c).$new();d.$close=k.close,d.$dismiss=k.dismiss;var f,i={},j=1;b.controller&&(i.$scope=d,i.$modalInstance=k,angular.forEach(b.resolve,function(b,c){i[c]=a[j++]}),f=g(b.controller,i),b.controllerAs&&(d[b.controllerAs]=f)),h.open(k,{scope:d,deferred:e,content:a[0],backdrop:b.backdrop,keyboard:b.keyboard,backdropClass:b.backdropClass,windowClass:b.windowClass,windowTemplateUrl:b.windowTemplateUrl,size:b.size})},function(a){e.reject(a)}),l.then(function(){f.resolve(!0)},function(){f.reject(!1)}),k},k}]};return a}),angular.module("ui.bootstrap.pagination",[]).controller("PaginationController",["$scope","$attrs","$parse",function(a,b,c){var d=this,e={$setViewValue:angular.noop},f=b.numPages?c(b.numPages).assign:angular.noop;this.init=function(f,g){e=f,this.config=g,e.$render=function(){d.render()},b.itemsPerPage?a.$parent.$watch(c(b.itemsPerPage),function(b){d.itemsPerPage=parseInt(b,10),a.totalPages=d.calculateTotalPages()}):this.itemsPerPage=g.itemsPerPage},this.calculateTotalPages=function(){var b=this.itemsPerPage<1?1:Math.ceil(a.totalItems/this.itemsPerPage);return Math.max(b||0,1)},this.render=function(){a.page=parseInt(e.$viewValue,10)||1},a.selectPage=function(b){a.page!==b&&b>0&&b<=a.totalPages&&(e.$setViewValue(b),e.$render())},a.getText=function(b){return a[b+"Text"]||d.config[b+"Text"]},a.noPrevious=function(){return 1===a.page},a.noNext=function(){return a.page===a.totalPages},a.$watch("totalItems",function(){a.totalPages=d.calculateTotalPages()}),a.$watch("totalPages",function(b){f(a.$parent,b),a.page>b?a.selectPage(b):e.$render()})}]).constant("paginationConfig",{itemsPerPage:10,boundaryLinks:!1,directionLinks:!0,firstText:"First",previousText:"Previous",nextText:"Next",lastText:"Last",rotate:!0}).directive("pagination",["$parse","paginationConfig",function(a,b){return{restrict:"EA",scope:{totalItems:"=",firstText:"@",previousText:"@",nextText:"@",lastText:"@"},require:["pagination","?ngModel"],controller:"PaginationController",templateUrl:"template/pagination/pagination.html",replace:!0,link:function(c,d,e,f){function g(a,b,c){return{number:a,text:b,active:c}}function h(a,b){var c=[],d=1,e=b,f=angular.isDefined(k)&&b>k;f&&(l?(d=Math.max(a-Math.floor(k/2),1),e=d+k-1,e>b&&(e=b,d=e-k+1)):(d=(Math.ceil(a/k)-1)*k+1,e=Math.min(d+k-1,b)));for(var h=d;e>=h;h++){var i=g(h,h,h===a);c.push(i)}if(f&&!l){if(d>1){var j=g(d-1,"...",!1);c.unshift(j)}if(b>e){var m=g(e+1,"...",!1);c.push(m)}}return c}var i=f[0],j=f[1];if(j){var k=angular.isDefined(e.maxSize)?c.$parent.$eval(e.maxSize):b.maxSize,l=angular.isDefined(e.rotate)?c.$parent.$eval(e.rotate):b.rotate;c.boundaryLinks=angular.isDefined(e.boundaryLinks)?c.$parent.$eval(e.boundaryLinks):b.boundaryLinks,c.directionLinks=angular.isDefined(e.directionLinks)?c.$parent.$eval(e.directionLinks):b.directionLinks,i.init(j,b),e.maxSize&&c.$parent.$watch(a(e.maxSize),function(a){k=parseInt(a,10),i.render()
+	});var m=i.render;i.render=function(){m(),c.page>0&&c.page<=c.totalPages&&(c.pages=h(c.page,c.totalPages))}}}}}]).constant("pagerConfig",{itemsPerPage:10,previousText:"« Previous",nextText:"Next »",align:!0}).directive("pager",["pagerConfig",function(a){return{restrict:"EA",scope:{totalItems:"=",previousText:"@",nextText:"@"},require:["pager","?ngModel"],controller:"PaginationController",templateUrl:"template/pagination/pager.html",replace:!0,link:function(b,c,d,e){var f=e[0],g=e[1];g&&(b.align=angular.isDefined(d.align)?b.$parent.$eval(d.align):a.align,f.init(g,a))}}}]),angular.module("ui.bootstrap.tooltip",["ui.bootstrap.position","ui.bootstrap.bindHtml"]).provider("$tooltip",function(){function a(a){var b=/[A-Z]/g,c="-";return a.replace(b,function(a,b){return(b?c:"")+a.toLowerCase()})}var b={placement:"top",animation:!0,popupDelay:0},c={mouseenter:"mouseleave",click:"click",focus:"blur"},d={};this.options=function(a){angular.extend(d,a)},this.setTriggers=function(a){angular.extend(c,a)},this.$get=["$window","$compile","$timeout","$document","$position","$interpolate",function(e,f,g,h,i,j){return function(e,k,l){function m(a){var b=a||n.trigger||l,d=c[b]||b;return{show:b,hide:d}}var n=angular.extend({},b,d),o=a(e),p=j.startSymbol(),q=j.endSymbol(),r="<div "+o+'-popup title="'+p+"title"+q+'" content="'+p+"content"+q+'" placement="'+p+"placement"+q+'" animation="animation" is-open="isOpen"></div>';return{restrict:"EA",compile:function(){var a=f(r);return function(b,c,d){function f(){D.isOpen?l():j()}function j(){(!C||b.$eval(d[k+"Enable"]))&&(s(),D.popupDelay?z||(z=g(o,D.popupDelay,!1),z.then(function(a){a()})):o()())}function l(){b.$apply(function(){p()})}function o(){return z=null,y&&(g.cancel(y),y=null),D.content?(q(),w.css({top:0,left:0,display:"block"}),A?h.find("body").append(w):c.after(w),E(),D.isOpen=!0,D.$digest(),E):angular.noop}function p(){D.isOpen=!1,g.cancel(z),z=null,D.animation?y||(y=g(r,500)):r()}function q(){w&&r(),x=D.$new(),w=a(x,angular.noop)}function r(){y=null,w&&(w.remove(),w=null),x&&(x.$destroy(),x=null)}function s(){t(),u()}function t(){var a=d[k+"Placement"];D.placement=angular.isDefined(a)?a:n.placement}function u(){var a=d[k+"PopupDelay"],b=parseInt(a,10);D.popupDelay=isNaN(b)?n.popupDelay:b}function v(){var a=d[k+"Trigger"];F(),B=m(a),B.show===B.hide?c.bind(B.show,f):(c.bind(B.show,j),c.bind(B.hide,l))}var w,x,y,z,A=angular.isDefined(n.appendToBody)?n.appendToBody:!1,B=m(void 0),C=angular.isDefined(d[k+"Enable"]),D=b.$new(!0),E=function(){var a=i.positionElements(c,w,D.placement,A);a.top+="px",a.left+="px",w.css(a)};D.isOpen=!1,d.$observe(e,function(a){D.content=a,!a&&D.isOpen&&p()}),d.$observe("disabled",function(a){a&&D.isOpen&&p()}),d.$observe(k+"Title",function(a){D.title=a});var F=function(){c.unbind(B.show,j),c.unbind(B.hide,l)};v();var G=b.$eval(d[k+"Animation"]);D.animation=angular.isDefined(G)?!!G:n.animation;var H=b.$eval(d[k+"AppendToBody"]);A=angular.isDefined(H)?H:A,A&&b.$on("$locationChangeSuccess",function(){D.isOpen&&p()}),b.$on("$destroy",function(){g.cancel(y),g.cancel(z),F(),r(),D=null})}}}}}]}).directive("tooltipPopup",function(){return{restrict:"EA",replace:!0,scope:{content:"@",placement:"@",animation:"&",isOpen:"&"},templateUrl:"template/tooltip/tooltip-popup.html"}}).directive("tooltip",["$tooltip",function(a){return a("tooltip","tooltip","mouseenter")}]).directive("tooltipHtmlUnsafePopup",function(){return{restrict:"EA",replace:!0,scope:{content:"@",placement:"@",animation:"&",isOpen:"&"},templateUrl:"template/tooltip/tooltip-html-unsafe-popup.html"}}).directive("tooltipHtmlUnsafe",["$tooltip",function(a){return a("tooltipHtmlUnsafe","tooltip","mouseenter")}]),angular.module("ui.bootstrap.popover",["ui.bootstrap.tooltip"]).directive("popoverPopup",function(){return{restrict:"EA",replace:!0,scope:{title:"@",content:"@",placement:"@",animation:"&",isOpen:"&"},templateUrl:"template/popover/popover.html"}}).directive("popover",["$tooltip",function(a){return a("popover","popover","click")}]),angular.module("ui.bootstrap.progressbar",[]).constant("progressConfig",{animate:!0,max:100}).controller("ProgressController",["$scope","$attrs","progressConfig",function(a,b,c){var d=this,e=angular.isDefined(b.animate)?a.$parent.$eval(b.animate):c.animate;this.bars=[],a.max=angular.isDefined(b.max)?a.$parent.$eval(b.max):c.max,this.addBar=function(b,c){e||c.css({transition:"none"}),this.bars.push(b),b.$watch("value",function(c){b.percent=+(100*c/a.max).toFixed(2)}),b.$on("$destroy",function(){c=null,d.removeBar(b)})},this.removeBar=function(a){this.bars.splice(this.bars.indexOf(a),1)}}]).directive("progress",function(){return{restrict:"EA",replace:!0,transclude:!0,controller:"ProgressController",require:"progress",scope:{},templateUrl:"template/progressbar/progress.html"}}).directive("bar",function(){return{restrict:"EA",replace:!0,transclude:!0,require:"^progress",scope:{value:"=",type:"@"},templateUrl:"template/progressbar/bar.html",link:function(a,b,c,d){d.addBar(a,b)}}}).directive("progressbar",function(){return{restrict:"EA",replace:!0,transclude:!0,controller:"ProgressController",scope:{value:"=",type:"@"},templateUrl:"template/progressbar/progressbar.html",link:function(a,b,c,d){d.addBar(a,angular.element(b.children()[0]))}}}),angular.module("ui.bootstrap.rating",[]).constant("ratingConfig",{max:5,stateOn:null,stateOff:null}).controller("RatingController",["$scope","$attrs","ratingConfig",function(a,b,c){var d={$setViewValue:angular.noop};this.init=function(e){d=e,d.$render=this.render,this.stateOn=angular.isDefined(b.stateOn)?a.$parent.$eval(b.stateOn):c.stateOn,this.stateOff=angular.isDefined(b.stateOff)?a.$parent.$eval(b.stateOff):c.stateOff;var f=angular.isDefined(b.ratingStates)?a.$parent.$eval(b.ratingStates):new Array(angular.isDefined(b.max)?a.$parent.$eval(b.max):c.max);a.range=this.buildTemplateObjects(f)},this.buildTemplateObjects=function(a){for(var b=0,c=a.length;c>b;b++)a[b]=angular.extend({index:b},{stateOn:this.stateOn,stateOff:this.stateOff},a[b]);return a},a.rate=function(b){!a.readonly&&b>=0&&b<=a.range.length&&(d.$setViewValue(b),d.$render())},a.enter=function(b){a.readonly||(a.value=b),a.onHover({value:b})},a.reset=function(){a.value=d.$viewValue,a.onLeave()},a.onKeydown=function(b){/(37|38|39|40)/.test(b.which)&&(b.preventDefault(),b.stopPropagation(),a.rate(a.value+(38===b.which||39===b.which?1:-1)))},this.render=function(){a.value=d.$viewValue}}]).directive("rating",function(){return{restrict:"EA",require:["rating","ngModel"],scope:{readonly:"=?",onHover:"&",onLeave:"&"},controller:"RatingController",templateUrl:"template/rating/rating.html",replace:!0,link:function(a,b,c,d){var e=d[0],f=d[1];f&&e.init(f)}}}),angular.module("ui.bootstrap.tabs",[]).controller("TabsetController",["$scope",function(a){var b=this,c=b.tabs=a.tabs=[];b.select=function(a){angular.forEach(c,function(b){b.active&&b!==a&&(b.active=!1,b.onDeselect())}),a.active=!0,a.onSelect()},b.addTab=function(a){c.push(a),1===c.length?a.active=!0:a.active&&b.select(a)},b.removeTab=function(a){var e=c.indexOf(a);if(a.active&&c.length>1&&!d){var f=e==c.length-1?e-1:e+1;b.select(c[f])}c.splice(e,1)};var d;a.$on("$destroy",function(){d=!0})}]).directive("tabset",function(){return{restrict:"EA",transclude:!0,replace:!0,scope:{type:"@"},controller:"TabsetController",templateUrl:"template/tabs/tabset.html",link:function(a,b,c){a.vertical=angular.isDefined(c.vertical)?a.$parent.$eval(c.vertical):!1,a.justified=angular.isDefined(c.justified)?a.$parent.$eval(c.justified):!1}}}).directive("tab",["$parse",function(a){return{require:"^tabset",restrict:"EA",replace:!0,templateUrl:"template/tabs/tab.html",transclude:!0,scope:{active:"=?",heading:"@",onSelect:"&select",onDeselect:"&deselect"},controller:function(){},compile:function(b,c,d){return function(b,c,e,f){b.$watch("active",function(a){a&&f.select(b)}),b.disabled=!1,e.disabled&&b.$parent.$watch(a(e.disabled),function(a){b.disabled=!!a}),b.select=function(){b.disabled||(b.active=!0)},f.addTab(b),b.$on("$destroy",function(){f.removeTab(b)}),b.$transcludeFn=d}}}}]).directive("tabHeadingTransclude",[function(){return{restrict:"A",require:"^tab",link:function(a,b){a.$watch("headingElement",function(a){a&&(b.html(""),b.append(a))})}}}]).directive("tabContentTransclude",function(){function a(a){return a.tagName&&(a.hasAttribute("tab-heading")||a.hasAttribute("data-tab-heading")||"tab-heading"===a.tagName.toLowerCase()||"data-tab-heading"===a.tagName.toLowerCase())}return{restrict:"A",require:"^tabset",link:function(b,c,d){var e=b.$eval(d.tabContentTransclude);e.$transcludeFn(e.$parent,function(b){angular.forEach(b,function(b){a(b)?e.headingElement=b:c.append(b)})})}}}),angular.module("ui.bootstrap.timepicker",[]).constant("timepickerConfig",{hourStep:1,minuteStep:1,showMeridian:!0,meridians:null,readonlyInput:!1,mousewheel:!0}).controller("TimepickerController",["$scope","$attrs","$parse","$log","$locale","timepickerConfig",function(a,b,c,d,e,f){function g(){var b=parseInt(a.hours,10),c=a.showMeridian?b>0&&13>b:b>=0&&24>b;return c?(a.showMeridian&&(12===b&&(b=0),a.meridian===p[1]&&(b+=12)),b):void 0}function h(){var b=parseInt(a.minutes,10);return b>=0&&60>b?b:void 0}function i(a){return angular.isDefined(a)&&a.toString().length<2?"0"+a:a}function j(a){k(),o.$setViewValue(new Date(n)),l(a)}function k(){o.$setValidity("time",!0),a.invalidHours=!1,a.invalidMinutes=!1}function l(b){var c=n.getHours(),d=n.getMinutes();a.showMeridian&&(c=0===c||12===c?12:c%12),a.hours="h"===b?c:i(c),a.minutes="m"===b?d:i(d),a.meridian=n.getHours()<12?p[0]:p[1]}function m(a){var b=new Date(n.getTime()+6e4*a);n.setHours(b.getHours(),b.getMinutes()),j()}var n=new Date,o={$setViewValue:angular.noop},p=angular.isDefined(b.meridians)?a.$parent.$eval(b.meridians):f.meridians||e.DATETIME_FORMATS.AMPMS;this.init=function(c,d){o=c,o.$render=this.render;var e=d.eq(0),g=d.eq(1),h=angular.isDefined(b.mousewheel)?a.$parent.$eval(b.mousewheel):f.mousewheel;h&&this.setupMousewheelEvents(e,g),a.readonlyInput=angular.isDefined(b.readonlyInput)?a.$parent.$eval(b.readonlyInput):f.readonlyInput,this.setupInputEvents(e,g)};var q=f.hourStep;b.hourStep&&a.$parent.$watch(c(b.hourStep),function(a){q=parseInt(a,10)});var r=f.minuteStep;b.minuteStep&&a.$parent.$watch(c(b.minuteStep),function(a){r=parseInt(a,10)}),a.showMeridian=f.showMeridian,b.showMeridian&&a.$parent.$watch(c(b.showMeridian),function(b){if(a.showMeridian=!!b,o.$error.time){var c=g(),d=h();angular.isDefined(c)&&angular.isDefined(d)&&(n.setHours(c),j())}else l()}),this.setupMousewheelEvents=function(b,c){var d=function(a){a.originalEvent&&(a=a.originalEvent);var b=a.wheelDelta?a.wheelDelta:-a.deltaY;return a.detail||b>0};b.bind("mousewheel wheel",function(b){a.$apply(d(b)?a.incrementHours():a.decrementHours()),b.preventDefault()}),c.bind("mousewheel wheel",function(b){a.$apply(d(b)?a.incrementMinutes():a.decrementMinutes()),b.preventDefault()})},this.setupInputEvents=function(b,c){if(a.readonlyInput)return a.updateHours=angular.noop,void(a.updateMinutes=angular.noop);var d=function(b,c){o.$setViewValue(null),o.$setValidity("time",!1),angular.isDefined(b)&&(a.invalidHours=b),angular.isDefined(c)&&(a.invalidMinutes=c)};a.updateHours=function(){var a=g();angular.isDefined(a)?(n.setHours(a),j("h")):d(!0)},b.bind("blur",function(){!a.invalidHours&&a.hours<10&&a.$apply(function(){a.hours=i(a.hours)})}),a.updateMinutes=function(){var a=h();angular.isDefined(a)?(n.setMinutes(a),j("m")):d(void 0,!0)},c.bind("blur",function(){!a.invalidMinutes&&a.minutes<10&&a.$apply(function(){a.minutes=i(a.minutes)})})},this.render=function(){var a=o.$modelValue?new Date(o.$modelValue):null;isNaN(a)?(o.$setValidity("time",!1),d.error('Timepicker directive: "ng-model" value must be a Date object, a number of milliseconds since 01.01.1970 or a string representing an RFC2822 or ISO 8601 date.')):(a&&(n=a),k(),l())},a.incrementHours=function(){m(60*q)},a.decrementHours=function(){m(60*-q)},a.incrementMinutes=function(){m(r)},a.decrementMinutes=function(){m(-r)},a.toggleMeridian=function(){m(720*(n.getHours()<12?1:-1))}}]).directive("timepicker",function(){return{restrict:"EA",require:["timepicker","?^ngModel"],controller:"TimepickerController",replace:!0,scope:{},templateUrl:"template/timepicker/timepicker.html",link:function(a,b,c,d){var e=d[0],f=d[1];f&&e.init(f,b.find("input"))}}}),angular.module("ui.bootstrap.typeahead",["ui.bootstrap.position","ui.bootstrap.bindHtml"]).factory("typeaheadParser",["$parse",function(a){var b=/^\s*([\s\S]+?)(?:\s+as\s+([\s\S]+?))?\s+for\s+(?:([\$\w][\$\w\d]*))\s+in\s+([\s\S]+?)$/;return{parse:function(c){var d=c.match(b);if(!d)throw new Error('Expected typeahead specification in form of "_modelValue_ (as _label_)? for _item_ in _collection_" but got "'+c+'".');return{itemName:d[3],source:a(d[4]),viewMapper:a(d[2]||d[1]),modelMapper:a(d[1])}}}}]).directive("typeahead",["$compile","$parse","$q","$timeout","$document","$position","typeaheadParser",function(a,b,c,d,e,f,g){var h=[9,13,27,38,40];return{require:"ngModel",link:function(i,j,k,l){var m,n=i.$eval(k.typeaheadMinLength)||1,o=i.$eval(k.typeaheadWaitMs)||0,p=i.$eval(k.typeaheadEditable)!==!1,q=b(k.typeaheadLoading).assign||angular.noop,r=b(k.typeaheadOnSelect),s=k.typeaheadInputFormatter?b(k.typeaheadInputFormatter):void 0,t=k.typeaheadAppendToBody?i.$eval(k.typeaheadAppendToBody):!1,u=i.$eval(k.typeaheadFocusFirst)!==!1,v=b(k.ngModel).assign,w=g.parse(k.typeahead),x=i.$new();i.$on("$destroy",function(){x.$destroy()});var y="typeahead-"+x.$id+"-"+Math.floor(1e4*Math.random());j.attr({"aria-autocomplete":"list","aria-expanded":!1,"aria-owns":y});var z=angular.element("<div typeahead-popup></div>");z.attr({id:y,matches:"matches",active:"activeIdx",select:"select(activeIdx)",query:"query",position:"position"}),angular.isDefined(k.typeaheadTemplateUrl)&&z.attr("template-url",k.typeaheadTemplateUrl);var A=function(){x.matches=[],x.activeIdx=-1,j.attr("aria-expanded",!1)},B=function(a){return y+"-option-"+a};x.$watch("activeIdx",function(a){0>a?j.removeAttr("aria-activedescendant"):j.attr("aria-activedescendant",B(a))});var C=function(a){var b={$viewValue:a};q(i,!0),c.when(w.source(i,b)).then(function(c){var d=a===l.$viewValue;if(d&&m)if(c.length>0){x.activeIdx=u?0:-1,x.matches.length=0;for(var e=0;e<c.length;e++)b[w.itemName]=c[e],x.matches.push({id:B(e),label:w.viewMapper(x,b),model:c[e]});x.query=a,x.position=t?f.offset(j):f.position(j),x.position.top=x.position.top+j.prop("offsetHeight"),j.attr("aria-expanded",!0)}else A();d&&q(i,!1)},function(){A(),q(i,!1)})};A(),x.query=void 0;var D,E=function(a){D=d(function(){C(a)},o)},F=function(){D&&d.cancel(D)};l.$parsers.unshift(function(a){return m=!0,a&&a.length>=n?o>0?(F(),E(a)):C(a):(q(i,!1),F(),A()),p?a:a?void l.$setValidity("editable",!1):(l.$setValidity("editable",!0),a)}),l.$formatters.push(function(a){var b,c,d={};return s?(d.$model=a,s(i,d)):(d[w.itemName]=a,b=w.viewMapper(i,d),d[w.itemName]=void 0,c=w.viewMapper(i,d),b!==c?b:a)}),x.select=function(a){var b,c,e={};e[w.itemName]=c=x.matches[a].model,b=w.modelMapper(i,e),v(i,b),l.$setValidity("editable",!0),r(i,{$item:c,$model:b,$label:w.viewMapper(i,e)}),A(),d(function(){j[0].focus()},0,!1)},j.bind("keydown",function(a){0!==x.matches.length&&-1!==h.indexOf(a.which)&&(-1!=x.activeIdx||13!==a.which&&9!==a.which)&&(a.preventDefault(),40===a.which?(x.activeIdx=(x.activeIdx+1)%x.matches.length,x.$digest()):38===a.which?(x.activeIdx=(x.activeIdx>0?x.activeIdx:x.matches.length)-1,x.$digest()):13===a.which||9===a.which?x.$apply(function(){x.select(x.activeIdx)}):27===a.which&&(a.stopPropagation(),A(),x.$digest()))}),j.bind("blur",function(){m=!1});var G=function(a){j[0]!==a.target&&(A(),x.$digest())};e.bind("click",G),i.$on("$destroy",function(){e.unbind("click",G),t&&H.remove()});var H=a(z)(x);t?e.find("body").append(H):j.after(H)}}}]).directive("typeaheadPopup",function(){return{restrict:"EA",scope:{matches:"=",query:"=",active:"=",position:"=",select:"&"},replace:!0,templateUrl:"template/typeahead/typeahead-popup.html",link:function(a,b,c){a.templateUrl=c.templateUrl,a.isOpen=function(){return a.matches.length>0},a.isActive=function(b){return a.active==b},a.selectActive=function(b){a.active=b},a.selectMatch=function(b){a.select({activeIdx:b})}}}}).directive("typeaheadMatch",["$http","$templateCache","$compile","$parse",function(a,b,c,d){return{restrict:"EA",scope:{index:"=",match:"=",query:"="},link:function(e,f,g){var h=d(g.templateUrl)(e.$parent)||"template/typeahead/typeahead-match.html";a.get(h,{cache:b}).success(function(a){f.replaceWith(c(a.trim())(e))})}}}]).filter("typeaheadHighlight",function(){function a(a){return a.replace(/([.?*+^$[\]\\(){}|-])/g,"\\$1")}return function(b,c){return c?(""+b).replace(new RegExp(a(c),"gi"),"<strong>$&</strong>"):b}}),angular.module("template/accordion/accordion-group.html",[]).run(["$templateCache",function(a){a.put("template/accordion/accordion-group.html",'<div class="panel panel-default">\n  <div class="panel-heading">\n    <h4 class="panel-title">\n      <a href class="accordion-toggle" ng-click="toggleOpen()" accordion-transclude="heading"><span ng-class="{\'text-muted\': isDisabled}">{{heading}}</span></a>\n    </h4>\n  </div>\n  <div class="panel-collapse" collapse="!isOpen">\n	  <div class="panel-body" ng-transclude></div>\n  </div>\n</div>\n')}]),angular.module("template/accordion/accordion.html",[]).run(["$templateCache",function(a){a.put("template/accordion/accordion.html",'<div class="panel-group" ng-transclude></div>')}]),angular.module("template/alert/alert.html",[]).run(["$templateCache",function(a){a.put("template/alert/alert.html",'<div class="alert" ng-class="[\'alert-\' + (type || \'warning\'), closeable ? \'alert-dismissable\' : null]" role="alert">\n    <button ng-show="closeable" type="button" class="close" ng-click="close()">\n        <span aria-hidden="true">&times;</span>\n        <span class="sr-only">Close</span>\n    </button>\n    <div ng-transclude></div>\n</div>\n')}]),angular.module("template/carousel/carousel.html",[]).run(["$templateCache",function(a){a.put("template/carousel/carousel.html",'<div ng-mouseenter="pause()" ng-mouseleave="play()" class="carousel" ng-swipe-right="prev()" ng-swipe-left="next()">\n    <ol class="carousel-indicators" ng-show="slides.length > 1">\n        <li ng-repeat="slide in slides track by $index" ng-class="{active: isActive(slide)}" ng-click="select(slide)"></li>\n    </ol>\n    <div class="carousel-inner" ng-transclude></div>\n    <a class="left carousel-control" ng-click="prev()" ng-show="slides.length > 1"><span class="glyphicon glyphicon-chevron-left"></span></a>\n    <a class="right carousel-control" ng-click="next()" ng-show="slides.length > 1"><span class="glyphicon glyphicon-chevron-right"></span></a>\n</div>\n')}]),angular.module("template/carousel/slide.html",[]).run(["$templateCache",function(a){a.put("template/carousel/slide.html","<div ng-class=\"{\n    'active': leaving || (active && !entering),\n    'prev': (next || active) && direction=='prev',\n    'next': (next || active) && direction=='next',\n    'right': direction=='prev',\n    'left': direction=='next'\n  }\" class=\"item text-center\" ng-transclude></div>\n")}]),angular.module("template/datepicker/datepicker.html",[]).run(["$templateCache",function(a){a.put("template/datepicker/datepicker.html",'<div ng-switch="datepickerMode" role="application" ng-keydown="keydown($event)">\n  <daypicker ng-switch-when="day" tabindex="0"></daypicker>\n  <monthpicker ng-switch-when="month" tabindex="0"></monthpicker>\n  <yearpicker ng-switch-when="year" tabindex="0"></yearpicker>\n</div>')}]),angular.module("template/datepicker/day.html",[]).run(["$templateCache",function(a){a.put("template/datepicker/day.html",'<table role="grid" aria-labelledby="{{uniqueId}}-title" aria-activedescendant="{{activeDateId}}">\n  <thead>\n    <tr>\n      <th><button type="button" class="btn btn-default btn-sm pull-left" ng-click="move(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button></th>\n      <th colspan="{{5 + showWeeks}}"><button id="{{uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm" ng-click="toggleMode()" tabindex="-1" style="width:100%;"><strong>{{title}}</strong></button></th>\n      <th><button type="button" class="btn btn-default btn-sm pull-right" ng-click="move(1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button></th>\n    </tr>\n    <tr>\n      <th ng-show="showWeeks" class="text-center"></th>\n      <th ng-repeat="label in labels track by $index" class="text-center"><small aria-label="{{label.full}}">{{label.abbr}}</small></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr ng-repeat="row in rows track by $index">\n      <td ng-show="showWeeks" class="text-center h6"><em>{{ weekNumbers[$index] }}</em></td>\n      <td ng-repeat="dt in row track by dt.date" class="text-center" role="gridcell" id="{{dt.uid}}" aria-disabled="{{!!dt.disabled}}">\n        <button type="button" style="width:100%;" class="btn btn-default btn-sm" ng-class="{\'btn-info\': dt.selected, active: isActive(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" tabindex="-1"><span ng-class="{\'text-muted\': dt.secondary, \'text-info\': dt.current}">{{dt.label}}</span></button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n')}]),angular.module("template/datepicker/month.html",[]).run(["$templateCache",function(a){a.put("template/datepicker/month.html",'<table role="grid" aria-labelledby="{{uniqueId}}-title" aria-activedescendant="{{activeDateId}}">\n  <thead>\n    <tr>\n      <th><button type="button" class="btn btn-default btn-sm pull-left" ng-click="move(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button></th>\n      <th><button id="{{uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm" ng-click="toggleMode()" tabindex="-1" style="width:100%;"><strong>{{title}}</strong></button></th>\n      <th><button type="button" class="btn btn-default btn-sm pull-right" ng-click="move(1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr ng-repeat="row in rows track by $index">\n      <td ng-repeat="dt in row track by dt.date" class="text-center" role="gridcell" id="{{dt.uid}}" aria-disabled="{{!!dt.disabled}}">\n        <button type="button" style="width:100%;" class="btn btn-default" ng-class="{\'btn-info\': dt.selected, active: isActive(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" tabindex="-1"><span ng-class="{\'text-info\': dt.current}">{{dt.label}}</span></button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n')}]),angular.module("template/datepicker/popup.html",[]).run(["$templateCache",function(a){a.put("template/datepicker/popup.html",'<ul class="dropdown-menu" ng-style="{display: (isOpen && \'block\') || \'none\', top: position.top+\'px\', left: position.left+\'px\'}" ng-keydown="keydown($event)">\n	<li ng-transclude></li>\n	<li ng-if="showButtonBar" style="padding:10px 9px 2px">\n		<span class="btn-group pull-left">\n			<button type="button" class="btn btn-sm btn-info" ng-click="select(\'today\')">{{ getText(\'current\') }}</button>\n			<button type="button" class="btn btn-sm btn-danger" ng-click="select(null)">{{ getText(\'clear\') }}</button>\n		</span>\n		<button type="button" class="btn btn-sm btn-success pull-right" ng-click="close()">{{ getText(\'close\') }}</button>\n	</li>\n</ul>\n')}]),angular.module("template/datepicker/year.html",[]).run(["$templateCache",function(a){a.put("template/datepicker/year.html",'<table role="grid" aria-labelledby="{{uniqueId}}-title" aria-activedescendant="{{activeDateId}}">\n  <thead>\n    <tr>\n      <th><button type="button" class="btn btn-default btn-sm pull-left" ng-click="move(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button></th>\n      <th colspan="3"><button id="{{uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm" ng-click="toggleMode()" tabindex="-1" style="width:100%;"><strong>{{title}}</strong></button></th>\n      <th><button type="button" class="btn btn-default btn-sm pull-right" ng-click="move(1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr ng-repeat="row in rows track by $index">\n      <td ng-repeat="dt in row track by dt.date" class="text-center" role="gridcell" id="{{dt.uid}}" aria-disabled="{{!!dt.disabled}}">\n        <button type="button" style="width:100%;" class="btn btn-default" ng-class="{\'btn-info\': dt.selected, active: isActive(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" tabindex="-1"><span ng-class="{\'text-info\': dt.current}">{{dt.label}}</span></button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n')}]),angular.module("template/modal/backdrop.html",[]).run(["$templateCache",function(a){a.put("template/modal/backdrop.html",'<div class="modal-backdrop fade {{ backdropClass }}"\n     ng-class="{in: animate}"\n     ng-style="{\'z-index\': 1040 + (index && 1 || 0) + index*10}"\n></div>\n')}]),angular.module("template/modal/window.html",[]).run(["$templateCache",function(a){a.put("template/modal/window.html",'<div tabindex="-1" role="dialog" class="modal fade" ng-class="{in: animate}" ng-style="{\'z-index\': 1050 + index*10, display: \'block\'}">\n    <div class="modal-dialog" ng-class="{\'modal-sm\': size == \'sm\', \'modal-lg\': size == \'lg\'}"><div class="modal-content" modal-transclude></div></div>\n</div>')}]),angular.module("template/pagination/pager.html",[]).run(["$templateCache",function(a){a.put("template/pagination/pager.html",'<ul class="pager">\n  <li ng-class="{disabled: noPrevious(), previous: align}"><a href ng-click="selectPage(page - 1)">{{getText(\'previous\')}}</a></li>\n  <li ng-class="{disabled: noNext(), next: align}"><a href ng-click="selectPage(page + 1)">{{getText(\'next\')}}</a></li>\n</ul>')}]),angular.module("template/pagination/pagination.html",[]).run(["$templateCache",function(a){a.put("template/pagination/pagination.html",'<ul class="pagination">\n  <li ng-if="boundaryLinks" ng-class="{disabled: noPrevious()}"><a href ng-click="selectPage(1)">{{getText(\'first\')}}</a></li>\n  <li ng-if="directionLinks" ng-class="{disabled: noPrevious()}"><a href ng-click="selectPage(page - 1)">{{getText(\'previous\')}}</a></li>\n  <li ng-repeat="page in pages track by $index" ng-class="{active: page.active}"><a href ng-click="selectPage(page.number)">{{page.text}}</a></li>\n  <li ng-if="directionLinks" ng-class="{disabled: noNext()}"><a href ng-click="selectPage(page + 1)">{{getText(\'next\')}}</a></li>\n  <li ng-if="boundaryLinks" ng-class="{disabled: noNext()}"><a href ng-click="selectPage(totalPages)">{{getText(\'last\')}}</a></li>\n</ul>')}]),angular.module("template/tooltip/tooltip-html-unsafe-popup.html",[]).run(["$templateCache",function(a){a.put("template/tooltip/tooltip-html-unsafe-popup.html",'<div class="tooltip {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">\n  <div class="tooltip-arrow"></div>\n  <div class="tooltip-inner" bind-html-unsafe="content"></div>\n</div>\n')}]),angular.module("template/tooltip/tooltip-popup.html",[]).run(["$templateCache",function(a){a.put("template/tooltip/tooltip-popup.html",'<div class="tooltip {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">\n  <div class="tooltip-arrow"></div>\n  <div class="tooltip-inner" ng-bind="content"></div>\n</div>\n')}]),angular.module("template/popover/popover.html",[]).run(["$templateCache",function(a){a.put("template/popover/popover.html",'<div class="popover {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">\n  <div class="arrow"></div>\n\n  <div class="popover-inner">\n      <h3 class="popover-title" ng-bind="title" ng-show="title"></h3>\n      <div class="popover-content" ng-bind="content"></div>\n  </div>\n</div>\n')}]),angular.module("template/progressbar/bar.html",[]).run(["$templateCache",function(a){a.put("template/progressbar/bar.html",'<div class="progress-bar" ng-class="type && \'progress-bar-\' + type" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="{{max}}" ng-style="{width: percent + \'%\'}" aria-valuetext="{{percent | number:0}}%" ng-transclude></div>')}]),angular.module("template/progressbar/progress.html",[]).run(["$templateCache",function(a){a.put("template/progressbar/progress.html",'<div class="progress" ng-transclude></div>')}]),angular.module("template/progressbar/progressbar.html",[]).run(["$templateCache",function(a){a.put("template/progressbar/progressbar.html",'<div class="progress">\n  <div class="progress-bar" ng-class="type && \'progress-bar-\' + type" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="{{max}}" ng-style="{width: percent + \'%\'}" aria-valuetext="{{percent | number:0}}%" ng-transclude></div>\n</div>')}]),angular.module("template/rating/rating.html",[]).run(["$templateCache",function(a){a.put("template/rating/rating.html",'<span ng-mouseleave="reset()" ng-keydown="onKeydown($event)" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="{{range.length}}" aria-valuenow="{{value}}">\n    <i ng-repeat="r in range track by $index" ng-mouseenter="enter($index + 1)" ng-click="rate($index + 1)" class="glyphicon" ng-class="$index < value && (r.stateOn || \'glyphicon-star\') || (r.stateOff || \'glyphicon-star-empty\')">\n        <span class="sr-only">({{ $index < value ? \'*\' : \' \' }})</span>\n    </i>\n</span>')}]),angular.module("template/tabs/tab.html",[]).run(["$templateCache",function(a){a.put("template/tabs/tab.html",'<li ng-class="{active: active, disabled: disabled}">\n  <a href ng-click="select()" tab-heading-transclude>{{heading}}</a>\n</li>\n')}]),angular.module("template/tabs/tabset.html",[]).run(["$templateCache",function(a){a.put("template/tabs/tabset.html",'<div>\n  <ul class="nav nav-{{type || \'tabs\'}}" ng-class="{\'nav-stacked\': vertical, \'nav-justified\': justified}" ng-transclude></ul>\n  <div class="tab-content">\n    <div class="tab-pane" \n         ng-repeat="tab in tabs" \n         ng-class="{active: tab.active}"\n         tab-content-transclude="tab">\n    </div>\n  </div>\n</div>\n')}]),angular.module("template/timepicker/timepicker.html",[]).run(["$templateCache",function(a){a.put("template/timepicker/timepicker.html",'<table>\n	<tbody>\n		<tr class="text-center">\n			<td><a ng-click="incrementHours()" class="btn btn-link"><span class="glyphicon glyphicon-chevron-up"></span></a></td>\n			<td>&nbsp;</td>\n			<td><a ng-click="incrementMinutes()" class="btn btn-link"><span class="glyphicon glyphicon-chevron-up"></span></a></td>\n			<td ng-show="showMeridian"></td>\n		</tr>\n		<tr>\n			<td style="width:50px;" class="form-group" ng-class="{\'has-error\': invalidHours}">\n				<input type="text" ng-model="hours" ng-change="updateHours()" class="form-control text-center" ng-mousewheel="incrementHours()" ng-readonly="readonlyInput" maxlength="2">\n			</td>\n			<td>:</td>\n			<td style="width:50px;" class="form-group" ng-class="{\'has-error\': invalidMinutes}">\n				<input type="text" ng-model="minutes" ng-change="updateMinutes()" class="form-control text-center" ng-readonly="readonlyInput" maxlength="2">\n			</td>\n			<td ng-show="showMeridian"><button type="button" class="btn btn-default text-center" ng-click="toggleMeridian()">{{meridian}}</button></td>\n		</tr>\n		<tr class="text-center">\n			<td><a ng-click="decrementHours()" class="btn btn-link"><span class="glyphicon glyphicon-chevron-down"></span></a></td>\n			<td>&nbsp;</td>\n			<td><a ng-click="decrementMinutes()" class="btn btn-link"><span class="glyphicon glyphicon-chevron-down"></span></a></td>\n			<td ng-show="showMeridian"></td>\n		</tr>\n	</tbody>\n</table>\n')}]),angular.module("template/typeahead/typeahead-match.html",[]).run(["$templateCache",function(a){a.put("template/typeahead/typeahead-match.html",'<a tabindex="-1" bind-html-unsafe="match.label | typeaheadHighlight:query"></a>')
+	}]),angular.module("template/typeahead/typeahead-popup.html",[]).run(["$templateCache",function(a){a.put("template/typeahead/typeahead-popup.html",'<ul class="dropdown-menu" ng-show="isOpen()" ng-style="{top: position.top+\'px\', left: position.left+\'px\'}" style="display: block;" role="listbox" aria-hidden="{{!isOpen()}}">\n    <li ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }" ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{match.id}}">\n        <div typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>\n    </li>\n</ul>\n')}]);
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
 	THREE = __webpack_require__(65)
 	__webpack_require__(66)
+	__webpack_require__(61)
 	__webpack_require__(62)
-	__webpack_require__(63)
 	__webpack_require__(67)
 
 	var Viewer = module.exports = function(element) {
@@ -60987,21 +61002,6 @@
 	        this.renderer.render(this.scene, this.camera);
 	    }
 	};
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * angular-bootstrap
-	 * http://angular-ui.github.io/bootstrap/
-
-	 * Version: 0.13.0-SNAPSHOT - 2015-01-09
-	 * License: MIT
-	 */
-	angular.module("ui.bootstrap",["ui.bootstrap.tpls","ui.bootstrap.transition","ui.bootstrap.collapse","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.bindHtml","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.position","ui.bootstrap.datepicker","ui.bootstrap.dropdown","ui.bootstrap.modal","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]),angular.module("ui.bootstrap.tpls",["template/accordion/accordion-group.html","template/accordion/accordion.html","template/alert/alert.html","template/carousel/carousel.html","template/carousel/slide.html","template/datepicker/datepicker.html","template/datepicker/day.html","template/datepicker/month.html","template/datepicker/popup.html","template/datepicker/year.html","template/modal/backdrop.html","template/modal/window.html","template/pagination/pager.html","template/pagination/pagination.html","template/tooltip/tooltip-html-unsafe-popup.html","template/tooltip/tooltip-popup.html","template/popover/popover.html","template/progressbar/bar.html","template/progressbar/progress.html","template/progressbar/progressbar.html","template/rating/rating.html","template/tabs/tab.html","template/tabs/tabset.html","template/timepicker/timepicker.html","template/typeahead/typeahead-match.html","template/typeahead/typeahead-popup.html"]),angular.module("ui.bootstrap.transition",[]).factory("$transition",["$q","$timeout","$rootScope",function(a,b,c){function d(a){for(var b in a)if(void 0!==f.style[b])return a[b]}var e=function(d,f,g){g=g||{};var h=a.defer(),i=e[g.animation?"animationEndEventName":"transitionEndEventName"],j=function(){c.$apply(function(){d.unbind(i,j),h.resolve(d)})};return i&&d.bind(i,j),b(function(){angular.isString(f)?d.addClass(f):angular.isFunction(f)?f(d):angular.isObject(f)&&d.css(f),i||h.resolve(d)}),h.promise.cancel=function(){i&&d.unbind(i,j),h.reject("Transition cancelled")},h.promise},f=document.createElement("trans"),g={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd",transition:"transitionend"},h={WebkitTransition:"webkitAnimationEnd",MozTransition:"animationend",OTransition:"oAnimationEnd",transition:"animationend"};return e.transitionEndEventName=d(g),e.animationEndEventName=d(h),e}]),angular.module("ui.bootstrap.collapse",["ui.bootstrap.transition"]).directive("collapse",["$transition",function(a){return{link:function(b,c,d){function e(b){function d(){j===e&&(j=void 0)}var e=a(c,b);return j&&j.cancel(),j=e,e.then(d,d),e}function f(){k?(k=!1,g()):(c.removeClass("collapse").addClass("collapsing"),e({height:c[0].scrollHeight+"px"}).then(g))}function g(){c.removeClass("collapsing"),c.addClass("collapse in"),c.css({height:"auto"})}function h(){if(k)k=!1,i(),c.css({height:0});else{c.css({height:c[0].scrollHeight+"px"});{c[0].offsetWidth}c.removeClass("collapse in").addClass("collapsing"),e({height:0}).then(i)}}function i(){c.removeClass("collapsing"),c.addClass("collapse")}var j,k=!0;b.$watch(d.collapse,function(a){a?h():f()})}}}]),angular.module("ui.bootstrap.accordion",["ui.bootstrap.collapse"]).constant("accordionConfig",{closeOthers:!0}).controller("AccordionController",["$scope","$attrs","accordionConfig",function(a,b,c){this.groups=[],this.closeOthers=function(d){var e=angular.isDefined(b.closeOthers)?a.$eval(b.closeOthers):c.closeOthers;e&&angular.forEach(this.groups,function(a){a!==d&&(a.isOpen=!1)})},this.addGroup=function(a){var b=this;this.groups.push(a),a.$on("$destroy",function(){b.removeGroup(a)})},this.removeGroup=function(a){var b=this.groups.indexOf(a);-1!==b&&this.groups.splice(b,1)}}]).directive("accordion",function(){return{restrict:"EA",controller:"AccordionController",transclude:!0,replace:!1,templateUrl:"template/accordion/accordion.html"}}).directive("accordionGroup",function(){return{require:"^accordion",restrict:"EA",transclude:!0,replace:!0,templateUrl:"template/accordion/accordion-group.html",scope:{heading:"@",isOpen:"=?",isDisabled:"=?"},controller:function(){this.setHeading=function(a){this.heading=a}},link:function(a,b,c,d){d.addGroup(a),a.$watch("isOpen",function(b){b&&d.closeOthers(a)}),a.toggleOpen=function(){a.isDisabled||(a.isOpen=!a.isOpen)}}}}).directive("accordionHeading",function(){return{restrict:"EA",transclude:!0,template:"",replace:!0,require:"^accordionGroup",link:function(a,b,c,d,e){d.setHeading(e(a,function(){}))}}}).directive("accordionTransclude",function(){return{require:"^accordionGroup",link:function(a,b,c,d){a.$watch(function(){return d[c.accordionTransclude]},function(a){a&&(b.html(""),b.append(a))})}}}),angular.module("ui.bootstrap.alert",[]).controller("AlertController",["$scope","$attrs",function(a,b){a.closeable="close"in b,this.close=a.close}]).directive("alert",function(){return{restrict:"EA",controller:"AlertController",templateUrl:"template/alert/alert.html",transclude:!0,replace:!0,scope:{type:"@",close:"&"}}}).directive("dismissOnTimeout",["$timeout",function(a){return{require:"alert",link:function(b,c,d,e){a(function(){e.close()},parseInt(d.dismissOnTimeout,10))}}}]),angular.module("ui.bootstrap.bindHtml",[]).directive("bindHtmlUnsafe",function(){return function(a,b,c){b.addClass("ng-binding").data("$binding",c.bindHtmlUnsafe),a.$watch(c.bindHtmlUnsafe,function(a){b.html(a||"")})}}),angular.module("ui.bootstrap.buttons",[]).constant("buttonConfig",{activeClass:"active",toggleEvent:"click"}).controller("ButtonsController",["buttonConfig",function(a){this.activeClass=a.activeClass||"active",this.toggleEvent=a.toggleEvent||"click"}]).directive("btnRadio",function(){return{require:["btnRadio","ngModel"],controller:"ButtonsController",link:function(a,b,c,d){var e=d[0],f=d[1];f.$render=function(){b.toggleClass(e.activeClass,angular.equals(f.$modelValue,a.$eval(c.btnRadio)))},b.bind(e.toggleEvent,function(){var d=b.hasClass(e.activeClass);(!d||angular.isDefined(c.uncheckable))&&a.$apply(function(){f.$setViewValue(d?null:a.$eval(c.btnRadio)),f.$render()})})}}}).directive("btnCheckbox",function(){return{require:["btnCheckbox","ngModel"],controller:"ButtonsController",link:function(a,b,c,d){function e(){return g(c.btnCheckboxTrue,!0)}function f(){return g(c.btnCheckboxFalse,!1)}function g(b,c){var d=a.$eval(b);return angular.isDefined(d)?d:c}var h=d[0],i=d[1];i.$render=function(){b.toggleClass(h.activeClass,angular.equals(i.$modelValue,e()))},b.bind(h.toggleEvent,function(){a.$apply(function(){i.$setViewValue(b.hasClass(h.activeClass)?f():e()),i.$render()})})}}}),angular.module("ui.bootstrap.carousel",["ui.bootstrap.transition"]).controller("CarouselController",["$scope","$timeout","$interval","$transition",function(a,b,c,d){function e(){f();var b=+a.interval;!isNaN(b)&&b>0&&(h=c(g,b))}function f(){h&&(c.cancel(h),h=null)}function g(){var b=+a.interval;i&&!isNaN(b)&&b>0?a.next():a.pause()}var h,i,j=this,k=j.slides=a.slides=[],l=-1;j.currentSlide=null;var m=!1;j.select=a.select=function(c,f){function g(){if(!m){if(j.currentSlide&&angular.isString(f)&&!a.noTransition&&c.$element){c.$element.addClass(f);{c.$element[0].offsetWidth}angular.forEach(k,function(a){angular.extend(a,{direction:"",entering:!1,leaving:!1,active:!1})}),angular.extend(c,{direction:f,active:!0,entering:!0}),angular.extend(j.currentSlide||{},{direction:f,leaving:!0}),a.$currentTransition=d(c.$element,{}),function(b,c){a.$currentTransition.then(function(){h(b,c)},function(){h(b,c)})}(c,j.currentSlide)}else h(c,j.currentSlide);j.currentSlide=c,l=i,e()}}function h(b,c){angular.extend(b,{direction:"",active:!0,leaving:!1,entering:!1}),angular.extend(c||{},{direction:"",active:!1,leaving:!1,entering:!1}),a.$currentTransition=null}var i=k.indexOf(c);void 0===f&&(f=i>l?"next":"prev"),c&&c!==j.currentSlide&&(a.$currentTransition?(a.$currentTransition.cancel(),b(g)):g())},a.$on("$destroy",function(){m=!0}),j.indexOfSlide=function(a){return k.indexOf(a)},a.next=function(){var b=(l+1)%k.length;return a.$currentTransition?void 0:j.select(k[b],"next")},a.prev=function(){var b=0>l-1?k.length-1:l-1;return a.$currentTransition?void 0:j.select(k[b],"prev")},a.isActive=function(a){return j.currentSlide===a},a.$watch("interval",e),a.$on("$destroy",f),a.play=function(){i||(i=!0,e())},a.pause=function(){a.noPause||(i=!1,f())},j.addSlide=function(b,c){b.$element=c,k.push(b),1===k.length||b.active?(j.select(k[k.length-1]),1==k.length&&a.play()):b.active=!1},j.removeSlide=function(a){var b=k.indexOf(a);k.splice(b,1),k.length>0&&a.active?j.select(b>=k.length?k[b-1]:k[b]):l>b&&l--}}]).directive("carousel",[function(){return{restrict:"EA",transclude:!0,replace:!0,controller:"CarouselController",require:"carousel",templateUrl:"template/carousel/carousel.html",scope:{interval:"=",noTransition:"=",noPause:"="}}}]).directive("slide",function(){return{require:"^carousel",restrict:"EA",transclude:!0,replace:!0,templateUrl:"template/carousel/slide.html",scope:{active:"=?"},link:function(a,b,c,d){d.addSlide(a,b),a.$on("$destroy",function(){d.removeSlide(a)}),a.$watch("active",function(b){b&&d.select(a)})}}}),angular.module("ui.bootstrap.dateparser",[]).service("dateParser",["$locale","orderByFilter",function(a,b){function c(a){var c=[],d=a.split("");return angular.forEach(e,function(b,e){var f=a.indexOf(e);if(f>-1){a=a.split(""),d[f]="("+b.regex+")",a[f]="$";for(var g=f+1,h=f+e.length;h>g;g++)d[g]="",a[g]="$";a=a.join(""),c.push({index:f,apply:b.apply})}}),{regex:new RegExp("^"+d.join("")+"$"),map:b(c,"index")}}function d(a,b,c){return 1===b&&c>28?29===c&&(a%4===0&&a%100!==0||a%400===0):3===b||5===b||8===b||10===b?31>c:!0}this.parsers={};var e={yyyy:{regex:"\\d{4}",apply:function(a){this.year=+a}},yy:{regex:"\\d{2}",apply:function(a){this.year=+a+2e3}},y:{regex:"\\d{1,4}",apply:function(a){this.year=+a}},MMMM:{regex:a.DATETIME_FORMATS.MONTH.join("|"),apply:function(b){this.month=a.DATETIME_FORMATS.MONTH.indexOf(b)}},MMM:{regex:a.DATETIME_FORMATS.SHORTMONTH.join("|"),apply:function(b){this.month=a.DATETIME_FORMATS.SHORTMONTH.indexOf(b)}},MM:{regex:"0[1-9]|1[0-2]",apply:function(a){this.month=a-1}},M:{regex:"[1-9]|1[0-2]",apply:function(a){this.month=a-1}},dd:{regex:"[0-2][0-9]{1}|3[0-1]{1}",apply:function(a){this.date=+a}},d:{regex:"[1-2]?[0-9]{1}|3[0-1]{1}",apply:function(a){this.date=+a}},EEEE:{regex:a.DATETIME_FORMATS.DAY.join("|")},EEE:{regex:a.DATETIME_FORMATS.SHORTDAY.join("|")}};this.parse=function(b,e){if(!angular.isString(b)||!e)return b;e=a.DATETIME_FORMATS[e]||e,this.parsers[e]||(this.parsers[e]=c(e));var f=this.parsers[e],g=f.regex,h=f.map,i=b.match(g);if(i&&i.length){for(var j,k={year:1900,month:0,date:1,hours:0},l=1,m=i.length;m>l;l++){var n=h[l-1];n.apply&&n.apply.call(k,i[l])}return d(k.year,k.month,k.date)&&(j=new Date(k.year,k.month,k.date,k.hours)),j}}}]),angular.module("ui.bootstrap.position",[]).factory("$position",["$document","$window",function(a,b){function c(a,c){return a.currentStyle?a.currentStyle[c]:b.getComputedStyle?b.getComputedStyle(a)[c]:a.style[c]}function d(a){return"static"===(c(a,"position")||"static")}var e=function(b){for(var c=a[0],e=b.offsetParent||c;e&&e!==c&&d(e);)e=e.offsetParent;return e||c};return{position:function(b){var c=this.offset(b),d={top:0,left:0},f=e(b[0]);f!=a[0]&&(d=this.offset(angular.element(f)),d.top+=f.clientTop-f.scrollTop,d.left+=f.clientLeft-f.scrollLeft);var g=b[0].getBoundingClientRect();return{width:g.width||b.prop("offsetWidth"),height:g.height||b.prop("offsetHeight"),top:c.top-d.top,left:c.left-d.left}},offset:function(c){var d=c[0].getBoundingClientRect();return{width:d.width||c.prop("offsetWidth"),height:d.height||c.prop("offsetHeight"),top:d.top+(b.pageYOffset||a[0].documentElement.scrollTop),left:d.left+(b.pageXOffset||a[0].documentElement.scrollLeft)}},positionElements:function(a,b,c,d){var e,f,g,h,i=c.split("-"),j=i[0],k=i[1]||"center";e=d?this.offset(a):this.position(a),f=b.prop("offsetWidth"),g=b.prop("offsetHeight");var l={center:function(){return e.left+e.width/2-f/2},left:function(){return e.left},right:function(){return e.left+e.width}},m={center:function(){return e.top+e.height/2-g/2},top:function(){return e.top},bottom:function(){return e.top+e.height}};switch(j){case"right":h={top:m[k](),left:l[j]()};break;case"left":h={top:m[k](),left:e.left-f};break;case"bottom":h={top:m[j](),left:l[k]()};break;default:h={top:e.top-g,left:l[k]()}}return h}}}]),angular.module("ui.bootstrap.datepicker",["ui.bootstrap.dateparser","ui.bootstrap.position"]).constant("datepickerConfig",{formatDay:"dd",formatMonth:"MMMM",formatYear:"yyyy",formatDayHeader:"EEE",formatDayTitle:"MMMM yyyy",formatMonthTitle:"yyyy",datepickerMode:"day",minMode:"day",maxMode:"year",showWeeks:!0,startingDay:0,yearRange:20,minDate:null,maxDate:null}).controller("DatepickerController",["$scope","$attrs","$parse","$interpolate","$timeout","$log","dateFilter","datepickerConfig",function(a,b,c,d,e,f,g,h){var i=this,j={$setViewValue:angular.noop};this.modes=["day","month","year"],angular.forEach(["formatDay","formatMonth","formatYear","formatDayHeader","formatDayTitle","formatMonthTitle","minMode","maxMode","showWeeks","startingDay","yearRange"],function(c,e){i[c]=angular.isDefined(b[c])?8>e?d(b[c])(a.$parent):a.$parent.$eval(b[c]):h[c]}),angular.forEach(["minDate","maxDate"],function(d){b[d]?a.$parent.$watch(c(b[d]),function(a){i[d]=a?new Date(a):null,i.refreshView()}):i[d]=h[d]?new Date(h[d]):null}),a.datepickerMode=a.datepickerMode||h.datepickerMode,a.uniqueId="datepicker-"+a.$id+"-"+Math.floor(1e4*Math.random()),this.activeDate=angular.isDefined(b.initDate)?a.$parent.$eval(b.initDate):new Date,a.isActive=function(b){return 0===i.compare(b.date,i.activeDate)?(a.activeDateId=b.uid,!0):!1},this.init=function(a){j=a,j.$render=function(){i.render()}},this.render=function(){if(j.$modelValue){var a=new Date(j.$modelValue),b=!isNaN(a);b?this.activeDate=a:f.error('Datepicker directive: "ng-model" value must be a Date object, a number of milliseconds since 01.01.1970 or a string representing an RFC2822 or ISO 8601 date.'),j.$setValidity("date",b)}this.refreshView()},this.refreshView=function(){if(this.element){this._refreshView();var a=j.$modelValue?new Date(j.$modelValue):null;j.$setValidity("date-disabled",!a||this.element&&!this.isDisabled(a))}},this.createDateObject=function(a,b){var c=j.$modelValue?new Date(j.$modelValue):null;return{date:a,label:g(a,b),selected:c&&0===this.compare(a,c),disabled:this.isDisabled(a),current:0===this.compare(a,new Date)}},this.isDisabled=function(c){return this.minDate&&this.compare(c,this.minDate)<0||this.maxDate&&this.compare(c,this.maxDate)>0||b.dateDisabled&&a.dateDisabled({date:c,mode:a.datepickerMode})},this.split=function(a,b){for(var c=[];a.length>0;)c.push(a.splice(0,b));return c},a.select=function(b){if(a.datepickerMode===i.minMode){var c=j.$modelValue?new Date(j.$modelValue):new Date(0,0,0,0,0,0,0);c.setFullYear(b.getFullYear(),b.getMonth(),b.getDate()),j.$setViewValue(c),j.$render()}else i.activeDate=b,a.datepickerMode=i.modes[i.modes.indexOf(a.datepickerMode)-1]},a.move=function(a){var b=i.activeDate.getFullYear()+a*(i.step.years||0),c=i.activeDate.getMonth()+a*(i.step.months||0);i.activeDate.setFullYear(b,c,1),i.refreshView()},a.toggleMode=function(b){b=b||1,a.datepickerMode===i.maxMode&&1===b||a.datepickerMode===i.minMode&&-1===b||(a.datepickerMode=i.modes[i.modes.indexOf(a.datepickerMode)+b])},a.keys={13:"enter",32:"space",33:"pageup",34:"pagedown",35:"end",36:"home",37:"left",38:"up",39:"right",40:"down"};var k=function(){e(function(){i.element[0].focus()},0,!1)};a.$on("datepicker.focus",k),a.keydown=function(b){var c=a.keys[b.which];if(c&&!b.shiftKey&&!b.altKey)if(b.preventDefault(),b.stopPropagation(),"enter"===c||"space"===c){if(i.isDisabled(i.activeDate))return;a.select(i.activeDate),k()}else!b.ctrlKey||"up"!==c&&"down"!==c?(i.handleKeyDown(c,b),i.refreshView()):(a.toggleMode("up"===c?1:-1),k())}}]).directive("datepicker",function(){return{restrict:"EA",replace:!0,templateUrl:"template/datepicker/datepicker.html",scope:{datepickerMode:"=?",dateDisabled:"&"},require:["datepicker","?^ngModel"],controller:"DatepickerController",link:function(a,b,c,d){var e=d[0],f=d[1];f&&e.init(f)}}}).directive("daypicker",["dateFilter",function(a){return{restrict:"EA",replace:!0,templateUrl:"template/datepicker/day.html",require:"^datepicker",link:function(b,c,d,e){function f(a,b){return 1!==b||a%4!==0||a%100===0&&a%400!==0?i[b]:29}function g(a,b){var c=new Array(b),d=new Date(a),e=0;for(d.setHours(12);b>e;)c[e++]=new Date(d),d.setDate(d.getDate()+1);return c}function h(a){var b=new Date(a);b.setDate(b.getDate()+4-(b.getDay()||7));var c=b.getTime();return b.setMonth(0),b.setDate(1),Math.floor(Math.round((c-b)/864e5)/7)+1}b.showWeeks=e.showWeeks,e.step={months:1},e.element=c;var i=[31,28,31,30,31,30,31,31,30,31,30,31];e._refreshView=function(){var c=e.activeDate.getFullYear(),d=e.activeDate.getMonth(),f=new Date(c,d,1),i=e.startingDay-f.getDay(),j=i>0?7-i:-i,k=new Date(f);j>0&&k.setDate(-j+1);for(var l=g(k,42),m=0;42>m;m++)l[m]=angular.extend(e.createDateObject(l[m],e.formatDay),{secondary:l[m].getMonth()!==d,uid:b.uniqueId+"-"+m});b.labels=new Array(7);for(var n=0;7>n;n++)b.labels[n]={abbr:a(l[n].date,e.formatDayHeader),full:a(l[n].date,"EEEE")};if(b.title=a(e.activeDate,e.formatDayTitle),b.rows=e.split(l,7),b.showWeeks){b.weekNumbers=[];for(var o=h(b.rows[0][0].date),p=b.rows.length;b.weekNumbers.push(o++)<p;);}},e.compare=function(a,b){return new Date(a.getFullYear(),a.getMonth(),a.getDate())-new Date(b.getFullYear(),b.getMonth(),b.getDate())},e.handleKeyDown=function(a){var b=e.activeDate.getDate();if("left"===a)b-=1;else if("up"===a)b-=7;else if("right"===a)b+=1;else if("down"===a)b+=7;else if("pageup"===a||"pagedown"===a){var c=e.activeDate.getMonth()+("pageup"===a?-1:1);e.activeDate.setMonth(c,1),b=Math.min(f(e.activeDate.getFullYear(),e.activeDate.getMonth()),b)}else"home"===a?b=1:"end"===a&&(b=f(e.activeDate.getFullYear(),e.activeDate.getMonth()));e.activeDate.setDate(b)},e.refreshView()}}}]).directive("monthpicker",["dateFilter",function(a){return{restrict:"EA",replace:!0,templateUrl:"template/datepicker/month.html",require:"^datepicker",link:function(b,c,d,e){e.step={years:1},e.element=c,e._refreshView=function(){for(var c=new Array(12),d=e.activeDate.getFullYear(),f=0;12>f;f++)c[f]=angular.extend(e.createDateObject(new Date(d,f,1),e.formatMonth),{uid:b.uniqueId+"-"+f});b.title=a(e.activeDate,e.formatMonthTitle),b.rows=e.split(c,3)},e.compare=function(a,b){return new Date(a.getFullYear(),a.getMonth())-new Date(b.getFullYear(),b.getMonth())},e.handleKeyDown=function(a){var b=e.activeDate.getMonth();if("left"===a)b-=1;else if("up"===a)b-=3;else if("right"===a)b+=1;else if("down"===a)b+=3;else if("pageup"===a||"pagedown"===a){var c=e.activeDate.getFullYear()+("pageup"===a?-1:1);e.activeDate.setFullYear(c)}else"home"===a?b=0:"end"===a&&(b=11);e.activeDate.setMonth(b)},e.refreshView()}}}]).directive("yearpicker",["dateFilter",function(){return{restrict:"EA",replace:!0,templateUrl:"template/datepicker/year.html",require:"^datepicker",link:function(a,b,c,d){function e(a){return parseInt((a-1)/f,10)*f+1}var f=d.yearRange;d.step={years:f},d.element=b,d._refreshView=function(){for(var b=new Array(f),c=0,g=e(d.activeDate.getFullYear());f>c;c++)b[c]=angular.extend(d.createDateObject(new Date(g+c,0,1),d.formatYear),{uid:a.uniqueId+"-"+c});a.title=[b[0].label,b[f-1].label].join(" - "),a.rows=d.split(b,5)},d.compare=function(a,b){return a.getFullYear()-b.getFullYear()},d.handleKeyDown=function(a){var b=d.activeDate.getFullYear();"left"===a?b-=1:"up"===a?b-=5:"right"===a?b+=1:"down"===a?b+=5:"pageup"===a||"pagedown"===a?b+=("pageup"===a?-1:1)*d.step.years:"home"===a?b=e(d.activeDate.getFullYear()):"end"===a&&(b=e(d.activeDate.getFullYear())+f-1),d.activeDate.setFullYear(b)},d.refreshView()}}}]).constant("datepickerPopupConfig",{datepickerPopup:"yyyy-MM-dd",currentText:"Today",clearText:"Clear",closeText:"Done",closeOnDateSelection:!0,appendToBody:!1,showButtonBar:!0}).directive("datepickerPopup",["$compile","$parse","$document","$position","dateFilter","dateParser","datepickerPopupConfig",function(a,b,c,d,e,f,g){return{restrict:"EA",require:"ngModel",scope:{isOpen:"=?",currentText:"@",clearText:"@",closeText:"@",dateDisabled:"&"},link:function(h,i,j,k){function l(a){return a.replace(/([A-Z])/g,function(a){return"-"+a.toLowerCase()})}function m(a){if(a){if(angular.isDate(a)&&!isNaN(a))return k.$setValidity("date",!0),a;if(angular.isString(a)){var b=f.parse(a,n)||new Date(a);return isNaN(b)?void k.$setValidity("date",!1):(k.$setValidity("date",!0),b)}return void k.$setValidity("date",!1)}return k.$setValidity("date",!0),null}var n,o=angular.isDefined(j.closeOnDateSelection)?h.$parent.$eval(j.closeOnDateSelection):g.closeOnDateSelection,p=angular.isDefined(j.datepickerAppendToBody)?h.$parent.$eval(j.datepickerAppendToBody):g.appendToBody;h.showButtonBar=angular.isDefined(j.showButtonBar)?h.$parent.$eval(j.showButtonBar):g.showButtonBar,h.getText=function(a){return h[a+"Text"]||g[a+"Text"]},j.$observe("datepickerPopup",function(a){n=a||g.datepickerPopup,k.$render()});var q=angular.element("<div datepicker-popup-wrap><div datepicker></div></div>");q.attr({"ng-model":"date","ng-change":"dateSelection()"});var r=angular.element(q.children()[0]);j.datepickerOptions&&angular.forEach(h.$parent.$eval(j.datepickerOptions),function(a,b){r.attr(l(b),a)}),h.watchData={},angular.forEach(["minDate","maxDate","datepickerMode"],function(a){if(j[a]){var c=b(j[a]);if(h.$parent.$watch(c,function(b){h.watchData[a]=b}),r.attr(l(a),"watchData."+a),"datepickerMode"===a){var d=c.assign;h.$watch("watchData."+a,function(a,b){a!==b&&d(h.$parent,a)})}}}),j.dateDisabled&&r.attr("date-disabled","dateDisabled({ date: date, mode: mode })"),k.$parsers.unshift(m),h.dateSelection=function(a){angular.isDefined(a)&&(h.date=a),k.$setViewValue(h.date),k.$render(),o&&(h.isOpen=!1,i[0].focus())},i.bind("input change keyup",function(){h.$apply(function(){h.date=k.$modelValue})}),k.$render=function(){var a=k.$viewValue?e(k.$viewValue,n):"";i.val(a),h.date=m(k.$modelValue)};var s=function(a){h.isOpen&&a.target!==i[0]&&h.$apply(function(){h.isOpen=!1})},t=function(a){h.keydown(a)};i.bind("keydown",t),h.keydown=function(a){27===a.which?(a.preventDefault(),a.stopPropagation(),h.close()):40!==a.which||h.isOpen||(h.isOpen=!0)},h.$watch("isOpen",function(a){a?(h.$broadcast("datepicker.focus"),h.position=p?d.offset(i):d.position(i),h.position.top=h.position.top+i.prop("offsetHeight"),c.bind("click",s)):c.unbind("click",s)}),h.select=function(a){if("today"===a){var b=new Date;angular.isDate(k.$modelValue)?(a=new Date(k.$modelValue),a.setFullYear(b.getFullYear(),b.getMonth(),b.getDate())):a=new Date(b.setHours(0,0,0,0))}h.dateSelection(a)},h.close=function(){h.isOpen=!1,i[0].focus()};var u=a(q)(h);q.remove(),p?c.find("body").append(u):i.after(u),h.$on("$destroy",function(){u.remove(),i.unbind("keydown",t),c.unbind("click",s)})}}}]).directive("datepickerPopupWrap",function(){return{restrict:"EA",replace:!0,transclude:!0,templateUrl:"template/datepicker/popup.html",link:function(a,b){b.bind("click",function(a){a.preventDefault(),a.stopPropagation()})}}}),angular.module("ui.bootstrap.dropdown",[]).constant("dropdownConfig",{openClass:"open"}).service("dropdownService",["$document",function(a){var b=null;this.open=function(e){b||(a.bind("click",c),a.bind("keydown",d)),b&&b!==e&&(b.isOpen=!1),b=e},this.close=function(e){b===e&&(b=null,a.unbind("click",c),a.unbind("keydown",d))};var c=function(a){if(b){var c=b.getToggleElement();a&&c&&c[0].contains(a.target)||b.$apply(function(){b.isOpen=!1})}},d=function(a){27===a.which&&(b.focusToggleElement(),c())}}]).controller("DropdownController",["$scope","$attrs","$parse","dropdownConfig","dropdownService","$animate",function(a,b,c,d,e,f){var g,h=this,i=a.$new(),j=d.openClass,k=angular.noop,l=b.onToggle?c(b.onToggle):angular.noop;this.init=function(d){h.$element=d,b.isOpen&&(g=c(b.isOpen),k=g.assign,a.$watch(g,function(a){i.isOpen=!!a}))},this.toggle=function(a){return i.isOpen=arguments.length?!!a:!i.isOpen},this.isOpen=function(){return i.isOpen},i.getToggleElement=function(){return h.toggleElement},i.focusToggleElement=function(){h.toggleElement&&h.toggleElement[0].focus()},i.$watch("isOpen",function(b,c){f[b?"addClass":"removeClass"](h.$element,j),b?(i.focusToggleElement(),e.open(i)):e.close(i),k(a,b),angular.isDefined(b)&&b!==c&&l(a,{open:!!b})}),a.$on("$locationChangeSuccess",function(){i.isOpen=!1}),a.$on("$destroy",function(){i.$destroy()})}]).directive("dropdown",function(){return{controller:"DropdownController",link:function(a,b,c,d){d.init(b)}}}).directive("dropdownToggle",function(){return{require:"?^dropdown",link:function(a,b,c,d){if(d){d.toggleElement=b;var e=function(e){e.preventDefault(),b.hasClass("disabled")||c.disabled||a.$apply(function(){d.toggle()})};b.bind("click",e),b.attr({"aria-haspopup":!0,"aria-expanded":!1}),a.$watch(d.isOpen,function(a){b.attr("aria-expanded",!!a)}),a.$on("$destroy",function(){b.unbind("click",e)})}}}}),angular.module("ui.bootstrap.modal",["ui.bootstrap.transition"]).factory("$$stackedMap",function(){return{createNew:function(){var a=[];return{add:function(b,c){a.push({key:b,value:c})},get:function(b){for(var c=0;c<a.length;c++)if(b==a[c].key)return a[c]},keys:function(){for(var b=[],c=0;c<a.length;c++)b.push(a[c].key);return b},top:function(){return a[a.length-1]},remove:function(b){for(var c=-1,d=0;d<a.length;d++)if(b==a[d].key){c=d;break}return a.splice(c,1)[0]},removeTop:function(){return a.splice(a.length-1,1)[0]},length:function(){return a.length}}}}}).directive("modalBackdrop",["$timeout",function(a){return{restrict:"EA",replace:!0,templateUrl:"template/modal/backdrop.html",link:function(b,c,d){b.backdropClass=d.backdropClass||"",b.animate=!1,a(function(){b.animate=!0})}}}]).directive("modalWindow",["$modalStack","$timeout",function(a,b){return{restrict:"EA",scope:{index:"@",animate:"="},replace:!0,transclude:!0,templateUrl:function(a,b){return b.templateUrl||"template/modal/window.html"},link:function(c,d,e){d.addClass(e.windowClass||""),c.size=e.size,d.on("click",function(a){c.close(a)}),b(function(){c.animate=!0,d[0].querySelectorAll("[autofocus]").length||d[0].focus()}),c.close=function(b){var c=a.getTop();c&&c.value.backdrop&&"static"!=c.value.backdrop&&b.target===b.currentTarget&&(b.preventDefault(),b.stopPropagation(),a.dismiss(c.key,"backdrop click"))}}}}]).directive("modalTransclude",function(){return{link:function(a,b,c,d,e){e(a.$parent,function(a){b.empty(),b.append(a)})}}}).factory("$modalStack",["$transition","$timeout","$document","$compile","$rootScope","$$stackedMap",function(a,b,c,d,e,f){function g(){for(var a=-1,b=n.keys(),c=0;c<b.length;c++)n.get(b[c]).value.backdrop&&(a=c);return a}function h(a){var b=c.find("body").eq(0),d=n.get(a).value;n.remove(a),j(d.modalDomEl,d.modalScope,300,function(){d.modalScope.$destroy(),b.toggleClass(m,n.length()>0),i()})}function i(){if(k&&-1==g()){var a=l;j(k,l,150,function(){a.$destroy(),a=null}),k=void 0,l=void 0}}function j(c,d,e,f){function g(){g.done||(g.done=!0,c.remove(),f&&f())}d.animate=!1;var h=a.transitionEndEventName;if(h){var i=b(g,e);c.bind(h,function(){b.cancel(i),g(),d.$apply()})}else b(g)}var k,l,m="modal-open",n=f.createNew(),o={};return e.$watch(g,function(a){l&&(l.index=a)}),c.bind("keydown",function(a){var b;27===a.which&&(b=n.top(),b&&b.value.keyboard&&(a.preventDefault(),e.$apply(function(){o.dismiss(b.key,"escape key press")})))}),o.open=function(a,b){n.add(a,{deferred:b.deferred,modalScope:b.scope,backdrop:b.backdrop,keyboard:b.keyboard});var f=c.find("body").eq(0),h=g();if(h>=0&&!k){l=e.$new(!0),l.index=h;var i=angular.element("<div modal-backdrop></div>");i.attr("backdrop-class",b.backdropClass),k=d(i)(l),f.append(k)}var j=angular.element("<div modal-window></div>");j.attr({"template-url":b.windowTemplateUrl,"window-class":b.windowClass,size:b.size,index:n.length()-1,animate:"animate"}).html(b.content);var o=d(j)(b.scope);n.top().value.modalDomEl=o,f.append(o),f.addClass(m)},o.close=function(a,b){var c=n.get(a);c&&(c.value.deferred.resolve(b),h(a))},o.dismiss=function(a,b){var c=n.get(a);c&&(c.value.deferred.reject(b),h(a))},o.dismissAll=function(a){for(var b=this.getTop();b;)this.dismiss(b.key,a),b=this.getTop()},o.getTop=function(){return n.top()},o}]).provider("$modal",function(){var a={options:{backdrop:!0,keyboard:!0},$get:["$injector","$rootScope","$q","$http","$templateCache","$controller","$modalStack",function(b,c,d,e,f,g,h){function i(a){return a.template?d.when(a.template):e.get(angular.isFunction(a.templateUrl)?a.templateUrl():a.templateUrl,{cache:f}).then(function(a){return a.data})}function j(a){var c=[];return angular.forEach(a,function(a){(angular.isFunction(a)||angular.isArray(a))&&c.push(d.when(b.invoke(a)))}),c}var k={};return k.open=function(b){var e=d.defer(),f=d.defer(),k={result:e.promise,opened:f.promise,close:function(a){h.close(k,a)},dismiss:function(a){h.dismiss(k,a)}};if(b=angular.extend({},a.options,b),b.resolve=b.resolve||{},!b.template&&!b.templateUrl)throw new Error("One of template or templateUrl options is required.");var l=d.all([i(b)].concat(j(b.resolve)));return l.then(function(a){var d=(b.scope||c).$new();d.$close=k.close,d.$dismiss=k.dismiss;var f,i={},j=1;b.controller&&(i.$scope=d,i.$modalInstance=k,angular.forEach(b.resolve,function(b,c){i[c]=a[j++]}),f=g(b.controller,i),b.controllerAs&&(d[b.controllerAs]=f)),h.open(k,{scope:d,deferred:e,content:a[0],backdrop:b.backdrop,keyboard:b.keyboard,backdropClass:b.backdropClass,windowClass:b.windowClass,windowTemplateUrl:b.windowTemplateUrl,size:b.size})},function(a){e.reject(a)}),l.then(function(){f.resolve(!0)},function(){f.reject(!1)}),k},k}]};return a}),angular.module("ui.bootstrap.pagination",[]).controller("PaginationController",["$scope","$attrs","$parse",function(a,b,c){var d=this,e={$setViewValue:angular.noop},f=b.numPages?c(b.numPages).assign:angular.noop;this.init=function(f,g){e=f,this.config=g,e.$render=function(){d.render()},b.itemsPerPage?a.$parent.$watch(c(b.itemsPerPage),function(b){d.itemsPerPage=parseInt(b,10),a.totalPages=d.calculateTotalPages()}):this.itemsPerPage=g.itemsPerPage},this.calculateTotalPages=function(){var b=this.itemsPerPage<1?1:Math.ceil(a.totalItems/this.itemsPerPage);return Math.max(b||0,1)},this.render=function(){a.page=parseInt(e.$viewValue,10)||1},a.selectPage=function(b){a.page!==b&&b>0&&b<=a.totalPages&&(e.$setViewValue(b),e.$render())},a.getText=function(b){return a[b+"Text"]||d.config[b+"Text"]},a.noPrevious=function(){return 1===a.page},a.noNext=function(){return a.page===a.totalPages},a.$watch("totalItems",function(){a.totalPages=d.calculateTotalPages()}),a.$watch("totalPages",function(b){f(a.$parent,b),a.page>b?a.selectPage(b):e.$render()})}]).constant("paginationConfig",{itemsPerPage:10,boundaryLinks:!1,directionLinks:!0,firstText:"First",previousText:"Previous",nextText:"Next",lastText:"Last",rotate:!0}).directive("pagination",["$parse","paginationConfig",function(a,b){return{restrict:"EA",scope:{totalItems:"=",firstText:"@",previousText:"@",nextText:"@",lastText:"@"},require:["pagination","?ngModel"],controller:"PaginationController",templateUrl:"template/pagination/pagination.html",replace:!0,link:function(c,d,e,f){function g(a,b,c){return{number:a,text:b,active:c}}function h(a,b){var c=[],d=1,e=b,f=angular.isDefined(k)&&b>k;f&&(l?(d=Math.max(a-Math.floor(k/2),1),e=d+k-1,e>b&&(e=b,d=e-k+1)):(d=(Math.ceil(a/k)-1)*k+1,e=Math.min(d+k-1,b)));for(var h=d;e>=h;h++){var i=g(h,h,h===a);c.push(i)}if(f&&!l){if(d>1){var j=g(d-1,"...",!1);c.unshift(j)}if(b>e){var m=g(e+1,"...",!1);c.push(m)}}return c}var i=f[0],j=f[1];if(j){var k=angular.isDefined(e.maxSize)?c.$parent.$eval(e.maxSize):b.maxSize,l=angular.isDefined(e.rotate)?c.$parent.$eval(e.rotate):b.rotate;c.boundaryLinks=angular.isDefined(e.boundaryLinks)?c.$parent.$eval(e.boundaryLinks):b.boundaryLinks,c.directionLinks=angular.isDefined(e.directionLinks)?c.$parent.$eval(e.directionLinks):b.directionLinks,i.init(j,b),e.maxSize&&c.$parent.$watch(a(e.maxSize),function(a){k=parseInt(a,10),i.render()
-	});var m=i.render;i.render=function(){m(),c.page>0&&c.page<=c.totalPages&&(c.pages=h(c.page,c.totalPages))}}}}}]).constant("pagerConfig",{itemsPerPage:10,previousText:"« Previous",nextText:"Next »",align:!0}).directive("pager",["pagerConfig",function(a){return{restrict:"EA",scope:{totalItems:"=",previousText:"@",nextText:"@"},require:["pager","?ngModel"],controller:"PaginationController",templateUrl:"template/pagination/pager.html",replace:!0,link:function(b,c,d,e){var f=e[0],g=e[1];g&&(b.align=angular.isDefined(d.align)?b.$parent.$eval(d.align):a.align,f.init(g,a))}}}]),angular.module("ui.bootstrap.tooltip",["ui.bootstrap.position","ui.bootstrap.bindHtml"]).provider("$tooltip",function(){function a(a){var b=/[A-Z]/g,c="-";return a.replace(b,function(a,b){return(b?c:"")+a.toLowerCase()})}var b={placement:"top",animation:!0,popupDelay:0},c={mouseenter:"mouseleave",click:"click",focus:"blur"},d={};this.options=function(a){angular.extend(d,a)},this.setTriggers=function(a){angular.extend(c,a)},this.$get=["$window","$compile","$timeout","$document","$position","$interpolate",function(e,f,g,h,i,j){return function(e,k,l){function m(a){var b=a||n.trigger||l,d=c[b]||b;return{show:b,hide:d}}var n=angular.extend({},b,d),o=a(e),p=j.startSymbol(),q=j.endSymbol(),r="<div "+o+'-popup title="'+p+"title"+q+'" content="'+p+"content"+q+'" placement="'+p+"placement"+q+'" animation="animation" is-open="isOpen"></div>';return{restrict:"EA",compile:function(){var a=f(r);return function(b,c,d){function f(){D.isOpen?l():j()}function j(){(!C||b.$eval(d[k+"Enable"]))&&(s(),D.popupDelay?z||(z=g(o,D.popupDelay,!1),z.then(function(a){a()})):o()())}function l(){b.$apply(function(){p()})}function o(){return z=null,y&&(g.cancel(y),y=null),D.content?(q(),w.css({top:0,left:0,display:"block"}),A?h.find("body").append(w):c.after(w),E(),D.isOpen=!0,D.$digest(),E):angular.noop}function p(){D.isOpen=!1,g.cancel(z),z=null,D.animation?y||(y=g(r,500)):r()}function q(){w&&r(),x=D.$new(),w=a(x,angular.noop)}function r(){y=null,w&&(w.remove(),w=null),x&&(x.$destroy(),x=null)}function s(){t(),u()}function t(){var a=d[k+"Placement"];D.placement=angular.isDefined(a)?a:n.placement}function u(){var a=d[k+"PopupDelay"],b=parseInt(a,10);D.popupDelay=isNaN(b)?n.popupDelay:b}function v(){var a=d[k+"Trigger"];F(),B=m(a),B.show===B.hide?c.bind(B.show,f):(c.bind(B.show,j),c.bind(B.hide,l))}var w,x,y,z,A=angular.isDefined(n.appendToBody)?n.appendToBody:!1,B=m(void 0),C=angular.isDefined(d[k+"Enable"]),D=b.$new(!0),E=function(){var a=i.positionElements(c,w,D.placement,A);a.top+="px",a.left+="px",w.css(a)};D.isOpen=!1,d.$observe(e,function(a){D.content=a,!a&&D.isOpen&&p()}),d.$observe("disabled",function(a){a&&D.isOpen&&p()}),d.$observe(k+"Title",function(a){D.title=a});var F=function(){c.unbind(B.show,j),c.unbind(B.hide,l)};v();var G=b.$eval(d[k+"Animation"]);D.animation=angular.isDefined(G)?!!G:n.animation;var H=b.$eval(d[k+"AppendToBody"]);A=angular.isDefined(H)?H:A,A&&b.$on("$locationChangeSuccess",function(){D.isOpen&&p()}),b.$on("$destroy",function(){g.cancel(y),g.cancel(z),F(),r(),D=null})}}}}}]}).directive("tooltipPopup",function(){return{restrict:"EA",replace:!0,scope:{content:"@",placement:"@",animation:"&",isOpen:"&"},templateUrl:"template/tooltip/tooltip-popup.html"}}).directive("tooltip",["$tooltip",function(a){return a("tooltip","tooltip","mouseenter")}]).directive("tooltipHtmlUnsafePopup",function(){return{restrict:"EA",replace:!0,scope:{content:"@",placement:"@",animation:"&",isOpen:"&"},templateUrl:"template/tooltip/tooltip-html-unsafe-popup.html"}}).directive("tooltipHtmlUnsafe",["$tooltip",function(a){return a("tooltipHtmlUnsafe","tooltip","mouseenter")}]),angular.module("ui.bootstrap.popover",["ui.bootstrap.tooltip"]).directive("popoverPopup",function(){return{restrict:"EA",replace:!0,scope:{title:"@",content:"@",placement:"@",animation:"&",isOpen:"&"},templateUrl:"template/popover/popover.html"}}).directive("popover",["$tooltip",function(a){return a("popover","popover","click")}]),angular.module("ui.bootstrap.progressbar",[]).constant("progressConfig",{animate:!0,max:100}).controller("ProgressController",["$scope","$attrs","progressConfig",function(a,b,c){var d=this,e=angular.isDefined(b.animate)?a.$parent.$eval(b.animate):c.animate;this.bars=[],a.max=angular.isDefined(b.max)?a.$parent.$eval(b.max):c.max,this.addBar=function(b,c){e||c.css({transition:"none"}),this.bars.push(b),b.$watch("value",function(c){b.percent=+(100*c/a.max).toFixed(2)}),b.$on("$destroy",function(){c=null,d.removeBar(b)})},this.removeBar=function(a){this.bars.splice(this.bars.indexOf(a),1)}}]).directive("progress",function(){return{restrict:"EA",replace:!0,transclude:!0,controller:"ProgressController",require:"progress",scope:{},templateUrl:"template/progressbar/progress.html"}}).directive("bar",function(){return{restrict:"EA",replace:!0,transclude:!0,require:"^progress",scope:{value:"=",type:"@"},templateUrl:"template/progressbar/bar.html",link:function(a,b,c,d){d.addBar(a,b)}}}).directive("progressbar",function(){return{restrict:"EA",replace:!0,transclude:!0,controller:"ProgressController",scope:{value:"=",type:"@"},templateUrl:"template/progressbar/progressbar.html",link:function(a,b,c,d){d.addBar(a,angular.element(b.children()[0]))}}}),angular.module("ui.bootstrap.rating",[]).constant("ratingConfig",{max:5,stateOn:null,stateOff:null}).controller("RatingController",["$scope","$attrs","ratingConfig",function(a,b,c){var d={$setViewValue:angular.noop};this.init=function(e){d=e,d.$render=this.render,this.stateOn=angular.isDefined(b.stateOn)?a.$parent.$eval(b.stateOn):c.stateOn,this.stateOff=angular.isDefined(b.stateOff)?a.$parent.$eval(b.stateOff):c.stateOff;var f=angular.isDefined(b.ratingStates)?a.$parent.$eval(b.ratingStates):new Array(angular.isDefined(b.max)?a.$parent.$eval(b.max):c.max);a.range=this.buildTemplateObjects(f)},this.buildTemplateObjects=function(a){for(var b=0,c=a.length;c>b;b++)a[b]=angular.extend({index:b},{stateOn:this.stateOn,stateOff:this.stateOff},a[b]);return a},a.rate=function(b){!a.readonly&&b>=0&&b<=a.range.length&&(d.$setViewValue(b),d.$render())},a.enter=function(b){a.readonly||(a.value=b),a.onHover({value:b})},a.reset=function(){a.value=d.$viewValue,a.onLeave()},a.onKeydown=function(b){/(37|38|39|40)/.test(b.which)&&(b.preventDefault(),b.stopPropagation(),a.rate(a.value+(38===b.which||39===b.which?1:-1)))},this.render=function(){a.value=d.$viewValue}}]).directive("rating",function(){return{restrict:"EA",require:["rating","ngModel"],scope:{readonly:"=?",onHover:"&",onLeave:"&"},controller:"RatingController",templateUrl:"template/rating/rating.html",replace:!0,link:function(a,b,c,d){var e=d[0],f=d[1];f&&e.init(f)}}}),angular.module("ui.bootstrap.tabs",[]).controller("TabsetController",["$scope",function(a){var b=this,c=b.tabs=a.tabs=[];b.select=function(a){angular.forEach(c,function(b){b.active&&b!==a&&(b.active=!1,b.onDeselect())}),a.active=!0,a.onSelect()},b.addTab=function(a){c.push(a),1===c.length?a.active=!0:a.active&&b.select(a)},b.removeTab=function(a){var e=c.indexOf(a);if(a.active&&c.length>1&&!d){var f=e==c.length-1?e-1:e+1;b.select(c[f])}c.splice(e,1)};var d;a.$on("$destroy",function(){d=!0})}]).directive("tabset",function(){return{restrict:"EA",transclude:!0,replace:!0,scope:{type:"@"},controller:"TabsetController",templateUrl:"template/tabs/tabset.html",link:function(a,b,c){a.vertical=angular.isDefined(c.vertical)?a.$parent.$eval(c.vertical):!1,a.justified=angular.isDefined(c.justified)?a.$parent.$eval(c.justified):!1}}}).directive("tab",["$parse",function(a){return{require:"^tabset",restrict:"EA",replace:!0,templateUrl:"template/tabs/tab.html",transclude:!0,scope:{active:"=?",heading:"@",onSelect:"&select",onDeselect:"&deselect"},controller:function(){},compile:function(b,c,d){return function(b,c,e,f){b.$watch("active",function(a){a&&f.select(b)}),b.disabled=!1,e.disabled&&b.$parent.$watch(a(e.disabled),function(a){b.disabled=!!a}),b.select=function(){b.disabled||(b.active=!0)},f.addTab(b),b.$on("$destroy",function(){f.removeTab(b)}),b.$transcludeFn=d}}}}]).directive("tabHeadingTransclude",[function(){return{restrict:"A",require:"^tab",link:function(a,b){a.$watch("headingElement",function(a){a&&(b.html(""),b.append(a))})}}}]).directive("tabContentTransclude",function(){function a(a){return a.tagName&&(a.hasAttribute("tab-heading")||a.hasAttribute("data-tab-heading")||"tab-heading"===a.tagName.toLowerCase()||"data-tab-heading"===a.tagName.toLowerCase())}return{restrict:"A",require:"^tabset",link:function(b,c,d){var e=b.$eval(d.tabContentTransclude);e.$transcludeFn(e.$parent,function(b){angular.forEach(b,function(b){a(b)?e.headingElement=b:c.append(b)})})}}}),angular.module("ui.bootstrap.timepicker",[]).constant("timepickerConfig",{hourStep:1,minuteStep:1,showMeridian:!0,meridians:null,readonlyInput:!1,mousewheel:!0}).controller("TimepickerController",["$scope","$attrs","$parse","$log","$locale","timepickerConfig",function(a,b,c,d,e,f){function g(){var b=parseInt(a.hours,10),c=a.showMeridian?b>0&&13>b:b>=0&&24>b;return c?(a.showMeridian&&(12===b&&(b=0),a.meridian===p[1]&&(b+=12)),b):void 0}function h(){var b=parseInt(a.minutes,10);return b>=0&&60>b?b:void 0}function i(a){return angular.isDefined(a)&&a.toString().length<2?"0"+a:a}function j(a){k(),o.$setViewValue(new Date(n)),l(a)}function k(){o.$setValidity("time",!0),a.invalidHours=!1,a.invalidMinutes=!1}function l(b){var c=n.getHours(),d=n.getMinutes();a.showMeridian&&(c=0===c||12===c?12:c%12),a.hours="h"===b?c:i(c),a.minutes="m"===b?d:i(d),a.meridian=n.getHours()<12?p[0]:p[1]}function m(a){var b=new Date(n.getTime()+6e4*a);n.setHours(b.getHours(),b.getMinutes()),j()}var n=new Date,o={$setViewValue:angular.noop},p=angular.isDefined(b.meridians)?a.$parent.$eval(b.meridians):f.meridians||e.DATETIME_FORMATS.AMPMS;this.init=function(c,d){o=c,o.$render=this.render;var e=d.eq(0),g=d.eq(1),h=angular.isDefined(b.mousewheel)?a.$parent.$eval(b.mousewheel):f.mousewheel;h&&this.setupMousewheelEvents(e,g),a.readonlyInput=angular.isDefined(b.readonlyInput)?a.$parent.$eval(b.readonlyInput):f.readonlyInput,this.setupInputEvents(e,g)};var q=f.hourStep;b.hourStep&&a.$parent.$watch(c(b.hourStep),function(a){q=parseInt(a,10)});var r=f.minuteStep;b.minuteStep&&a.$parent.$watch(c(b.minuteStep),function(a){r=parseInt(a,10)}),a.showMeridian=f.showMeridian,b.showMeridian&&a.$parent.$watch(c(b.showMeridian),function(b){if(a.showMeridian=!!b,o.$error.time){var c=g(),d=h();angular.isDefined(c)&&angular.isDefined(d)&&(n.setHours(c),j())}else l()}),this.setupMousewheelEvents=function(b,c){var d=function(a){a.originalEvent&&(a=a.originalEvent);var b=a.wheelDelta?a.wheelDelta:-a.deltaY;return a.detail||b>0};b.bind("mousewheel wheel",function(b){a.$apply(d(b)?a.incrementHours():a.decrementHours()),b.preventDefault()}),c.bind("mousewheel wheel",function(b){a.$apply(d(b)?a.incrementMinutes():a.decrementMinutes()),b.preventDefault()})},this.setupInputEvents=function(b,c){if(a.readonlyInput)return a.updateHours=angular.noop,void(a.updateMinutes=angular.noop);var d=function(b,c){o.$setViewValue(null),o.$setValidity("time",!1),angular.isDefined(b)&&(a.invalidHours=b),angular.isDefined(c)&&(a.invalidMinutes=c)};a.updateHours=function(){var a=g();angular.isDefined(a)?(n.setHours(a),j("h")):d(!0)},b.bind("blur",function(){!a.invalidHours&&a.hours<10&&a.$apply(function(){a.hours=i(a.hours)})}),a.updateMinutes=function(){var a=h();angular.isDefined(a)?(n.setMinutes(a),j("m")):d(void 0,!0)},c.bind("blur",function(){!a.invalidMinutes&&a.minutes<10&&a.$apply(function(){a.minutes=i(a.minutes)})})},this.render=function(){var a=o.$modelValue?new Date(o.$modelValue):null;isNaN(a)?(o.$setValidity("time",!1),d.error('Timepicker directive: "ng-model" value must be a Date object, a number of milliseconds since 01.01.1970 or a string representing an RFC2822 or ISO 8601 date.')):(a&&(n=a),k(),l())},a.incrementHours=function(){m(60*q)},a.decrementHours=function(){m(60*-q)},a.incrementMinutes=function(){m(r)},a.decrementMinutes=function(){m(-r)},a.toggleMeridian=function(){m(720*(n.getHours()<12?1:-1))}}]).directive("timepicker",function(){return{restrict:"EA",require:["timepicker","?^ngModel"],controller:"TimepickerController",replace:!0,scope:{},templateUrl:"template/timepicker/timepicker.html",link:function(a,b,c,d){var e=d[0],f=d[1];f&&e.init(f,b.find("input"))}}}),angular.module("ui.bootstrap.typeahead",["ui.bootstrap.position","ui.bootstrap.bindHtml"]).factory("typeaheadParser",["$parse",function(a){var b=/^\s*([\s\S]+?)(?:\s+as\s+([\s\S]+?))?\s+for\s+(?:([\$\w][\$\w\d]*))\s+in\s+([\s\S]+?)$/;return{parse:function(c){var d=c.match(b);if(!d)throw new Error('Expected typeahead specification in form of "_modelValue_ (as _label_)? for _item_ in _collection_" but got "'+c+'".');return{itemName:d[3],source:a(d[4]),viewMapper:a(d[2]||d[1]),modelMapper:a(d[1])}}}}]).directive("typeahead",["$compile","$parse","$q","$timeout","$document","$position","typeaheadParser",function(a,b,c,d,e,f,g){var h=[9,13,27,38,40];return{require:"ngModel",link:function(i,j,k,l){var m,n=i.$eval(k.typeaheadMinLength)||1,o=i.$eval(k.typeaheadWaitMs)||0,p=i.$eval(k.typeaheadEditable)!==!1,q=b(k.typeaheadLoading).assign||angular.noop,r=b(k.typeaheadOnSelect),s=k.typeaheadInputFormatter?b(k.typeaheadInputFormatter):void 0,t=k.typeaheadAppendToBody?i.$eval(k.typeaheadAppendToBody):!1,u=i.$eval(k.typeaheadFocusFirst)!==!1,v=b(k.ngModel).assign,w=g.parse(k.typeahead),x=i.$new();i.$on("$destroy",function(){x.$destroy()});var y="typeahead-"+x.$id+"-"+Math.floor(1e4*Math.random());j.attr({"aria-autocomplete":"list","aria-expanded":!1,"aria-owns":y});var z=angular.element("<div typeahead-popup></div>");z.attr({id:y,matches:"matches",active:"activeIdx",select:"select(activeIdx)",query:"query",position:"position"}),angular.isDefined(k.typeaheadTemplateUrl)&&z.attr("template-url",k.typeaheadTemplateUrl);var A=function(){x.matches=[],x.activeIdx=-1,j.attr("aria-expanded",!1)},B=function(a){return y+"-option-"+a};x.$watch("activeIdx",function(a){0>a?j.removeAttr("aria-activedescendant"):j.attr("aria-activedescendant",B(a))});var C=function(a){var b={$viewValue:a};q(i,!0),c.when(w.source(i,b)).then(function(c){var d=a===l.$viewValue;if(d&&m)if(c.length>0){x.activeIdx=u?0:-1,x.matches.length=0;for(var e=0;e<c.length;e++)b[w.itemName]=c[e],x.matches.push({id:B(e),label:w.viewMapper(x,b),model:c[e]});x.query=a,x.position=t?f.offset(j):f.position(j),x.position.top=x.position.top+j.prop("offsetHeight"),j.attr("aria-expanded",!0)}else A();d&&q(i,!1)},function(){A(),q(i,!1)})};A(),x.query=void 0;var D,E=function(a){D=d(function(){C(a)},o)},F=function(){D&&d.cancel(D)};l.$parsers.unshift(function(a){return m=!0,a&&a.length>=n?o>0?(F(),E(a)):C(a):(q(i,!1),F(),A()),p?a:a?void l.$setValidity("editable",!1):(l.$setValidity("editable",!0),a)}),l.$formatters.push(function(a){var b,c,d={};return s?(d.$model=a,s(i,d)):(d[w.itemName]=a,b=w.viewMapper(i,d),d[w.itemName]=void 0,c=w.viewMapper(i,d),b!==c?b:a)}),x.select=function(a){var b,c,e={};e[w.itemName]=c=x.matches[a].model,b=w.modelMapper(i,e),v(i,b),l.$setValidity("editable",!0),r(i,{$item:c,$model:b,$label:w.viewMapper(i,e)}),A(),d(function(){j[0].focus()},0,!1)},j.bind("keydown",function(a){0!==x.matches.length&&-1!==h.indexOf(a.which)&&(-1!=x.activeIdx||13!==a.which&&9!==a.which)&&(a.preventDefault(),40===a.which?(x.activeIdx=(x.activeIdx+1)%x.matches.length,x.$digest()):38===a.which?(x.activeIdx=(x.activeIdx>0?x.activeIdx:x.matches.length)-1,x.$digest()):13===a.which||9===a.which?x.$apply(function(){x.select(x.activeIdx)}):27===a.which&&(a.stopPropagation(),A(),x.$digest()))}),j.bind("blur",function(){m=!1});var G=function(a){j[0]!==a.target&&(A(),x.$digest())};e.bind("click",G),i.$on("$destroy",function(){e.unbind("click",G),t&&H.remove()});var H=a(z)(x);t?e.find("body").append(H):j.after(H)}}}]).directive("typeaheadPopup",function(){return{restrict:"EA",scope:{matches:"=",query:"=",active:"=",position:"=",select:"&"},replace:!0,templateUrl:"template/typeahead/typeahead-popup.html",link:function(a,b,c){a.templateUrl=c.templateUrl,a.isOpen=function(){return a.matches.length>0},a.isActive=function(b){return a.active==b},a.selectActive=function(b){a.active=b},a.selectMatch=function(b){a.select({activeIdx:b})}}}}).directive("typeaheadMatch",["$http","$templateCache","$compile","$parse",function(a,b,c,d){return{restrict:"EA",scope:{index:"=",match:"=",query:"="},link:function(e,f,g){var h=d(g.templateUrl)(e.$parent)||"template/typeahead/typeahead-match.html";a.get(h,{cache:b}).success(function(a){f.replaceWith(c(a.trim())(e))})}}}]).filter("typeaheadHighlight",function(){function a(a){return a.replace(/([.?*+^$[\]\\(){}|-])/g,"\\$1")}return function(b,c){return c?(""+b).replace(new RegExp(a(c),"gi"),"<strong>$&</strong>"):b}}),angular.module("template/accordion/accordion-group.html",[]).run(["$templateCache",function(a){a.put("template/accordion/accordion-group.html",'<div class="panel panel-default">\n  <div class="panel-heading">\n    <h4 class="panel-title">\n      <a href class="accordion-toggle" ng-click="toggleOpen()" accordion-transclude="heading"><span ng-class="{\'text-muted\': isDisabled}">{{heading}}</span></a>\n    </h4>\n  </div>\n  <div class="panel-collapse" collapse="!isOpen">\n	  <div class="panel-body" ng-transclude></div>\n  </div>\n</div>\n')}]),angular.module("template/accordion/accordion.html",[]).run(["$templateCache",function(a){a.put("template/accordion/accordion.html",'<div class="panel-group" ng-transclude></div>')}]),angular.module("template/alert/alert.html",[]).run(["$templateCache",function(a){a.put("template/alert/alert.html",'<div class="alert" ng-class="[\'alert-\' + (type || \'warning\'), closeable ? \'alert-dismissable\' : null]" role="alert">\n    <button ng-show="closeable" type="button" class="close" ng-click="close()">\n        <span aria-hidden="true">&times;</span>\n        <span class="sr-only">Close</span>\n    </button>\n    <div ng-transclude></div>\n</div>\n')}]),angular.module("template/carousel/carousel.html",[]).run(["$templateCache",function(a){a.put("template/carousel/carousel.html",'<div ng-mouseenter="pause()" ng-mouseleave="play()" class="carousel" ng-swipe-right="prev()" ng-swipe-left="next()">\n    <ol class="carousel-indicators" ng-show="slides.length > 1">\n        <li ng-repeat="slide in slides track by $index" ng-class="{active: isActive(slide)}" ng-click="select(slide)"></li>\n    </ol>\n    <div class="carousel-inner" ng-transclude></div>\n    <a class="left carousel-control" ng-click="prev()" ng-show="slides.length > 1"><span class="glyphicon glyphicon-chevron-left"></span></a>\n    <a class="right carousel-control" ng-click="next()" ng-show="slides.length > 1"><span class="glyphicon glyphicon-chevron-right"></span></a>\n</div>\n')}]),angular.module("template/carousel/slide.html",[]).run(["$templateCache",function(a){a.put("template/carousel/slide.html","<div ng-class=\"{\n    'active': leaving || (active && !entering),\n    'prev': (next || active) && direction=='prev',\n    'next': (next || active) && direction=='next',\n    'right': direction=='prev',\n    'left': direction=='next'\n  }\" class=\"item text-center\" ng-transclude></div>\n")}]),angular.module("template/datepicker/datepicker.html",[]).run(["$templateCache",function(a){a.put("template/datepicker/datepicker.html",'<div ng-switch="datepickerMode" role="application" ng-keydown="keydown($event)">\n  <daypicker ng-switch-when="day" tabindex="0"></daypicker>\n  <monthpicker ng-switch-when="month" tabindex="0"></monthpicker>\n  <yearpicker ng-switch-when="year" tabindex="0"></yearpicker>\n</div>')}]),angular.module("template/datepicker/day.html",[]).run(["$templateCache",function(a){a.put("template/datepicker/day.html",'<table role="grid" aria-labelledby="{{uniqueId}}-title" aria-activedescendant="{{activeDateId}}">\n  <thead>\n    <tr>\n      <th><button type="button" class="btn btn-default btn-sm pull-left" ng-click="move(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button></th>\n      <th colspan="{{5 + showWeeks}}"><button id="{{uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm" ng-click="toggleMode()" tabindex="-1" style="width:100%;"><strong>{{title}}</strong></button></th>\n      <th><button type="button" class="btn btn-default btn-sm pull-right" ng-click="move(1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button></th>\n    </tr>\n    <tr>\n      <th ng-show="showWeeks" class="text-center"></th>\n      <th ng-repeat="label in labels track by $index" class="text-center"><small aria-label="{{label.full}}">{{label.abbr}}</small></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr ng-repeat="row in rows track by $index">\n      <td ng-show="showWeeks" class="text-center h6"><em>{{ weekNumbers[$index] }}</em></td>\n      <td ng-repeat="dt in row track by dt.date" class="text-center" role="gridcell" id="{{dt.uid}}" aria-disabled="{{!!dt.disabled}}">\n        <button type="button" style="width:100%;" class="btn btn-default btn-sm" ng-class="{\'btn-info\': dt.selected, active: isActive(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" tabindex="-1"><span ng-class="{\'text-muted\': dt.secondary, \'text-info\': dt.current}">{{dt.label}}</span></button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n')}]),angular.module("template/datepicker/month.html",[]).run(["$templateCache",function(a){a.put("template/datepicker/month.html",'<table role="grid" aria-labelledby="{{uniqueId}}-title" aria-activedescendant="{{activeDateId}}">\n  <thead>\n    <tr>\n      <th><button type="button" class="btn btn-default btn-sm pull-left" ng-click="move(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button></th>\n      <th><button id="{{uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm" ng-click="toggleMode()" tabindex="-1" style="width:100%;"><strong>{{title}}</strong></button></th>\n      <th><button type="button" class="btn btn-default btn-sm pull-right" ng-click="move(1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr ng-repeat="row in rows track by $index">\n      <td ng-repeat="dt in row track by dt.date" class="text-center" role="gridcell" id="{{dt.uid}}" aria-disabled="{{!!dt.disabled}}">\n        <button type="button" style="width:100%;" class="btn btn-default" ng-class="{\'btn-info\': dt.selected, active: isActive(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" tabindex="-1"><span ng-class="{\'text-info\': dt.current}">{{dt.label}}</span></button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n')}]),angular.module("template/datepicker/popup.html",[]).run(["$templateCache",function(a){a.put("template/datepicker/popup.html",'<ul class="dropdown-menu" ng-style="{display: (isOpen && \'block\') || \'none\', top: position.top+\'px\', left: position.left+\'px\'}" ng-keydown="keydown($event)">\n	<li ng-transclude></li>\n	<li ng-if="showButtonBar" style="padding:10px 9px 2px">\n		<span class="btn-group pull-left">\n			<button type="button" class="btn btn-sm btn-info" ng-click="select(\'today\')">{{ getText(\'current\') }}</button>\n			<button type="button" class="btn btn-sm btn-danger" ng-click="select(null)">{{ getText(\'clear\') }}</button>\n		</span>\n		<button type="button" class="btn btn-sm btn-success pull-right" ng-click="close()">{{ getText(\'close\') }}</button>\n	</li>\n</ul>\n')}]),angular.module("template/datepicker/year.html",[]).run(["$templateCache",function(a){a.put("template/datepicker/year.html",'<table role="grid" aria-labelledby="{{uniqueId}}-title" aria-activedescendant="{{activeDateId}}">\n  <thead>\n    <tr>\n      <th><button type="button" class="btn btn-default btn-sm pull-left" ng-click="move(-1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-left"></i></button></th>\n      <th colspan="3"><button id="{{uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-default btn-sm" ng-click="toggleMode()" tabindex="-1" style="width:100%;"><strong>{{title}}</strong></button></th>\n      <th><button type="button" class="btn btn-default btn-sm pull-right" ng-click="move(1)" tabindex="-1"><i class="glyphicon glyphicon-chevron-right"></i></button></th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr ng-repeat="row in rows track by $index">\n      <td ng-repeat="dt in row track by dt.date" class="text-center" role="gridcell" id="{{dt.uid}}" aria-disabled="{{!!dt.disabled}}">\n        <button type="button" style="width:100%;" class="btn btn-default" ng-class="{\'btn-info\': dt.selected, active: isActive(dt)}" ng-click="select(dt.date)" ng-disabled="dt.disabled" tabindex="-1"><span ng-class="{\'text-info\': dt.current}">{{dt.label}}</span></button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n')}]),angular.module("template/modal/backdrop.html",[]).run(["$templateCache",function(a){a.put("template/modal/backdrop.html",'<div class="modal-backdrop fade {{ backdropClass }}"\n     ng-class="{in: animate}"\n     ng-style="{\'z-index\': 1040 + (index && 1 || 0) + index*10}"\n></div>\n')}]),angular.module("template/modal/window.html",[]).run(["$templateCache",function(a){a.put("template/modal/window.html",'<div tabindex="-1" role="dialog" class="modal fade" ng-class="{in: animate}" ng-style="{\'z-index\': 1050 + index*10, display: \'block\'}">\n    <div class="modal-dialog" ng-class="{\'modal-sm\': size == \'sm\', \'modal-lg\': size == \'lg\'}"><div class="modal-content" modal-transclude></div></div>\n</div>')}]),angular.module("template/pagination/pager.html",[]).run(["$templateCache",function(a){a.put("template/pagination/pager.html",'<ul class="pager">\n  <li ng-class="{disabled: noPrevious(), previous: align}"><a href ng-click="selectPage(page - 1)">{{getText(\'previous\')}}</a></li>\n  <li ng-class="{disabled: noNext(), next: align}"><a href ng-click="selectPage(page + 1)">{{getText(\'next\')}}</a></li>\n</ul>')}]),angular.module("template/pagination/pagination.html",[]).run(["$templateCache",function(a){a.put("template/pagination/pagination.html",'<ul class="pagination">\n  <li ng-if="boundaryLinks" ng-class="{disabled: noPrevious()}"><a href ng-click="selectPage(1)">{{getText(\'first\')}}</a></li>\n  <li ng-if="directionLinks" ng-class="{disabled: noPrevious()}"><a href ng-click="selectPage(page - 1)">{{getText(\'previous\')}}</a></li>\n  <li ng-repeat="page in pages track by $index" ng-class="{active: page.active}"><a href ng-click="selectPage(page.number)">{{page.text}}</a></li>\n  <li ng-if="directionLinks" ng-class="{disabled: noNext()}"><a href ng-click="selectPage(page + 1)">{{getText(\'next\')}}</a></li>\n  <li ng-if="boundaryLinks" ng-class="{disabled: noNext()}"><a href ng-click="selectPage(totalPages)">{{getText(\'last\')}}</a></li>\n</ul>')}]),angular.module("template/tooltip/tooltip-html-unsafe-popup.html",[]).run(["$templateCache",function(a){a.put("template/tooltip/tooltip-html-unsafe-popup.html",'<div class="tooltip {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">\n  <div class="tooltip-arrow"></div>\n  <div class="tooltip-inner" bind-html-unsafe="content"></div>\n</div>\n')}]),angular.module("template/tooltip/tooltip-popup.html",[]).run(["$templateCache",function(a){a.put("template/tooltip/tooltip-popup.html",'<div class="tooltip {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">\n  <div class="tooltip-arrow"></div>\n  <div class="tooltip-inner" ng-bind="content"></div>\n</div>\n')}]),angular.module("template/popover/popover.html",[]).run(["$templateCache",function(a){a.put("template/popover/popover.html",'<div class="popover {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">\n  <div class="arrow"></div>\n\n  <div class="popover-inner">\n      <h3 class="popover-title" ng-bind="title" ng-show="title"></h3>\n      <div class="popover-content" ng-bind="content"></div>\n  </div>\n</div>\n')}]),angular.module("template/progressbar/bar.html",[]).run(["$templateCache",function(a){a.put("template/progressbar/bar.html",'<div class="progress-bar" ng-class="type && \'progress-bar-\' + type" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="{{max}}" ng-style="{width: percent + \'%\'}" aria-valuetext="{{percent | number:0}}%" ng-transclude></div>')}]),angular.module("template/progressbar/progress.html",[]).run(["$templateCache",function(a){a.put("template/progressbar/progress.html",'<div class="progress" ng-transclude></div>')}]),angular.module("template/progressbar/progressbar.html",[]).run(["$templateCache",function(a){a.put("template/progressbar/progressbar.html",'<div class="progress">\n  <div class="progress-bar" ng-class="type && \'progress-bar-\' + type" role="progressbar" aria-valuenow="{{value}}" aria-valuemin="0" aria-valuemax="{{max}}" ng-style="{width: percent + \'%\'}" aria-valuetext="{{percent | number:0}}%" ng-transclude></div>\n</div>')}]),angular.module("template/rating/rating.html",[]).run(["$templateCache",function(a){a.put("template/rating/rating.html",'<span ng-mouseleave="reset()" ng-keydown="onKeydown($event)" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="{{range.length}}" aria-valuenow="{{value}}">\n    <i ng-repeat="r in range track by $index" ng-mouseenter="enter($index + 1)" ng-click="rate($index + 1)" class="glyphicon" ng-class="$index < value && (r.stateOn || \'glyphicon-star\') || (r.stateOff || \'glyphicon-star-empty\')">\n        <span class="sr-only">({{ $index < value ? \'*\' : \' \' }})</span>\n    </i>\n</span>')}]),angular.module("template/tabs/tab.html",[]).run(["$templateCache",function(a){a.put("template/tabs/tab.html",'<li ng-class="{active: active, disabled: disabled}">\n  <a href ng-click="select()" tab-heading-transclude>{{heading}}</a>\n</li>\n')}]),angular.module("template/tabs/tabset.html",[]).run(["$templateCache",function(a){a.put("template/tabs/tabset.html",'<div>\n  <ul class="nav nav-{{type || \'tabs\'}}" ng-class="{\'nav-stacked\': vertical, \'nav-justified\': justified}" ng-transclude></ul>\n  <div class="tab-content">\n    <div class="tab-pane" \n         ng-repeat="tab in tabs" \n         ng-class="{active: tab.active}"\n         tab-content-transclude="tab">\n    </div>\n  </div>\n</div>\n')}]),angular.module("template/timepicker/timepicker.html",[]).run(["$templateCache",function(a){a.put("template/timepicker/timepicker.html",'<table>\n	<tbody>\n		<tr class="text-center">\n			<td><a ng-click="incrementHours()" class="btn btn-link"><span class="glyphicon glyphicon-chevron-up"></span></a></td>\n			<td>&nbsp;</td>\n			<td><a ng-click="incrementMinutes()" class="btn btn-link"><span class="glyphicon glyphicon-chevron-up"></span></a></td>\n			<td ng-show="showMeridian"></td>\n		</tr>\n		<tr>\n			<td style="width:50px;" class="form-group" ng-class="{\'has-error\': invalidHours}">\n				<input type="text" ng-model="hours" ng-change="updateHours()" class="form-control text-center" ng-mousewheel="incrementHours()" ng-readonly="readonlyInput" maxlength="2">\n			</td>\n			<td>:</td>\n			<td style="width:50px;" class="form-group" ng-class="{\'has-error\': invalidMinutes}">\n				<input type="text" ng-model="minutes" ng-change="updateMinutes()" class="form-control text-center" ng-readonly="readonlyInput" maxlength="2">\n			</td>\n			<td ng-show="showMeridian"><button type="button" class="btn btn-default text-center" ng-click="toggleMeridian()">{{meridian}}</button></td>\n		</tr>\n		<tr class="text-center">\n			<td><a ng-click="decrementHours()" class="btn btn-link"><span class="glyphicon glyphicon-chevron-down"></span></a></td>\n			<td>&nbsp;</td>\n			<td><a ng-click="decrementMinutes()" class="btn btn-link"><span class="glyphicon glyphicon-chevron-down"></span></a></td>\n			<td ng-show="showMeridian"></td>\n		</tr>\n	</tbody>\n</table>\n')}]),angular.module("template/typeahead/typeahead-match.html",[]).run(["$templateCache",function(a){a.put("template/typeahead/typeahead-match.html",'<a tabindex="-1" bind-html-unsafe="match.label | typeaheadHighlight:query"></a>')
-	}]),angular.module("template/typeahead/typeahead-popup.html",[]).run(["$templateCache",function(a){a.put("template/typeahead/typeahead-popup.html",'<ul class="dropdown-menu" ng-show="isOpen()" ng-style="{top: position.top+\'px\', left: position.left+\'px\'}" style="display: block;" role="listbox" aria-hidden="{{!isOpen()}}">\n    <li ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }" ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{match.id}}">\n        <div typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>\n    </li>\n</ul>\n')}]);
 
 /***/ },
 /* 45 */
@@ -61411,11 +61411,10 @@
 	module.exports = function(craft){
 		craft.pack()
 			.name('standard')
-			.add(__webpack_require__(72))
 			.add(__webpack_require__(73))
 			.add(__webpack_require__(74))
-			.add(__webpack_require__(75))	
-			.add(__webpack_require__(76))
+			.add(__webpack_require__(75))
+			.add(__webpack_require__(76))	
 			.add(__webpack_require__(77))
 			.add(__webpack_require__(78))
 			.add(__webpack_require__(79))
@@ -61423,16 +61422,2063 @@
 			.add(__webpack_require__(81))
 			.add(__webpack_require__(82))
 			.add(__webpack_require__(83))
-			.add(__webpack_require__(84))		
-			.add(__webpack_require__(85))
+			.add(__webpack_require__(84))
+			.add(__webpack_require__(85))		
 			.add(__webpack_require__(86))
 			.add(__webpack_require__(87))
+			.add(__webpack_require__(88))
 
 	}
 
 
 /***/ },
 /* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * @author mrdoob / http://mrdoob.com/
+	 * @author supereggbert / http://www.paulbrunt.co.uk/
+	 * @author julianwa / https://github.com/julianwa
+	 */
+
+	THREE.RenderableObject = function () {
+
+		this.id = 0;
+
+		this.object = null;
+		this.z = 0;
+
+	};
+
+	//
+
+	THREE.RenderableFace = function () {
+
+		this.id = 0;
+
+		this.v1 = new THREE.RenderableVertex();
+		this.v2 = new THREE.RenderableVertex();
+		this.v3 = new THREE.RenderableVertex();
+
+		this.normalModel = new THREE.Vector3();
+
+		this.vertexNormalsModel = [ new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3() ];
+		this.vertexNormalsLength = 0;
+
+		this.color = new THREE.Color();
+		this.material = null;
+		this.uvs = [ new THREE.Vector2(), new THREE.Vector2(), new THREE.Vector2() ];
+
+		this.z = 0;
+
+	};
+
+	//
+
+	THREE.RenderableVertex = function () {
+
+		this.position = new THREE.Vector3();
+		this.positionWorld = new THREE.Vector3();
+		this.positionScreen = new THREE.Vector4();
+
+		this.visible = true;
+
+	};
+
+	THREE.RenderableVertex.prototype.copy = function ( vertex ) {
+
+		this.positionWorld.copy( vertex.positionWorld );
+		this.positionScreen.copy( vertex.positionScreen );
+
+	};
+
+	//
+
+	THREE.RenderableLine = function () {
+
+		this.id = 0;
+
+		this.v1 = new THREE.RenderableVertex();
+		this.v2 = new THREE.RenderableVertex();
+
+		this.vertexColors = [ new THREE.Color(), new THREE.Color() ];
+		this.material = null;
+
+		this.z = 0;
+
+	};
+
+	//
+
+	THREE.RenderableSprite = function () {
+
+		this.id = 0;
+
+		this.object = null;
+
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
+
+		this.rotation = 0;
+		this.scale = new THREE.Vector2();
+
+		this.material = null;
+
+	};
+
+	//
+
+	THREE.Projector = function () {
+
+		var _object, _objectCount, _objectPool = [], _objectPoolLength = 0,
+		_vertex, _vertexCount, _vertexPool = [], _vertexPoolLength = 0,
+		_face, _faceCount, _facePool = [], _facePoolLength = 0,
+		_line, _lineCount, _linePool = [], _linePoolLength = 0,
+		_sprite, _spriteCount, _spritePool = [], _spritePoolLength = 0,
+
+		_renderData = { objects: [], lights: [], elements: [] },
+
+		_vA = new THREE.Vector3(),
+		_vB = new THREE.Vector3(),
+		_vC = new THREE.Vector3(),
+
+		_vector3 = new THREE.Vector3(),
+		_vector4 = new THREE.Vector4(),
+
+		_clipBox = new THREE.Box3( new THREE.Vector3( - 1, - 1, - 1 ), new THREE.Vector3( 1, 1, 1 ) ),
+		_boundingBox = new THREE.Box3(),
+		_points3 = new Array( 3 ),
+		_points4 = new Array( 4 ),
+
+		_viewMatrix = new THREE.Matrix4(),
+		_viewProjectionMatrix = new THREE.Matrix4(),
+
+		_modelMatrix,
+		_modelViewProjectionMatrix = new THREE.Matrix4(),
+
+		_normalMatrix = new THREE.Matrix3(),
+
+		_frustum = new THREE.Frustum(),
+
+		_clippedVertex1PositionScreen = new THREE.Vector4(),
+		_clippedVertex2PositionScreen = new THREE.Vector4();
+		
+		//
+
+		this.projectVector = function ( vector, camera ) {
+
+			console.warn( 'THREE.Projector: .projectVector() is now vector.project().' );
+			vector.project( camera );
+
+		};
+
+		this.unprojectVector = function ( vector, camera ) {
+
+			console.warn( 'THREE.Projector: .unprojectVector() is now vector.unproject().' );
+			vector.unproject( camera );
+
+		};
+
+		this.pickingRay = function ( vector, camera ) {
+
+			console.error( 'THREE.Projector: .pickingRay() has been removed.' );
+
+		};
+		
+		//
+
+		var RenderList = function () {
+
+			var normals = [];
+			var uvs = [];
+
+			var object = null;
+			var material = null;
+
+			var normalMatrix = new THREE.Matrix3();
+
+			var setObject = function ( value ) {
+
+				object = value;
+				material = object.material;
+
+				normalMatrix.getNormalMatrix( object.matrixWorld );
+
+				normals.length = 0;
+				uvs.length = 0;
+
+			};
+
+			var projectVertex = function ( vertex ) {
+
+				var position = vertex.position;
+				var positionWorld = vertex.positionWorld;
+				var positionScreen = vertex.positionScreen;
+
+				positionWorld.copy( position ).applyMatrix4( _modelMatrix );
+				positionScreen.copy( positionWorld ).applyMatrix4( _viewProjectionMatrix );
+
+				var invW = 1 / positionScreen.w;
+
+				positionScreen.x *= invW;
+				positionScreen.y *= invW;
+				positionScreen.z *= invW;
+
+				vertex.visible = positionScreen.x >= - 1 && positionScreen.x <= 1 &&
+						 positionScreen.y >= - 1 && positionScreen.y <= 1 &&
+						 positionScreen.z >= - 1 && positionScreen.z <= 1;
+
+			};
+
+			var pushVertex = function ( x, y, z ) {
+
+				_vertex = getNextVertexInPool();
+				_vertex.position.set( x, y, z );
+
+				projectVertex( _vertex );
+
+			};
+
+			var pushNormal = function ( x, y, z ) {
+
+				normals.push( x, y, z );
+
+			};
+
+			var pushUv = function ( x, y ) {
+
+				uvs.push( x, y );
+
+			};
+
+			var checkTriangleVisibility = function ( v1, v2, v3 ) {
+
+				if ( v1.visible === true || v2.visible === true || v3.visible === true ) return true;
+
+				_points3[ 0 ] = v1.positionScreen;
+				_points3[ 1 ] = v2.positionScreen;
+				_points3[ 2 ] = v3.positionScreen;
+
+				return _clipBox.isIntersectionBox( _boundingBox.setFromPoints( _points3 ) );
+
+			};
+
+			var checkBackfaceCulling = function ( v1, v2, v3 ) {
+
+				return ( ( v3.positionScreen.x - v1.positionScreen.x ) *
+					    ( v2.positionScreen.y - v1.positionScreen.y ) -
+					    ( v3.positionScreen.y - v1.positionScreen.y ) *
+					    ( v2.positionScreen.x - v1.positionScreen.x ) ) < 0;
+
+			};
+
+			var pushLine = function ( a, b ) {
+
+				var v1 = _vertexPool[ a ];
+				var v2 = _vertexPool[ b ];
+
+				_line = getNextLineInPool();
+
+				_line.id = object.id;
+				_line.v1.copy( v1 );
+				_line.v2.copy( v2 );
+				_line.z = ( v1.positionScreen.z + v2.positionScreen.z ) / 2;
+
+				_line.material = object.material;
+
+				_renderData.elements.push( _line );
+
+			};
+
+			var pushTriangle = function ( a, b, c ) {
+
+				var v1 = _vertexPool[ a ];
+				var v2 = _vertexPool[ b ];
+				var v3 = _vertexPool[ c ];
+
+				if ( checkTriangleVisibility( v1, v2, v3 ) === false ) return;
+
+				if ( material.side === THREE.DoubleSide || checkBackfaceCulling( v1, v2, v3 ) === true ) {
+
+					_face = getNextFaceInPool();
+
+					_face.id = object.id;
+					_face.v1.copy( v1 );
+					_face.v2.copy( v2 );
+					_face.v3.copy( v3 );
+					_face.z = ( v1.positionScreen.z + v2.positionScreen.z + v3.positionScreen.z ) / 3;
+
+					for ( var i = 0; i < 3; i ++ ) {
+
+						var offset = arguments[ i ] * 3;
+						var normal = _face.vertexNormalsModel[ i ];
+
+						normal.set( normals[ offset ], normals[ offset + 1 ], normals[ offset + 2 ] );
+						normal.applyMatrix3( normalMatrix ).normalize();
+
+						var offset2 = arguments[ i ] * 2;
+
+						var uv = _face.uvs[ i ];
+						uv.set( uvs[ offset2 ], uvs[ offset2 + 1 ] );
+
+					}
+
+					_face.vertexNormalsLength = 3;
+
+					_face.material = object.material;
+
+					_renderData.elements.push( _face );
+
+				}
+
+			};
+
+			return {
+				setObject: setObject,
+				projectVertex: projectVertex,
+				checkTriangleVisibility: checkTriangleVisibility,
+				checkBackfaceCulling: checkBackfaceCulling,
+				pushVertex: pushVertex,
+				pushNormal: pushNormal,
+				pushUv: pushUv,
+				pushLine: pushLine,
+				pushTriangle: pushTriangle
+			}
+
+		};
+
+		var renderList = new RenderList();
+
+		this.projectScene = function ( scene, camera, sortObjects, sortElements ) {
+
+			_faceCount = 0;
+			_lineCount = 0;
+			_spriteCount = 0;
+
+			_renderData.elements.length = 0;
+
+			if ( scene.autoUpdate === true ) scene.updateMatrixWorld();
+			if ( camera.parent === undefined ) camera.updateMatrixWorld();
+
+			_viewMatrix.copy( camera.matrixWorldInverse.getInverse( camera.matrixWorld ) );
+			_viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, _viewMatrix );
+
+			_frustum.setFromMatrix( _viewProjectionMatrix );
+
+			//
+
+			_objectCount = 0;
+
+			_renderData.objects.length = 0;
+			_renderData.lights.length = 0;
+
+			scene.traverseVisible( function ( object ) {
+
+				if ( object instanceof THREE.Light ) {
+
+					_renderData.lights.push( object );
+
+				} else if ( object instanceof THREE.Mesh || object instanceof THREE.Line || object instanceof THREE.Sprite ) {
+
+					if ( object.material.visible === false ) return;
+
+					if ( object.frustumCulled === false || _frustum.intersectsObject( object ) === true ) {
+
+						_object = getNextObjectInPool();
+						_object.id = object.id;
+						_object.object = object;
+
+						if ( object.renderDepth !== null ) {
+
+							_object.z = object.renderDepth;
+
+						} else {
+
+							_vector3.setFromMatrixPosition( object.matrixWorld );
+							_vector3.applyProjection( _viewProjectionMatrix );
+							_object.z = _vector3.z;
+
+						}
+
+						_renderData.objects.push( _object );
+
+					}
+
+				}
+
+			} );
+
+			if ( sortObjects === true ) {
+
+				_renderData.objects.sort( painterSort );
+
+			}
+
+			//
+
+			for ( var o = 0, ol = _renderData.objects.length; o < ol; o ++ ) {
+
+				var object = _renderData.objects[ o ].object;
+				var geometry = object.geometry;
+
+				renderList.setObject( object );
+
+				_modelMatrix = object.matrixWorld;
+
+				_vertexCount = 0;
+
+				if ( object instanceof THREE.Mesh ) {
+
+					if ( geometry instanceof THREE.BufferGeometry ) {
+
+						var attributes = geometry.attributes;
+						var offsets = geometry.offsets;
+
+						if ( attributes.position === undefined ) continue;
+
+						var positions = attributes.position.array;
+
+						for ( var i = 0, l = positions.length; i < l; i += 3 ) {
+
+							renderList.pushVertex( positions[ i ], positions[ i + 1 ], positions[ i + 2 ] );
+
+						}
+
+						if ( attributes.normal !== undefined ) {
+
+							var normals = attributes.normal.array;
+
+							for ( var i = 0, l = normals.length; i < l; i += 3 ) {
+
+								renderList.pushNormal( normals[ i ], normals[ i + 1 ], normals[ i + 2 ] );
+
+							}
+
+						}
+
+						if ( attributes.uv !== undefined ) {
+
+							var uvs = attributes.uv.array;
+
+							for ( var i = 0, l = uvs.length; i < l; i += 2 ) {
+
+								renderList.pushUv( uvs[ i ], uvs[ i + 1 ] );
+
+							}
+
+						}
+
+						if ( attributes.index !== undefined ) {
+
+							var indices = attributes.index.array;
+
+							if ( offsets.length > 0 ) {
+
+								for ( var o = 0; o < offsets.length; o ++ ) {
+
+									var offset = offsets[ o ];
+									var index = offset.index;
+
+									for ( var i = offset.start, l = offset.start + offset.count; i < l; i += 3 ) {
+
+										renderList.pushTriangle( indices[ i ] + index, indices[ i + 1 ] + index, indices[ i + 2 ] + index );
+
+									}
+
+								}
+
+							} else {
+
+								for ( var i = 0, l = indices.length; i < l; i += 3 ) {
+
+									renderList.pushTriangle( indices[ i ], indices[ i + 1 ], indices[ i + 2 ] );
+
+								}
+
+							}
+
+						} else {
+
+							for ( var i = 0, l = positions.length / 3; i < l; i += 3 ) {
+
+								renderList.pushTriangle( i, i + 1, i + 2 );
+
+							}
+
+						}
+
+					} else if ( geometry instanceof THREE.Geometry ) {
+
+						var vertices = geometry.vertices;
+						var faces = geometry.faces;
+						var faceVertexUvs = geometry.faceVertexUvs[ 0 ];
+
+						_normalMatrix.getNormalMatrix( _modelMatrix );
+
+						var isFaceMaterial = object.material instanceof THREE.MeshFaceMaterial;
+						var objectMaterials = isFaceMaterial === true ? object.material : null;
+
+						for ( var v = 0, vl = vertices.length; v < vl; v ++ ) {
+
+							var vertex = vertices[ v ];
+							renderList.pushVertex( vertex.x, vertex.y, vertex.z );
+
+						}
+
+						for ( var f = 0, fl = faces.length; f < fl; f ++ ) {
+
+							var face = faces[ f ];
+
+							var material = isFaceMaterial === true
+								 ? objectMaterials.materials[ face.materialIndex ]
+								 : object.material;
+
+							if ( material === undefined ) continue;
+
+							var side = material.side;
+
+							var v1 = _vertexPool[ face.a ];
+							var v2 = _vertexPool[ face.b ];
+							var v3 = _vertexPool[ face.c ];
+
+							if ( material.morphTargets === true ) {
+
+								var morphTargets = geometry.morphTargets;
+								var morphInfluences = object.morphTargetInfluences;
+
+								var v1p = v1.position;
+								var v2p = v2.position;
+								var v3p = v3.position;
+
+								_vA.set( 0, 0, 0 );
+								_vB.set( 0, 0, 0 );
+								_vC.set( 0, 0, 0 );
+
+								for ( var t = 0, tl = morphTargets.length; t < tl; t ++ ) {
+
+									var influence = morphInfluences[ t ];
+
+									if ( influence === 0 ) continue;
+
+									var targets = morphTargets[ t ].vertices;
+
+									_vA.x += ( targets[ face.a ].x - v1p.x ) * influence;
+									_vA.y += ( targets[ face.a ].y - v1p.y ) * influence;
+									_vA.z += ( targets[ face.a ].z - v1p.z ) * influence;
+
+									_vB.x += ( targets[ face.b ].x - v2p.x ) * influence;
+									_vB.y += ( targets[ face.b ].y - v2p.y ) * influence;
+									_vB.z += ( targets[ face.b ].z - v2p.z ) * influence;
+
+									_vC.x += ( targets[ face.c ].x - v3p.x ) * influence;
+									_vC.y += ( targets[ face.c ].y - v3p.y ) * influence;
+									_vC.z += ( targets[ face.c ].z - v3p.z ) * influence;
+
+								}
+
+								v1.position.add( _vA );
+								v2.position.add( _vB );
+								v3.position.add( _vC );
+
+								renderList.projectVertex( v1 );
+								renderList.projectVertex( v2 );
+								renderList.projectVertex( v3 );
+
+							}
+
+							if ( renderList.checkTriangleVisibility( v1, v2, v3 ) === false ) continue;
+
+							var visible = renderList.checkBackfaceCulling( v1, v2, v3 );
+
+							if ( side !== THREE.DoubleSide ) {
+								if ( side === THREE.FrontSide && visible === false ) continue;
+								if ( side === THREE.BackSide && visible === true ) continue;
+							}
+
+							_face = getNextFaceInPool();
+
+							_face.id = object.id;
+							_face.v1.copy( v1 );
+							_face.v2.copy( v2 );
+							_face.v3.copy( v3 );
+
+							_face.normalModel.copy( face.normal );
+
+							if ( visible === false && ( side === THREE.BackSide || side === THREE.DoubleSide ) ) {
+
+								_face.normalModel.negate();
+
+							}
+
+							_face.normalModel.applyMatrix3( _normalMatrix ).normalize();
+
+							var faceVertexNormals = face.vertexNormals;
+
+							for ( var n = 0, nl = Math.min( faceVertexNormals.length, 3 ); n < nl; n ++ ) {
+
+								var normalModel = _face.vertexNormalsModel[ n ];
+								normalModel.copy( faceVertexNormals[ n ] );
+
+								if ( visible === false && ( side === THREE.BackSide || side === THREE.DoubleSide ) ) {
+
+									normalModel.negate();
+
+								}
+
+								normalModel.applyMatrix3( _normalMatrix ).normalize();
+
+							}
+
+							_face.vertexNormalsLength = faceVertexNormals.length;
+
+							var vertexUvs = faceVertexUvs[ f ];
+
+							if ( vertexUvs !== undefined ) {
+
+								for ( var u = 0; u < 3; u ++ ) {
+
+									_face.uvs[ u ].copy( vertexUvs[ u ] );
+
+								}
+
+							}
+
+							_face.color = face.color;
+							_face.material = material;
+
+							_face.z = ( v1.positionScreen.z + v2.positionScreen.z + v3.positionScreen.z ) / 3;
+
+							_renderData.elements.push( _face );
+
+						}
+
+					}
+
+				} else if ( object instanceof THREE.Line ) {
+
+					if ( geometry instanceof THREE.BufferGeometry ) {
+
+						var attributes = geometry.attributes;
+
+						if ( attributes.position !== undefined ) {
+
+							var positions = attributes.position.array;
+
+							for ( var i = 0, l = positions.length; i < l; i += 3 ) {
+
+								renderList.pushVertex( positions[ i ], positions[ i + 1 ], positions[ i + 2 ] );
+
+							}
+
+							if ( attributes.index !== undefined ) {
+
+								var indices = attributes.index.array;
+
+								for ( var i = 0, l = indices.length; i < l; i += 2 ) {
+
+									renderList.pushLine( indices[ i ], indices[ i + 1 ] );
+
+								}
+
+							} else {
+
+								var step = object.mode === THREE.LinePieces ? 2 : 1;
+
+								for ( var i = 0, l = ( positions.length / 3 ) - 1; i < l; i += step ) {
+
+									renderList.pushLine( i, i + 1 );
+
+								}
+
+							}
+
+						}
+
+					} else if ( geometry instanceof THREE.Geometry ) {
+
+						_modelViewProjectionMatrix.multiplyMatrices( _viewProjectionMatrix, _modelMatrix );
+
+						var vertices = object.geometry.vertices;
+
+						if ( vertices.length === 0 ) continue;
+
+						v1 = getNextVertexInPool();
+						v1.positionScreen.copy( vertices[ 0 ] ).applyMatrix4( _modelViewProjectionMatrix );
+
+						// Handle LineStrip and LinePieces
+						var step = object.mode === THREE.LinePieces ? 2 : 1;
+
+						for ( var v = 1, vl = vertices.length; v < vl; v ++ ) {
+
+							v1 = getNextVertexInPool();
+							v1.positionScreen.copy( vertices[ v ] ).applyMatrix4( _modelViewProjectionMatrix );
+
+							if ( ( v + 1 ) % step > 0 ) continue;
+
+							v2 = _vertexPool[ _vertexCount - 2 ];
+
+							_clippedVertex1PositionScreen.copy( v1.positionScreen );
+							_clippedVertex2PositionScreen.copy( v2.positionScreen );
+
+							if ( clipLine( _clippedVertex1PositionScreen, _clippedVertex2PositionScreen ) === true ) {
+
+								// Perform the perspective divide
+								_clippedVertex1PositionScreen.multiplyScalar( 1 / _clippedVertex1PositionScreen.w );
+								_clippedVertex2PositionScreen.multiplyScalar( 1 / _clippedVertex2PositionScreen.w );
+
+								_line = getNextLineInPool();
+
+								_line.id = object.id;
+								_line.v1.positionScreen.copy( _clippedVertex1PositionScreen );
+								_line.v2.positionScreen.copy( _clippedVertex2PositionScreen );
+
+								_line.z = Math.max( _clippedVertex1PositionScreen.z, _clippedVertex2PositionScreen.z );
+
+								_line.material = object.material;
+
+								if ( object.material.vertexColors === THREE.VertexColors ) {
+
+									_line.vertexColors[ 0 ].copy( object.geometry.colors[ v ] );
+									_line.vertexColors[ 1 ].copy( object.geometry.colors[ v - 1 ] );
+
+								}
+
+								_renderData.elements.push( _line );
+
+							}
+
+						}
+
+					}
+
+				} else if ( object instanceof THREE.Sprite ) {
+
+					_vector4.set( _modelMatrix.elements[ 12 ], _modelMatrix.elements[ 13 ], _modelMatrix.elements[ 14 ], 1 );
+					_vector4.applyMatrix4( _viewProjectionMatrix );
+
+					var invW = 1 / _vector4.w;
+
+					_vector4.z *= invW;
+
+					if ( _vector4.z >= - 1 && _vector4.z <= 1 ) {
+
+						_sprite = getNextSpriteInPool();
+						_sprite.id = object.id;
+						_sprite.x = _vector4.x * invW;
+						_sprite.y = _vector4.y * invW;
+						_sprite.z = _vector4.z;
+						_sprite.object = object;
+
+						_sprite.rotation = object.rotation;
+
+						_sprite.scale.x = object.scale.x * Math.abs( _sprite.x - ( _vector4.x + camera.projectionMatrix.elements[ 0 ] ) / ( _vector4.w + camera.projectionMatrix.elements[ 12 ] ) );
+						_sprite.scale.y = object.scale.y * Math.abs( _sprite.y - ( _vector4.y + camera.projectionMatrix.elements[ 5 ] ) / ( _vector4.w + camera.projectionMatrix.elements[ 13 ] ) );
+
+						_sprite.material = object.material;
+
+						_renderData.elements.push( _sprite );
+
+					}
+
+				}
+
+			}
+
+			if ( sortElements === true ) {
+
+				_renderData.elements.sort( painterSort );
+
+			}
+
+			return _renderData;
+
+		};
+
+		// Pools
+
+		function getNextObjectInPool() {
+
+			if ( _objectCount === _objectPoolLength ) {
+
+				var object = new THREE.RenderableObject();
+				_objectPool.push( object );
+				_objectPoolLength ++;
+				_objectCount ++;
+				return object;
+
+			}
+
+			return _objectPool[ _objectCount ++ ];
+
+		}
+
+		function getNextVertexInPool() {
+
+			if ( _vertexCount === _vertexPoolLength ) {
+
+				var vertex = new THREE.RenderableVertex();
+				_vertexPool.push( vertex );
+				_vertexPoolLength ++;
+				_vertexCount ++;
+				return vertex;
+
+			}
+
+			return _vertexPool[ _vertexCount ++ ];
+
+		}
+
+		function getNextFaceInPool() {
+
+			if ( _faceCount === _facePoolLength ) {
+
+				var face = new THREE.RenderableFace();
+				_facePool.push( face );
+				_facePoolLength ++;
+				_faceCount ++;
+				return face;
+
+			}
+
+			return _facePool[ _faceCount ++ ];
+
+
+		}
+
+		function getNextLineInPool() {
+
+			if ( _lineCount === _linePoolLength ) {
+
+				var line = new THREE.RenderableLine();
+				_linePool.push( line );
+				_linePoolLength ++;
+				_lineCount ++
+				return line;
+
+			}
+
+			return _linePool[ _lineCount ++ ];
+
+		}
+
+		function getNextSpriteInPool() {
+
+			if ( _spriteCount === _spritePoolLength ) {
+
+				var sprite = new THREE.RenderableSprite();
+				_spritePool.push( sprite );
+				_spritePoolLength ++;
+				_spriteCount ++
+				return sprite;
+
+			}
+
+			return _spritePool[ _spriteCount ++ ];
+
+		}
+
+		//
+
+		function painterSort( a, b ) {
+
+			if ( a.z !== b.z ) {
+
+				return b.z - a.z;
+
+			} else if ( a.id !== b.id ) {
+
+				return a.id - b.id;
+
+			} else {
+
+				return 0;
+
+			}
+
+		}
+
+		function clipLine( s1, s2 ) {
+
+			var alpha1 = 0, alpha2 = 1,
+
+			// Calculate the boundary coordinate of each vertex for the near and far clip planes,
+			// Z = -1 and Z = +1, respectively.
+			bc1near =  s1.z + s1.w,
+			bc2near =  s2.z + s2.w,
+			bc1far =  - s1.z + s1.w,
+			bc2far =  - s2.z + s2.w;
+
+			if ( bc1near >= 0 && bc2near >= 0 && bc1far >= 0 && bc2far >= 0 ) {
+
+				// Both vertices lie entirely within all clip planes.
+				return true;
+
+			} else if ( ( bc1near < 0 && bc2near < 0 ) || ( bc1far < 0 && bc2far < 0 ) ) {
+
+				// Both vertices lie entirely outside one of the clip planes.
+				return false;
+
+			} else {
+
+				// The line segment spans at least one clip plane.
+
+				if ( bc1near < 0 ) {
+
+					// v1 lies outside the near plane, v2 inside
+					alpha1 = Math.max( alpha1, bc1near / ( bc1near - bc2near ) );
+
+				} else if ( bc2near < 0 ) {
+
+					// v2 lies outside the near plane, v1 inside
+					alpha2 = Math.min( alpha2, bc1near / ( bc1near - bc2near ) );
+
+				}
+
+				if ( bc1far < 0 ) {
+
+					// v1 lies outside the far plane, v2 inside
+					alpha1 = Math.max( alpha1, bc1far / ( bc1far - bc2far ) );
+
+				} else if ( bc2far < 0 ) {
+
+					// v2 lies outside the far plane, v2 inside
+					alpha2 = Math.min( alpha2, bc1far / ( bc1far - bc2far ) );
+
+				}
+
+				if ( alpha2 < alpha1 ) {
+
+					// The line segment spans two boundaries, but is outside both of them.
+					// (This can't happen when we're only clipping against just near/far but good
+					//  to leave the check here for future usage if other clip planes are added.)
+					return false;
+
+				} else {
+
+					// Update the s1 and s2 vertices to match the clipped line segment.
+					s1.lerp( s2, alpha1 );
+					s2.lerp( s1, 1 - alpha2 );
+
+					return true;
+
+				}
+
+			}
+
+		}
+
+	};
+
+/***/ },
+/* 62 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * @author mrdoob / http://mrdoob.com/
+	 */
+
+	THREE.SpriteCanvasMaterial = function ( parameters ) {
+
+		THREE.Material.call( this );
+
+		this.type = 'SpriteCanvasMaterial';
+
+		this.color = new THREE.Color( 0xffffff );
+		this.program = function ( context, color ) {};
+
+		this.setValues( parameters );
+
+	};
+
+	THREE.SpriteCanvasMaterial.prototype = Object.create( THREE.Material.prototype );
+
+	THREE.SpriteCanvasMaterial.prototype.clone = function () {
+
+		var material = new THREE.SpriteCanvasMaterial();
+
+		THREE.Material.prototype.clone.call( this, material );
+
+		material.color.copy( this.color );
+		material.program = this.program;
+
+		return material;
+
+	};
+
+	//
+
+	THREE.CanvasRenderer = function ( parameters ) {
+
+		console.log( 'THREE.CanvasRenderer', THREE.REVISION );
+
+		var smoothstep = THREE.Math.smoothstep;
+
+		parameters = parameters || {};
+
+		var _this = this,
+		_renderData, _elements, _lights,
+		_projector = new THREE.Projector(),
+
+		_canvas = parameters.canvas !== undefined
+				 ? parameters.canvas
+				 : document.createElement( 'canvas' ),
+
+		_canvasWidth = _canvas.width,
+		_canvasHeight = _canvas.height,
+		_canvasWidthHalf = Math.floor( _canvasWidth / 2 ),
+		_canvasHeightHalf = Math.floor( _canvasHeight / 2 ),
+
+		_viewportX = 0,
+		_viewportY = 0,
+		_viewportWidth = _canvasWidth,
+		_viewportHeight = _canvasHeight,
+
+		_context = _canvas.getContext( '2d', {
+			alpha: parameters.alpha === true
+		} ),
+
+		_clearColor = new THREE.Color( 0x000000 ),
+		_clearAlpha = 0,
+
+		_contextGlobalAlpha = 1,
+		_contextGlobalCompositeOperation = 0,
+		_contextStrokeStyle = null,
+		_contextFillStyle = null,
+		_contextLineWidth = null,
+		_contextLineCap = null,
+		_contextLineJoin = null,
+		_contextLineDash = [],
+
+		_camera,
+
+		_v1, _v2, _v3, _v4,
+		_v5 = new THREE.RenderableVertex(),
+		_v6 = new THREE.RenderableVertex(),
+
+		_v1x, _v1y, _v2x, _v2y, _v3x, _v3y,
+		_v4x, _v4y, _v5x, _v5y, _v6x, _v6y,
+
+		_color = new THREE.Color(),
+		_color1 = new THREE.Color(),
+		_color2 = new THREE.Color(),
+		_color3 = new THREE.Color(),
+		_color4 = new THREE.Color(),
+
+		_diffuseColor = new THREE.Color(),
+		_emissiveColor = new THREE.Color(),
+
+		_lightColor = new THREE.Color(),
+
+		_patterns = {},
+
+		_image, _uvs,
+		_uv1x, _uv1y, _uv2x, _uv2y, _uv3x, _uv3y,
+
+		_clipBox = new THREE.Box2(),
+		_clearBox = new THREE.Box2(),
+		_elemBox = new THREE.Box2(),
+
+		_ambientLight = new THREE.Color(),
+		_directionalLights = new THREE.Color(),
+		_pointLights = new THREE.Color(),
+
+		_vector3 = new THREE.Vector3(), // Needed for PointLight
+		_centroid = new THREE.Vector3(),
+		_normal = new THREE.Vector3(),
+		_normalViewMatrix = new THREE.Matrix3();
+
+		// dash+gap fallbacks for Firefox and everything else
+
+		if ( _context.setLineDash === undefined ) {
+
+			_context.setLineDash = function () {}
+
+		}
+
+		this.domElement = _canvas;
+
+		this.devicePixelRatio = parameters.devicePixelRatio !== undefined
+					 ? parameters.devicePixelRatio
+					 : self.devicePixelRatio !== undefined
+						 ? self.devicePixelRatio
+						 : 1;
+
+		this.autoClear = true;
+		this.sortObjects = true;
+		this.sortElements = true;
+
+		this.info = {
+
+			render: {
+
+				vertices: 0,
+				faces: 0
+
+			}
+
+		}
+
+		// WebGLRenderer compatibility
+
+		this.supportsVertexTextures = function () {};
+		this.setFaceCulling = function () {};
+
+		this.setSize = function ( width, height, updateStyle ) {
+
+			_canvasWidth = width * this.devicePixelRatio;
+			_canvasHeight = height * this.devicePixelRatio;
+
+			_canvas.width = _canvasWidth;
+			_canvas.height = _canvasHeight;
+
+			_canvasWidthHalf = Math.floor( _canvasWidth / 2 );
+			_canvasHeightHalf = Math.floor( _canvasHeight / 2 );
+
+			if ( updateStyle !== false ) {
+
+				_canvas.style.width = width + 'px';
+				_canvas.style.height = height + 'px';
+
+			}
+
+			_clipBox.min.set( -_canvasWidthHalf, -_canvasHeightHalf ),
+			_clipBox.max.set(   _canvasWidthHalf,   _canvasHeightHalf );
+
+			_clearBox.min.set( - _canvasWidthHalf, - _canvasHeightHalf );
+			_clearBox.max.set(   _canvasWidthHalf,   _canvasHeightHalf );
+
+			_contextGlobalAlpha = 1;
+			_contextGlobalCompositeOperation = 0;
+			_contextStrokeStyle = null;
+			_contextFillStyle = null;
+			_contextLineWidth = null;
+			_contextLineCap = null;
+			_contextLineJoin = null;
+
+			this.setViewport( 0, 0, width, height );
+
+		};
+
+		this.setViewport = function ( x, y, width, height ) {
+
+			_viewportX = x * this.devicePixelRatio;
+			_viewportY = y * this.devicePixelRatio;
+
+			_viewportWidth = width * this.devicePixelRatio;
+			_viewportHeight = height * this.devicePixelRatio;
+
+		};
+
+		this.setScissor = function () {};
+		this.enableScissorTest = function () {};
+
+		this.setClearColor = function ( color, alpha ) {
+
+			_clearColor.set( color );
+			_clearAlpha = alpha !== undefined ? alpha : 1;
+
+			_clearBox.min.set( - _canvasWidthHalf, - _canvasHeightHalf );
+			_clearBox.max.set(   _canvasWidthHalf,   _canvasHeightHalf );
+
+		};
+
+		this.setClearColorHex = function ( hex, alpha ) {
+
+			console.warn( 'THREE.CanvasRenderer: .setClearColorHex() is being removed. Use .setClearColor() instead.' );
+			this.setClearColor( hex, alpha );
+
+		};
+
+		this.getClearColor = function () {
+
+			return _clearColor;
+
+		};
+
+		this.getClearAlpha = function () {
+
+			return _clearAlpha;
+
+		};
+
+		this.getMaxAnisotropy = function () {
+
+			return 0;
+
+		};
+
+		this.clear = function () {
+
+			if ( _clearBox.empty() === false ) {
+
+				_clearBox.intersect( _clipBox );
+				_clearBox.expandByScalar( 2 );
+
+				_clearBox.min.x = _clearBox.min.x + _canvasWidthHalf;
+				_clearBox.min.y =  - _clearBox.min.y + _canvasHeightHalf;
+				_clearBox.max.x = _clearBox.max.x + _canvasWidthHalf;
+				_clearBox.max.y =  - _clearBox.max.y + _canvasHeightHalf;
+
+				if ( _clearAlpha < 1 ) {
+
+					_context.clearRect(
+						_clearBox.min.x | 0,
+						_clearBox.min.y | 0,
+						( _clearBox.max.x - _clearBox.min.x ) | 0,
+						( _clearBox.max.y - _clearBox.min.y ) | 0
+					);
+
+				}
+
+				if ( _clearAlpha > 0 ) {
+
+					setBlending( THREE.NormalBlending );
+					setOpacity( 1 );
+
+					setFillStyle( 'rgba(' + Math.floor( _clearColor.r * 255 ) + ',' + Math.floor( _clearColor.g * 255 ) + ',' + Math.floor( _clearColor.b * 255 ) + ',' + _clearAlpha + ')' );
+
+					_context.fillRect(
+						_clearBox.min.x | 0,
+						_clearBox.min.y | 0,
+						( _clearBox.max.x - _clearBox.min.x ) | 0,
+						( _clearBox.max.y - _clearBox.min.y ) | 0
+					);
+
+				}
+
+				_clearBox.makeEmpty();
+
+			}
+
+		};
+
+		// compatibility
+
+		this.clearColor = function () {};
+		this.clearDepth = function () {};
+		this.clearStencil = function () {};
+
+		this.render = function ( scene, camera ) {
+
+			if ( camera instanceof THREE.Camera === false ) {
+
+				console.error( 'THREE.CanvasRenderer.render: camera is not an instance of THREE.Camera.' );
+				return;
+
+			}
+
+			if ( this.autoClear === true ) this.clear();
+
+			_this.info.render.vertices = 0;
+			_this.info.render.faces = 0;
+
+			_context.setTransform( _viewportWidth / _canvasWidth, 0, 0, - _viewportHeight / _canvasHeight, _viewportX, _canvasHeight - _viewportY );
+			_context.translate( _canvasWidthHalf, _canvasHeightHalf );
+
+			_renderData = _projector.projectScene( scene, camera, this.sortObjects, this.sortElements );
+			_elements = _renderData.elements;
+			_lights = _renderData.lights;
+			_camera = camera;
+
+			_normalViewMatrix.getNormalMatrix( camera.matrixWorldInverse );
+
+			/* DEBUG
+			setFillStyle( 'rgba( 0, 255, 255, 0.5 )' );
+			_context.fillRect( _clipBox.min.x, _clipBox.min.y, _clipBox.max.x - _clipBox.min.x, _clipBox.max.y - _clipBox.min.y );
+			*/
+
+			calculateLights();
+
+			for ( var e = 0, el = _elements.length; e < el; e ++ ) {
+
+				var element = _elements[ e ];
+
+				var material = element.material;
+
+				if ( material === undefined || material.opacity === 0 ) continue;
+
+				_elemBox.makeEmpty();
+
+				if ( element instanceof THREE.RenderableSprite ) {
+
+					_v1 = element;
+					_v1.x *= _canvasWidthHalf; _v1.y *= _canvasHeightHalf;
+
+					renderSprite( _v1, element, material );
+
+				} else if ( element instanceof THREE.RenderableLine ) {
+
+					_v1 = element.v1; _v2 = element.v2;
+
+					_v1.positionScreen.x *= _canvasWidthHalf; _v1.positionScreen.y *= _canvasHeightHalf;
+					_v2.positionScreen.x *= _canvasWidthHalf; _v2.positionScreen.y *= _canvasHeightHalf;
+
+					_elemBox.setFromPoints( [
+						_v1.positionScreen,
+						_v2.positionScreen
+					] );
+
+					if ( _clipBox.isIntersectionBox( _elemBox ) === true ) {
+
+						renderLine( _v1, _v2, element, material );
+
+					}
+
+				} else if ( element instanceof THREE.RenderableFace ) {
+
+					_v1 = element.v1; _v2 = element.v2; _v3 = element.v3;
+
+					if ( _v1.positionScreen.z < - 1 || _v1.positionScreen.z > 1 ) continue;
+					if ( _v2.positionScreen.z < - 1 || _v2.positionScreen.z > 1 ) continue;
+					if ( _v3.positionScreen.z < - 1 || _v3.positionScreen.z > 1 ) continue;
+
+					_v1.positionScreen.x *= _canvasWidthHalf; _v1.positionScreen.y *= _canvasHeightHalf;
+					_v2.positionScreen.x *= _canvasWidthHalf; _v2.positionScreen.y *= _canvasHeightHalf;
+					_v3.positionScreen.x *= _canvasWidthHalf; _v3.positionScreen.y *= _canvasHeightHalf;
+
+					if ( material.overdraw > 0 ) {
+
+						expand( _v1.positionScreen, _v2.positionScreen, material.overdraw );
+						expand( _v2.positionScreen, _v3.positionScreen, material.overdraw );
+						expand( _v3.positionScreen, _v1.positionScreen, material.overdraw );
+
+					}
+
+					_elemBox.setFromPoints( [
+						_v1.positionScreen,
+						_v2.positionScreen,
+						_v3.positionScreen
+					] );
+
+					if ( _clipBox.isIntersectionBox( _elemBox ) === true ) {
+
+						renderFace3( _v1, _v2, _v3, 0, 1, 2, element, material );
+
+					}
+
+				}
+
+				/* DEBUG
+				setLineWidth( 1 );
+				setStrokeStyle( 'rgba( 0, 255, 0, 0.5 )' );
+				_context.strokeRect( _elemBox.min.x, _elemBox.min.y, _elemBox.max.x - _elemBox.min.x, _elemBox.max.y - _elemBox.min.y );
+				*/
+
+				_clearBox.union( _elemBox );
+
+			}
+
+			/* DEBUG
+			setLineWidth( 1 );
+			setStrokeStyle( 'rgba( 255, 0, 0, 0.5 )' );
+			_context.strokeRect( _clearBox.min.x, _clearBox.min.y, _clearBox.max.x - _clearBox.min.x, _clearBox.max.y - _clearBox.min.y );
+			*/
+
+			_context.setTransform( 1, 0, 0, 1, 0, 0 );
+
+		};
+
+		//
+
+		function calculateLights() {
+
+			_ambientLight.setRGB( 0, 0, 0 );
+			_directionalLights.setRGB( 0, 0, 0 );
+			_pointLights.setRGB( 0, 0, 0 );
+
+			for ( var l = 0, ll = _lights.length; l < ll; l ++ ) {
+
+				var light = _lights[ l ];
+				var lightColor = light.color;
+
+				if ( light instanceof THREE.AmbientLight ) {
+
+					_ambientLight.add( lightColor );
+
+				} else if ( light instanceof THREE.DirectionalLight ) {
+
+					// for sprites
+
+					_directionalLights.add( lightColor );
+
+				} else if ( light instanceof THREE.PointLight ) {
+
+					// for sprites
+
+					_pointLights.add( lightColor );
+
+				}
+
+			}
+
+		}
+
+		function calculateLight( position, normal, color ) {
+
+			for ( var l = 0, ll = _lights.length; l < ll; l ++ ) {
+
+				var light = _lights[ l ];
+
+				_lightColor.copy( light.color );
+
+				if ( light instanceof THREE.DirectionalLight ) {
+
+					var lightPosition = _vector3.setFromMatrixPosition( light.matrixWorld ).normalize();
+
+					var amount = normal.dot( lightPosition );
+
+					if ( amount <= 0 ) continue;
+
+					amount *= light.intensity;
+
+					color.add( _lightColor.multiplyScalar( amount ) );
+
+				} else if ( light instanceof THREE.PointLight ) {
+
+					var lightPosition = _vector3.setFromMatrixPosition( light.matrixWorld );
+
+					var amount = normal.dot( _vector3.subVectors( lightPosition, position ).normalize() );
+
+					if ( amount <= 0 ) continue;
+
+					amount *= light.distance == 0 ? 1 : 1 - Math.min( position.distanceTo( lightPosition ) / light.distance, 1 );
+
+					if ( amount == 0 ) continue;
+
+					amount *= light.intensity;
+
+					color.add( _lightColor.multiplyScalar( amount ) );
+
+				}
+
+			}
+
+		}
+
+		function renderSprite( v1, element, material ) {
+
+			setOpacity( material.opacity );
+			setBlending( material.blending );
+
+			var scaleX = element.scale.x * _canvasWidthHalf;
+			var scaleY = element.scale.y * _canvasHeightHalf;
+
+			var dist = 0.5 * Math.sqrt( scaleX * scaleX + scaleY * scaleY ); // allow for rotated sprite
+			_elemBox.min.set( v1.x - dist, v1.y - dist );
+			_elemBox.max.set( v1.x + dist, v1.y + dist );
+
+			if ( material instanceof THREE.SpriteMaterial ) {
+
+				var texture = material.map;
+
+				if ( texture !== null && texture.image !== undefined ) {
+
+					if ( texture.hasEventListener( 'update', onTextureUpdate ) === false ) {
+
+						if ( texture.image.width > 0 ) {
+
+							textureToPattern( texture );
+
+						}
+
+						texture.addEventListener( 'update', onTextureUpdate );
+
+					}
+
+					var pattern = _patterns[ texture.id ];
+
+					if ( pattern !== undefined ) {
+
+						setFillStyle( pattern );
+
+					} else {
+
+						setFillStyle( 'rgba( 0, 0, 0, 1 )' );
+
+					}
+
+					//
+
+					var bitmap = texture.image;
+
+					var ox = bitmap.width * texture.offset.x;
+					var oy = bitmap.height * texture.offset.y;
+
+					var sx = bitmap.width * texture.repeat.x;
+					var sy = bitmap.height * texture.repeat.y;
+
+					var cx = scaleX / sx;
+					var cy = scaleY / sy;
+
+					_context.save();
+					_context.translate( v1.x, v1.y );
+					if ( material.rotation !== 0 ) _context.rotate( material.rotation );
+					_context.translate( - scaleX / 2, - scaleY / 2 );
+					_context.scale( cx, cy );
+					_context.translate( - ox, - oy );
+					_context.fillRect( ox, oy, sx, sy );
+					_context.restore();
+
+				} else {
+
+					// no texture
+
+					setFillStyle( material.color.getStyle() );
+
+					_context.save();
+					_context.translate( v1.x, v1.y );
+					if ( material.rotation !== 0 ) _context.rotate( material.rotation );
+					_context.scale( scaleX, - scaleY );
+					_context.fillRect( - 0.5, - 0.5, 1, 1 );
+					_context.restore();
+
+				}
+
+			} else if ( material instanceof THREE.SpriteCanvasMaterial ) {
+
+				setStrokeStyle( material.color.getStyle() );
+				setFillStyle( material.color.getStyle() );
+
+				_context.save();
+				_context.translate( v1.x, v1.y );
+				if ( material.rotation !== 0 ) _context.rotate( material.rotation );
+				_context.scale( scaleX, scaleY );
+
+				material.program( _context );
+
+				_context.restore();
+
+			}
+
+			/* DEBUG
+			setStrokeStyle( 'rgb(255,255,0)' );
+			_context.beginPath();
+			_context.moveTo( v1.x - 10, v1.y );
+			_context.lineTo( v1.x + 10, v1.y );
+			_context.moveTo( v1.x, v1.y - 10 );
+			_context.lineTo( v1.x, v1.y + 10 );
+			_context.stroke();
+			*/
+
+		}
+
+		function renderLine( v1, v2, element, material ) {
+
+			setOpacity( material.opacity );
+			setBlending( material.blending );
+
+			_context.beginPath();
+			_context.moveTo( v1.positionScreen.x, v1.positionScreen.y );
+			_context.lineTo( v2.positionScreen.x, v2.positionScreen.y );
+
+			if ( material instanceof THREE.LineBasicMaterial ) {
+
+				setLineWidth( material.linewidth );
+				setLineCap( material.linecap );
+				setLineJoin( material.linejoin );
+
+				if ( material.vertexColors !== THREE.VertexColors ) {
+
+					setStrokeStyle( material.color.getStyle() );
+
+				} else {
+
+					var colorStyle1 = element.vertexColors[ 0 ].getStyle();
+					var colorStyle2 = element.vertexColors[ 1 ].getStyle();
+
+					if ( colorStyle1 === colorStyle2 ) {
+
+						setStrokeStyle( colorStyle1 );
+
+					} else {
+
+						try {
+
+							var grad = _context.createLinearGradient(
+								v1.positionScreen.x,
+								v1.positionScreen.y,
+								v2.positionScreen.x,
+								v2.positionScreen.y
+							);
+							grad.addColorStop( 0, colorStyle1 );
+							grad.addColorStop( 1, colorStyle2 );
+
+						} catch ( exception ) {
+
+							grad = colorStyle1;
+
+						}
+
+						setStrokeStyle( grad );
+
+					}
+
+				}
+
+				_context.stroke();
+				_elemBox.expandByScalar( material.linewidth * 2 );
+
+			} else if ( material instanceof THREE.LineDashedMaterial ) {
+
+				setLineWidth( material.linewidth );
+				setLineCap( material.linecap );
+				setLineJoin( material.linejoin );
+				setStrokeStyle( material.color.getStyle() );
+				setLineDash( [ material.dashSize, material.gapSize ] );
+
+				_context.stroke();
+
+				_elemBox.expandByScalar( material.linewidth * 2 );
+
+				setLineDash( [] );
+
+			}
+
+		}
+
+		function renderFace3( v1, v2, v3, uv1, uv2, uv3, element, material ) {
+
+			_this.info.render.vertices += 3;
+			_this.info.render.faces ++;
+
+			setOpacity( material.opacity );
+			setBlending( material.blending );
+
+			_v1x = v1.positionScreen.x; _v1y = v1.positionScreen.y;
+			_v2x = v2.positionScreen.x; _v2y = v2.positionScreen.y;
+			_v3x = v3.positionScreen.x; _v3y = v3.positionScreen.y;
+
+			drawTriangle( _v1x, _v1y, _v2x, _v2y, _v3x, _v3y );
+
+			if ( ( material instanceof THREE.MeshLambertMaterial || material instanceof THREE.MeshPhongMaterial ) && material.map === null ) {
+
+				_diffuseColor.copy( material.color );
+				_emissiveColor.copy( material.emissive );
+
+				if ( material.vertexColors === THREE.FaceColors ) {
+
+					_diffuseColor.multiply( element.color );
+
+				}
+
+				_color.copy( _ambientLight );
+
+				_centroid.copy( v1.positionWorld ).add( v2.positionWorld ).add( v3.positionWorld ).divideScalar( 3 );
+
+				calculateLight( _centroid, element.normalModel, _color );
+
+				_color.multiply( _diffuseColor ).add( _emissiveColor );
+
+				material.wireframe === true
+					 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
+					 : fillPath( _color );
+
+			} else if ( material instanceof THREE.MeshBasicMaterial ||
+					    material instanceof THREE.MeshLambertMaterial ||
+					    material instanceof THREE.MeshPhongMaterial ) {
+
+				if ( material.map !== null ) {
+
+					if ( material.map.mapping instanceof THREE.UVMapping ) {
+
+						_uvs = element.uvs;
+						patternPath( _v1x, _v1y, _v2x, _v2y, _v3x, _v3y, _uvs[ uv1 ].x, _uvs[ uv1 ].y, _uvs[ uv2 ].x, _uvs[ uv2 ].y, _uvs[ uv3 ].x, _uvs[ uv3 ].y, material.map );
+
+					}
+
+				} else if ( material.envMap !== null ) {
+
+					if ( material.envMap.mapping instanceof THREE.SphericalReflectionMapping ) {
+
+						_normal.copy( element.vertexNormalsModel[ uv1 ] ).applyMatrix3( _normalViewMatrix );
+						_uv1x = 0.5 * _normal.x + 0.5;
+						_uv1y = 0.5 * _normal.y + 0.5;
+
+						_normal.copy( element.vertexNormalsModel[ uv2 ] ).applyMatrix3( _normalViewMatrix );
+						_uv2x = 0.5 * _normal.x + 0.5;
+						_uv2y = 0.5 * _normal.y + 0.5;
+
+						_normal.copy( element.vertexNormalsModel[ uv3 ] ).applyMatrix3( _normalViewMatrix );
+						_uv3x = 0.5 * _normal.x + 0.5;
+						_uv3y = 0.5 * _normal.y + 0.5;
+
+						patternPath( _v1x, _v1y, _v2x, _v2y, _v3x, _v3y, _uv1x, _uv1y, _uv2x, _uv2y, _uv3x, _uv3y, material.envMap );
+
+					} else if ( material.envMap.mapping instanceof THREE.SphericalRefractionMapping ) {
+
+						_normal.copy( element.vertexNormalsModel[ uv1 ] ).applyMatrix3( _normalViewMatrix );
+						_uv1x = - 0.5 * _normal.x + 0.5;
+						_uv1y = - 0.5 * _normal.y + 0.5;
+
+						_normal.copy( element.vertexNormalsModel[ uv2 ] ).applyMatrix3( _normalViewMatrix );
+						_uv2x = - 0.5 * _normal.x + 0.5;
+						_uv2y = - 0.5 * _normal.y + 0.5;
+
+						_normal.copy( element.vertexNormalsModel[ uv3 ] ).applyMatrix3( _normalViewMatrix );
+						_uv3x = - 0.5 * _normal.x + 0.5;
+						_uv3y = - 0.5 * _normal.y + 0.5;
+
+						patternPath( _v1x, _v1y, _v2x, _v2y, _v3x, _v3y, _uv1x, _uv1y, _uv2x, _uv2y, _uv3x, _uv3y, material.envMap );
+
+					}
+
+
+				} else {
+
+					_color.copy( material.color );
+
+					if ( material.vertexColors === THREE.FaceColors ) {
+
+						_color.multiply( element.color );
+
+					}
+
+					material.wireframe === true
+						 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
+						 : fillPath( _color );
+
+				}
+
+			} else if ( material instanceof THREE.MeshDepthMaterial ) {
+
+				_color.r = _color.g = _color.b = 1 - smoothstep( v1.positionScreen.z * v1.positionScreen.w, _camera.near, _camera.far );
+
+				material.wireframe === true
+						 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
+						 : fillPath( _color );
+
+			} else if ( material instanceof THREE.MeshNormalMaterial ) {
+
+				_normal.copy( element.normalModel ).applyMatrix3( _normalViewMatrix );
+
+				_color.setRGB( _normal.x, _normal.y, _normal.z ).multiplyScalar( 0.5 ).addScalar( 0.5 );
+
+				material.wireframe === true
+					 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
+					 : fillPath( _color );
+
+			} else {
+
+				_color.setRGB( 1, 1, 1 );
+
+				material.wireframe === true
+					 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
+					 : fillPath( _color );
+
+			}
+
+		}
+
+		//
+
+		function drawTriangle( x0, y0, x1, y1, x2, y2 ) {
+
+			_context.beginPath();
+			_context.moveTo( x0, y0 );
+			_context.lineTo( x1, y1 );
+			_context.lineTo( x2, y2 );
+			_context.closePath();
+
+		}
+
+		function strokePath( color, linewidth, linecap, linejoin ) {
+
+			setLineWidth( linewidth );
+			setLineCap( linecap );
+			setLineJoin( linejoin );
+			setStrokeStyle( color.getStyle() );
+
+			_context.stroke();
+
+			_elemBox.expandByScalar( linewidth * 2 );
+
+		}
+
+		function fillPath( color ) {
+
+			setFillStyle( color.getStyle() );
+			_context.fill();
+
+		}
+
+		function onTextureUpdate ( event ) {
+
+			textureToPattern( event.target );
+
+		}
+
+		function textureToPattern( texture ) {
+
+			if ( texture instanceof THREE.CompressedTexture ) return;
+
+			var repeatX = texture.wrapS === THREE.RepeatWrapping;
+			var repeatY = texture.wrapT === THREE.RepeatWrapping;
+
+			var image = texture.image;
+
+			var canvas = document.createElement( 'canvas' );
+			canvas.width = image.width;
+			canvas.height = image.height;
+
+			var context = canvas.getContext( '2d' );
+			context.setTransform( 1, 0, 0, - 1, 0, image.height );
+			context.drawImage( image, 0, 0 );
+
+			_patterns[ texture.id ] = _context.createPattern(
+				canvas, repeatX === true && repeatY === true
+					 ? 'repeat'
+					 : repeatX === true && repeatY === false
+						 ? 'repeat-x'
+						 : repeatX === false && repeatY === true
+							 ? 'repeat-y'
+							 : 'no-repeat'
+			);
+
+		}
+
+		function patternPath( x0, y0, x1, y1, x2, y2, u0, v0, u1, v1, u2, v2, texture ) {
+
+			if ( texture instanceof THREE.DataTexture ) return;
+
+			if ( texture.hasEventListener( 'update', onTextureUpdate ) === false ) {
+
+				if ( texture.image !== undefined && texture.image.width > 0 ) {
+
+					textureToPattern( texture );
+
+				}
+
+				texture.addEventListener( 'update', onTextureUpdate );
+
+			}
+
+			var pattern = _patterns[ texture.id ];
+
+			if ( pattern !== undefined ) {
+
+				setFillStyle( pattern );
+
+			} else {
+
+				setFillStyle( 'rgba(0,0,0,1)' );
+				_context.fill();
+
+				return;
+
+			}
+
+			// http://extremelysatisfactorytotalitarianism.com/blog/?p=2120
+
+			var a, b, c, d, e, f, det, idet,
+			offsetX = texture.offset.x / texture.repeat.x,
+			offsetY = texture.offset.y / texture.repeat.y,
+			width = texture.image.width * texture.repeat.x,
+			height = texture.image.height * texture.repeat.y;
+
+			u0 = ( u0 + offsetX ) * width;
+			v0 = ( v0 + offsetY ) * height;
+
+			u1 = ( u1 + offsetX ) * width;
+			v1 = ( v1 + offsetY ) * height;
+
+			u2 = ( u2 + offsetX ) * width;
+			v2 = ( v2 + offsetY ) * height;
+
+			x1 -= x0; y1 -= y0;
+			x2 -= x0; y2 -= y0;
+
+			u1 -= u0; v1 -= v0;
+			u2 -= u0; v2 -= v0;
+
+			det = u1 * v2 - u2 * v1;
+
+			if ( det === 0 ) return;
+
+			idet = 1 / det;
+
+			a = ( v2 * x1 - v1 * x2 ) * idet;
+			b = ( v2 * y1 - v1 * y2 ) * idet;
+			c = ( u1 * x2 - u2 * x1 ) * idet;
+			d = ( u1 * y2 - u2 * y1 ) * idet;
+
+			e = x0 - a * u0 - c * v0;
+			f = y0 - b * u0 - d * v0;
+
+			_context.save();
+			_context.transform( a, b, c, d, e, f );
+			_context.fill();
+			_context.restore();
+
+		}
+
+		function clipImage( x0, y0, x1, y1, x2, y2, u0, v0, u1, v1, u2, v2, image ) {
+
+			// http://extremelysatisfactorytotalitarianism.com/blog/?p=2120
+
+			var a, b, c, d, e, f, det, idet,
+			width = image.width - 1,
+			height = image.height - 1;
+
+			u0 *= width; v0 *= height;
+			u1 *= width; v1 *= height;
+			u2 *= width; v2 *= height;
+
+			x1 -= x0; y1 -= y0;
+			x2 -= x0; y2 -= y0;
+
+			u1 -= u0; v1 -= v0;
+			u2 -= u0; v2 -= v0;
+
+			det = u1 * v2 - u2 * v1;
+
+			idet = 1 / det;
+
+			a = ( v2 * x1 - v1 * x2 ) * idet;
+			b = ( v2 * y1 - v1 * y2 ) * idet;
+			c = ( u1 * x2 - u2 * x1 ) * idet;
+			d = ( u1 * y2 - u2 * y1 ) * idet;
+
+			e = x0 - a * u0 - c * v0;
+			f = y0 - b * u0 - d * v0;
+
+			_context.save();
+			_context.transform( a, b, c, d, e, f );
+			_context.clip();
+			_context.drawImage( image, 0, 0 );
+			_context.restore();
+
+		}
+
+		// Hide anti-alias gaps
+
+		function expand( v1, v2, pixels ) {
+
+			var x = v2.x - v1.x, y = v2.y - v1.y,
+			det = x * x + y * y, idet;
+
+			if ( det === 0 ) return;
+
+			idet = pixels / Math.sqrt( det );
+
+			x *= idet; y *= idet;
+
+			v2.x += x; v2.y += y;
+			v1.x -= x; v1.y -= y;
+
+		}
+
+		// Context cached methods.
+
+		function setOpacity( value ) {
+
+			if ( _contextGlobalAlpha !== value ) {
+
+				_context.globalAlpha = value;
+				_contextGlobalAlpha = value;
+
+			}
+
+		}
+
+		function setBlending( value ) {
+
+			if ( _contextGlobalCompositeOperation !== value ) {
+
+				if ( value === THREE.NormalBlending ) {
+
+					_context.globalCompositeOperation = 'source-over';
+
+				} else if ( value === THREE.AdditiveBlending ) {
+
+					_context.globalCompositeOperation = 'lighter';
+
+				} else if ( value === THREE.SubtractiveBlending ) {
+
+					_context.globalCompositeOperation = 'darker';
+
+				}
+
+				_contextGlobalCompositeOperation = value;
+
+			}
+
+		}
+
+		function setLineWidth( value ) {
+
+			if ( _contextLineWidth !== value ) {
+
+				_context.lineWidth = value;
+				_contextLineWidth = value;
+
+			}
+
+		}
+
+		function setLineCap( value ) {
+
+			// "butt", "round", "square"
+
+			if ( _contextLineCap !== value ) {
+
+				_context.lineCap = value;
+				_contextLineCap = value;
+
+			}
+
+		}
+
+		function setLineJoin( value ) {
+
+			// "round", "bevel", "miter"
+
+			if ( _contextLineJoin !== value ) {
+
+				_context.lineJoin = value;
+				_contextLineJoin = value;
+
+			}
+
+		}
+
+		function setStrokeStyle( value ) {
+
+			if ( _contextStrokeStyle !== value ) {
+
+				_context.strokeStyle = value;
+				_contextStrokeStyle = value;
+
+			}
+
+		}
+
+		function setFillStyle( value ) {
+
+			if ( _contextFillStyle !== value ) {
+
+				_context.fillStyle = value;
+				_contextFillStyle = value;
+
+			}
+
+		}
+
+		function setLineDash( value ) {
+
+			if ( _contextLineDash.length !== value.length ) {
+
+				_context.setLineDash( value );
+				_contextLineDash = value;
+
+			}
+
+		}
+
+	};
+
+/***/ },
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -62705,2056 +64751,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 62 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * @author mrdoob / http://mrdoob.com/
-	 * @author supereggbert / http://www.paulbrunt.co.uk/
-	 * @author julianwa / https://github.com/julianwa
-	 */
-
-	THREE.RenderableObject = function () {
-
-		this.id = 0;
-
-		this.object = null;
-		this.z = 0;
-
-	};
-
-	//
-
-	THREE.RenderableFace = function () {
-
-		this.id = 0;
-
-		this.v1 = new THREE.RenderableVertex();
-		this.v2 = new THREE.RenderableVertex();
-		this.v3 = new THREE.RenderableVertex();
-
-		this.normalModel = new THREE.Vector3();
-
-		this.vertexNormalsModel = [ new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3() ];
-		this.vertexNormalsLength = 0;
-
-		this.color = new THREE.Color();
-		this.material = null;
-		this.uvs = [ new THREE.Vector2(), new THREE.Vector2(), new THREE.Vector2() ];
-
-		this.z = 0;
-
-	};
-
-	//
-
-	THREE.RenderableVertex = function () {
-
-		this.position = new THREE.Vector3();
-		this.positionWorld = new THREE.Vector3();
-		this.positionScreen = new THREE.Vector4();
-
-		this.visible = true;
-
-	};
-
-	THREE.RenderableVertex.prototype.copy = function ( vertex ) {
-
-		this.positionWorld.copy( vertex.positionWorld );
-		this.positionScreen.copy( vertex.positionScreen );
-
-	};
-
-	//
-
-	THREE.RenderableLine = function () {
-
-		this.id = 0;
-
-		this.v1 = new THREE.RenderableVertex();
-		this.v2 = new THREE.RenderableVertex();
-
-		this.vertexColors = [ new THREE.Color(), new THREE.Color() ];
-		this.material = null;
-
-		this.z = 0;
-
-	};
-
-	//
-
-	THREE.RenderableSprite = function () {
-
-		this.id = 0;
-
-		this.object = null;
-
-		this.x = 0;
-		this.y = 0;
-		this.z = 0;
-
-		this.rotation = 0;
-		this.scale = new THREE.Vector2();
-
-		this.material = null;
-
-	};
-
-	//
-
-	THREE.Projector = function () {
-
-		var _object, _objectCount, _objectPool = [], _objectPoolLength = 0,
-		_vertex, _vertexCount, _vertexPool = [], _vertexPoolLength = 0,
-		_face, _faceCount, _facePool = [], _facePoolLength = 0,
-		_line, _lineCount, _linePool = [], _linePoolLength = 0,
-		_sprite, _spriteCount, _spritePool = [], _spritePoolLength = 0,
-
-		_renderData = { objects: [], lights: [], elements: [] },
-
-		_vA = new THREE.Vector3(),
-		_vB = new THREE.Vector3(),
-		_vC = new THREE.Vector3(),
-
-		_vector3 = new THREE.Vector3(),
-		_vector4 = new THREE.Vector4(),
-
-		_clipBox = new THREE.Box3( new THREE.Vector3( - 1, - 1, - 1 ), new THREE.Vector3( 1, 1, 1 ) ),
-		_boundingBox = new THREE.Box3(),
-		_points3 = new Array( 3 ),
-		_points4 = new Array( 4 ),
-
-		_viewMatrix = new THREE.Matrix4(),
-		_viewProjectionMatrix = new THREE.Matrix4(),
-
-		_modelMatrix,
-		_modelViewProjectionMatrix = new THREE.Matrix4(),
-
-		_normalMatrix = new THREE.Matrix3(),
-
-		_frustum = new THREE.Frustum(),
-
-		_clippedVertex1PositionScreen = new THREE.Vector4(),
-		_clippedVertex2PositionScreen = new THREE.Vector4();
-		
-		//
-
-		this.projectVector = function ( vector, camera ) {
-
-			console.warn( 'THREE.Projector: .projectVector() is now vector.project().' );
-			vector.project( camera );
-
-		};
-
-		this.unprojectVector = function ( vector, camera ) {
-
-			console.warn( 'THREE.Projector: .unprojectVector() is now vector.unproject().' );
-			vector.unproject( camera );
-
-		};
-
-		this.pickingRay = function ( vector, camera ) {
-
-			console.error( 'THREE.Projector: .pickingRay() has been removed.' );
-
-		};
-		
-		//
-
-		var RenderList = function () {
-
-			var normals = [];
-			var uvs = [];
-
-			var object = null;
-			var material = null;
-
-			var normalMatrix = new THREE.Matrix3();
-
-			var setObject = function ( value ) {
-
-				object = value;
-				material = object.material;
-
-				normalMatrix.getNormalMatrix( object.matrixWorld );
-
-				normals.length = 0;
-				uvs.length = 0;
-
-			};
-
-			var projectVertex = function ( vertex ) {
-
-				var position = vertex.position;
-				var positionWorld = vertex.positionWorld;
-				var positionScreen = vertex.positionScreen;
-
-				positionWorld.copy( position ).applyMatrix4( _modelMatrix );
-				positionScreen.copy( positionWorld ).applyMatrix4( _viewProjectionMatrix );
-
-				var invW = 1 / positionScreen.w;
-
-				positionScreen.x *= invW;
-				positionScreen.y *= invW;
-				positionScreen.z *= invW;
-
-				vertex.visible = positionScreen.x >= - 1 && positionScreen.x <= 1 &&
-						 positionScreen.y >= - 1 && positionScreen.y <= 1 &&
-						 positionScreen.z >= - 1 && positionScreen.z <= 1;
-
-			};
-
-			var pushVertex = function ( x, y, z ) {
-
-				_vertex = getNextVertexInPool();
-				_vertex.position.set( x, y, z );
-
-				projectVertex( _vertex );
-
-			};
-
-			var pushNormal = function ( x, y, z ) {
-
-				normals.push( x, y, z );
-
-			};
-
-			var pushUv = function ( x, y ) {
-
-				uvs.push( x, y );
-
-			};
-
-			var checkTriangleVisibility = function ( v1, v2, v3 ) {
-
-				if ( v1.visible === true || v2.visible === true || v3.visible === true ) return true;
-
-				_points3[ 0 ] = v1.positionScreen;
-				_points3[ 1 ] = v2.positionScreen;
-				_points3[ 2 ] = v3.positionScreen;
-
-				return _clipBox.isIntersectionBox( _boundingBox.setFromPoints( _points3 ) );
-
-			};
-
-			var checkBackfaceCulling = function ( v1, v2, v3 ) {
-
-				return ( ( v3.positionScreen.x - v1.positionScreen.x ) *
-					    ( v2.positionScreen.y - v1.positionScreen.y ) -
-					    ( v3.positionScreen.y - v1.positionScreen.y ) *
-					    ( v2.positionScreen.x - v1.positionScreen.x ) ) < 0;
-
-			};
-
-			var pushLine = function ( a, b ) {
-
-				var v1 = _vertexPool[ a ];
-				var v2 = _vertexPool[ b ];
-
-				_line = getNextLineInPool();
-
-				_line.id = object.id;
-				_line.v1.copy( v1 );
-				_line.v2.copy( v2 );
-				_line.z = ( v1.positionScreen.z + v2.positionScreen.z ) / 2;
-
-				_line.material = object.material;
-
-				_renderData.elements.push( _line );
-
-			};
-
-			var pushTriangle = function ( a, b, c ) {
-
-				var v1 = _vertexPool[ a ];
-				var v2 = _vertexPool[ b ];
-				var v3 = _vertexPool[ c ];
-
-				if ( checkTriangleVisibility( v1, v2, v3 ) === false ) return;
-
-				if ( material.side === THREE.DoubleSide || checkBackfaceCulling( v1, v2, v3 ) === true ) {
-
-					_face = getNextFaceInPool();
-
-					_face.id = object.id;
-					_face.v1.copy( v1 );
-					_face.v2.copy( v2 );
-					_face.v3.copy( v3 );
-					_face.z = ( v1.positionScreen.z + v2.positionScreen.z + v3.positionScreen.z ) / 3;
-
-					for ( var i = 0; i < 3; i ++ ) {
-
-						var offset = arguments[ i ] * 3;
-						var normal = _face.vertexNormalsModel[ i ];
-
-						normal.set( normals[ offset ], normals[ offset + 1 ], normals[ offset + 2 ] );
-						normal.applyMatrix3( normalMatrix ).normalize();
-
-						var offset2 = arguments[ i ] * 2;
-
-						var uv = _face.uvs[ i ];
-						uv.set( uvs[ offset2 ], uvs[ offset2 + 1 ] );
-
-					}
-
-					_face.vertexNormalsLength = 3;
-
-					_face.material = object.material;
-
-					_renderData.elements.push( _face );
-
-				}
-
-			};
-
-			return {
-				setObject: setObject,
-				projectVertex: projectVertex,
-				checkTriangleVisibility: checkTriangleVisibility,
-				checkBackfaceCulling: checkBackfaceCulling,
-				pushVertex: pushVertex,
-				pushNormal: pushNormal,
-				pushUv: pushUv,
-				pushLine: pushLine,
-				pushTriangle: pushTriangle
-			}
-
-		};
-
-		var renderList = new RenderList();
-
-		this.projectScene = function ( scene, camera, sortObjects, sortElements ) {
-
-			_faceCount = 0;
-			_lineCount = 0;
-			_spriteCount = 0;
-
-			_renderData.elements.length = 0;
-
-			if ( scene.autoUpdate === true ) scene.updateMatrixWorld();
-			if ( camera.parent === undefined ) camera.updateMatrixWorld();
-
-			_viewMatrix.copy( camera.matrixWorldInverse.getInverse( camera.matrixWorld ) );
-			_viewProjectionMatrix.multiplyMatrices( camera.projectionMatrix, _viewMatrix );
-
-			_frustum.setFromMatrix( _viewProjectionMatrix );
-
-			//
-
-			_objectCount = 0;
-
-			_renderData.objects.length = 0;
-			_renderData.lights.length = 0;
-
-			scene.traverseVisible( function ( object ) {
-
-				if ( object instanceof THREE.Light ) {
-
-					_renderData.lights.push( object );
-
-				} else if ( object instanceof THREE.Mesh || object instanceof THREE.Line || object instanceof THREE.Sprite ) {
-
-					if ( object.material.visible === false ) return;
-
-					if ( object.frustumCulled === false || _frustum.intersectsObject( object ) === true ) {
-
-						_object = getNextObjectInPool();
-						_object.id = object.id;
-						_object.object = object;
-
-						if ( object.renderDepth !== null ) {
-
-							_object.z = object.renderDepth;
-
-						} else {
-
-							_vector3.setFromMatrixPosition( object.matrixWorld );
-							_vector3.applyProjection( _viewProjectionMatrix );
-							_object.z = _vector3.z;
-
-						}
-
-						_renderData.objects.push( _object );
-
-					}
-
-				}
-
-			} );
-
-			if ( sortObjects === true ) {
-
-				_renderData.objects.sort( painterSort );
-
-			}
-
-			//
-
-			for ( var o = 0, ol = _renderData.objects.length; o < ol; o ++ ) {
-
-				var object = _renderData.objects[ o ].object;
-				var geometry = object.geometry;
-
-				renderList.setObject( object );
-
-				_modelMatrix = object.matrixWorld;
-
-				_vertexCount = 0;
-
-				if ( object instanceof THREE.Mesh ) {
-
-					if ( geometry instanceof THREE.BufferGeometry ) {
-
-						var attributes = geometry.attributes;
-						var offsets = geometry.offsets;
-
-						if ( attributes.position === undefined ) continue;
-
-						var positions = attributes.position.array;
-
-						for ( var i = 0, l = positions.length; i < l; i += 3 ) {
-
-							renderList.pushVertex( positions[ i ], positions[ i + 1 ], positions[ i + 2 ] );
-
-						}
-
-						if ( attributes.normal !== undefined ) {
-
-							var normals = attributes.normal.array;
-
-							for ( var i = 0, l = normals.length; i < l; i += 3 ) {
-
-								renderList.pushNormal( normals[ i ], normals[ i + 1 ], normals[ i + 2 ] );
-
-							}
-
-						}
-
-						if ( attributes.uv !== undefined ) {
-
-							var uvs = attributes.uv.array;
-
-							for ( var i = 0, l = uvs.length; i < l; i += 2 ) {
-
-								renderList.pushUv( uvs[ i ], uvs[ i + 1 ] );
-
-							}
-
-						}
-
-						if ( attributes.index !== undefined ) {
-
-							var indices = attributes.index.array;
-
-							if ( offsets.length > 0 ) {
-
-								for ( var o = 0; o < offsets.length; o ++ ) {
-
-									var offset = offsets[ o ];
-									var index = offset.index;
-
-									for ( var i = offset.start, l = offset.start + offset.count; i < l; i += 3 ) {
-
-										renderList.pushTriangle( indices[ i ] + index, indices[ i + 1 ] + index, indices[ i + 2 ] + index );
-
-									}
-
-								}
-
-							} else {
-
-								for ( var i = 0, l = indices.length; i < l; i += 3 ) {
-
-									renderList.pushTriangle( indices[ i ], indices[ i + 1 ], indices[ i + 2 ] );
-
-								}
-
-							}
-
-						} else {
-
-							for ( var i = 0, l = positions.length / 3; i < l; i += 3 ) {
-
-								renderList.pushTriangle( i, i + 1, i + 2 );
-
-							}
-
-						}
-
-					} else if ( geometry instanceof THREE.Geometry ) {
-
-						var vertices = geometry.vertices;
-						var faces = geometry.faces;
-						var faceVertexUvs = geometry.faceVertexUvs[ 0 ];
-
-						_normalMatrix.getNormalMatrix( _modelMatrix );
-
-						var isFaceMaterial = object.material instanceof THREE.MeshFaceMaterial;
-						var objectMaterials = isFaceMaterial === true ? object.material : null;
-
-						for ( var v = 0, vl = vertices.length; v < vl; v ++ ) {
-
-							var vertex = vertices[ v ];
-							renderList.pushVertex( vertex.x, vertex.y, vertex.z );
-
-						}
-
-						for ( var f = 0, fl = faces.length; f < fl; f ++ ) {
-
-							var face = faces[ f ];
-
-							var material = isFaceMaterial === true
-								 ? objectMaterials.materials[ face.materialIndex ]
-								 : object.material;
-
-							if ( material === undefined ) continue;
-
-							var side = material.side;
-
-							var v1 = _vertexPool[ face.a ];
-							var v2 = _vertexPool[ face.b ];
-							var v3 = _vertexPool[ face.c ];
-
-							if ( material.morphTargets === true ) {
-
-								var morphTargets = geometry.morphTargets;
-								var morphInfluences = object.morphTargetInfluences;
-
-								var v1p = v1.position;
-								var v2p = v2.position;
-								var v3p = v3.position;
-
-								_vA.set( 0, 0, 0 );
-								_vB.set( 0, 0, 0 );
-								_vC.set( 0, 0, 0 );
-
-								for ( var t = 0, tl = morphTargets.length; t < tl; t ++ ) {
-
-									var influence = morphInfluences[ t ];
-
-									if ( influence === 0 ) continue;
-
-									var targets = morphTargets[ t ].vertices;
-
-									_vA.x += ( targets[ face.a ].x - v1p.x ) * influence;
-									_vA.y += ( targets[ face.a ].y - v1p.y ) * influence;
-									_vA.z += ( targets[ face.a ].z - v1p.z ) * influence;
-
-									_vB.x += ( targets[ face.b ].x - v2p.x ) * influence;
-									_vB.y += ( targets[ face.b ].y - v2p.y ) * influence;
-									_vB.z += ( targets[ face.b ].z - v2p.z ) * influence;
-
-									_vC.x += ( targets[ face.c ].x - v3p.x ) * influence;
-									_vC.y += ( targets[ face.c ].y - v3p.y ) * influence;
-									_vC.z += ( targets[ face.c ].z - v3p.z ) * influence;
-
-								}
-
-								v1.position.add( _vA );
-								v2.position.add( _vB );
-								v3.position.add( _vC );
-
-								renderList.projectVertex( v1 );
-								renderList.projectVertex( v2 );
-								renderList.projectVertex( v3 );
-
-							}
-
-							if ( renderList.checkTriangleVisibility( v1, v2, v3 ) === false ) continue;
-
-							var visible = renderList.checkBackfaceCulling( v1, v2, v3 );
-
-							if ( side !== THREE.DoubleSide ) {
-								if ( side === THREE.FrontSide && visible === false ) continue;
-								if ( side === THREE.BackSide && visible === true ) continue;
-							}
-
-							_face = getNextFaceInPool();
-
-							_face.id = object.id;
-							_face.v1.copy( v1 );
-							_face.v2.copy( v2 );
-							_face.v3.copy( v3 );
-
-							_face.normalModel.copy( face.normal );
-
-							if ( visible === false && ( side === THREE.BackSide || side === THREE.DoubleSide ) ) {
-
-								_face.normalModel.negate();
-
-							}
-
-							_face.normalModel.applyMatrix3( _normalMatrix ).normalize();
-
-							var faceVertexNormals = face.vertexNormals;
-
-							for ( var n = 0, nl = Math.min( faceVertexNormals.length, 3 ); n < nl; n ++ ) {
-
-								var normalModel = _face.vertexNormalsModel[ n ];
-								normalModel.copy( faceVertexNormals[ n ] );
-
-								if ( visible === false && ( side === THREE.BackSide || side === THREE.DoubleSide ) ) {
-
-									normalModel.negate();
-
-								}
-
-								normalModel.applyMatrix3( _normalMatrix ).normalize();
-
-							}
-
-							_face.vertexNormalsLength = faceVertexNormals.length;
-
-							var vertexUvs = faceVertexUvs[ f ];
-
-							if ( vertexUvs !== undefined ) {
-
-								for ( var u = 0; u < 3; u ++ ) {
-
-									_face.uvs[ u ].copy( vertexUvs[ u ] );
-
-								}
-
-							}
-
-							_face.color = face.color;
-							_face.material = material;
-
-							_face.z = ( v1.positionScreen.z + v2.positionScreen.z + v3.positionScreen.z ) / 3;
-
-							_renderData.elements.push( _face );
-
-						}
-
-					}
-
-				} else if ( object instanceof THREE.Line ) {
-
-					if ( geometry instanceof THREE.BufferGeometry ) {
-
-						var attributes = geometry.attributes;
-
-						if ( attributes.position !== undefined ) {
-
-							var positions = attributes.position.array;
-
-							for ( var i = 0, l = positions.length; i < l; i += 3 ) {
-
-								renderList.pushVertex( positions[ i ], positions[ i + 1 ], positions[ i + 2 ] );
-
-							}
-
-							if ( attributes.index !== undefined ) {
-
-								var indices = attributes.index.array;
-
-								for ( var i = 0, l = indices.length; i < l; i += 2 ) {
-
-									renderList.pushLine( indices[ i ], indices[ i + 1 ] );
-
-								}
-
-							} else {
-
-								var step = object.mode === THREE.LinePieces ? 2 : 1;
-
-								for ( var i = 0, l = ( positions.length / 3 ) - 1; i < l; i += step ) {
-
-									renderList.pushLine( i, i + 1 );
-
-								}
-
-							}
-
-						}
-
-					} else if ( geometry instanceof THREE.Geometry ) {
-
-						_modelViewProjectionMatrix.multiplyMatrices( _viewProjectionMatrix, _modelMatrix );
-
-						var vertices = object.geometry.vertices;
-
-						if ( vertices.length === 0 ) continue;
-
-						v1 = getNextVertexInPool();
-						v1.positionScreen.copy( vertices[ 0 ] ).applyMatrix4( _modelViewProjectionMatrix );
-
-						// Handle LineStrip and LinePieces
-						var step = object.mode === THREE.LinePieces ? 2 : 1;
-
-						for ( var v = 1, vl = vertices.length; v < vl; v ++ ) {
-
-							v1 = getNextVertexInPool();
-							v1.positionScreen.copy( vertices[ v ] ).applyMatrix4( _modelViewProjectionMatrix );
-
-							if ( ( v + 1 ) % step > 0 ) continue;
-
-							v2 = _vertexPool[ _vertexCount - 2 ];
-
-							_clippedVertex1PositionScreen.copy( v1.positionScreen );
-							_clippedVertex2PositionScreen.copy( v2.positionScreen );
-
-							if ( clipLine( _clippedVertex1PositionScreen, _clippedVertex2PositionScreen ) === true ) {
-
-								// Perform the perspective divide
-								_clippedVertex1PositionScreen.multiplyScalar( 1 / _clippedVertex1PositionScreen.w );
-								_clippedVertex2PositionScreen.multiplyScalar( 1 / _clippedVertex2PositionScreen.w );
-
-								_line = getNextLineInPool();
-
-								_line.id = object.id;
-								_line.v1.positionScreen.copy( _clippedVertex1PositionScreen );
-								_line.v2.positionScreen.copy( _clippedVertex2PositionScreen );
-
-								_line.z = Math.max( _clippedVertex1PositionScreen.z, _clippedVertex2PositionScreen.z );
-
-								_line.material = object.material;
-
-								if ( object.material.vertexColors === THREE.VertexColors ) {
-
-									_line.vertexColors[ 0 ].copy( object.geometry.colors[ v ] );
-									_line.vertexColors[ 1 ].copy( object.geometry.colors[ v - 1 ] );
-
-								}
-
-								_renderData.elements.push( _line );
-
-							}
-
-						}
-
-					}
-
-				} else if ( object instanceof THREE.Sprite ) {
-
-					_vector4.set( _modelMatrix.elements[ 12 ], _modelMatrix.elements[ 13 ], _modelMatrix.elements[ 14 ], 1 );
-					_vector4.applyMatrix4( _viewProjectionMatrix );
-
-					var invW = 1 / _vector4.w;
-
-					_vector4.z *= invW;
-
-					if ( _vector4.z >= - 1 && _vector4.z <= 1 ) {
-
-						_sprite = getNextSpriteInPool();
-						_sprite.id = object.id;
-						_sprite.x = _vector4.x * invW;
-						_sprite.y = _vector4.y * invW;
-						_sprite.z = _vector4.z;
-						_sprite.object = object;
-
-						_sprite.rotation = object.rotation;
-
-						_sprite.scale.x = object.scale.x * Math.abs( _sprite.x - ( _vector4.x + camera.projectionMatrix.elements[ 0 ] ) / ( _vector4.w + camera.projectionMatrix.elements[ 12 ] ) );
-						_sprite.scale.y = object.scale.y * Math.abs( _sprite.y - ( _vector4.y + camera.projectionMatrix.elements[ 5 ] ) / ( _vector4.w + camera.projectionMatrix.elements[ 13 ] ) );
-
-						_sprite.material = object.material;
-
-						_renderData.elements.push( _sprite );
-
-					}
-
-				}
-
-			}
-
-			if ( sortElements === true ) {
-
-				_renderData.elements.sort( painterSort );
-
-			}
-
-			return _renderData;
-
-		};
-
-		// Pools
-
-		function getNextObjectInPool() {
-
-			if ( _objectCount === _objectPoolLength ) {
-
-				var object = new THREE.RenderableObject();
-				_objectPool.push( object );
-				_objectPoolLength ++;
-				_objectCount ++;
-				return object;
-
-			}
-
-			return _objectPool[ _objectCount ++ ];
-
-		}
-
-		function getNextVertexInPool() {
-
-			if ( _vertexCount === _vertexPoolLength ) {
-
-				var vertex = new THREE.RenderableVertex();
-				_vertexPool.push( vertex );
-				_vertexPoolLength ++;
-				_vertexCount ++;
-				return vertex;
-
-			}
-
-			return _vertexPool[ _vertexCount ++ ];
-
-		}
-
-		function getNextFaceInPool() {
-
-			if ( _faceCount === _facePoolLength ) {
-
-				var face = new THREE.RenderableFace();
-				_facePool.push( face );
-				_facePoolLength ++;
-				_faceCount ++;
-				return face;
-
-			}
-
-			return _facePool[ _faceCount ++ ];
-
-
-		}
-
-		function getNextLineInPool() {
-
-			if ( _lineCount === _linePoolLength ) {
-
-				var line = new THREE.RenderableLine();
-				_linePool.push( line );
-				_linePoolLength ++;
-				_lineCount ++
-				return line;
-
-			}
-
-			return _linePool[ _lineCount ++ ];
-
-		}
-
-		function getNextSpriteInPool() {
-
-			if ( _spriteCount === _spritePoolLength ) {
-
-				var sprite = new THREE.RenderableSprite();
-				_spritePool.push( sprite );
-				_spritePoolLength ++;
-				_spriteCount ++
-				return sprite;
-
-			}
-
-			return _spritePool[ _spriteCount ++ ];
-
-		}
-
-		//
-
-		function painterSort( a, b ) {
-
-			if ( a.z !== b.z ) {
-
-				return b.z - a.z;
-
-			} else if ( a.id !== b.id ) {
-
-				return a.id - b.id;
-
-			} else {
-
-				return 0;
-
-			}
-
-		}
-
-		function clipLine( s1, s2 ) {
-
-			var alpha1 = 0, alpha2 = 1,
-
-			// Calculate the boundary coordinate of each vertex for the near and far clip planes,
-			// Z = -1 and Z = +1, respectively.
-			bc1near =  s1.z + s1.w,
-			bc2near =  s2.z + s2.w,
-			bc1far =  - s1.z + s1.w,
-			bc2far =  - s2.z + s2.w;
-
-			if ( bc1near >= 0 && bc2near >= 0 && bc1far >= 0 && bc2far >= 0 ) {
-
-				// Both vertices lie entirely within all clip planes.
-				return true;
-
-			} else if ( ( bc1near < 0 && bc2near < 0 ) || ( bc1far < 0 && bc2far < 0 ) ) {
-
-				// Both vertices lie entirely outside one of the clip planes.
-				return false;
-
-			} else {
-
-				// The line segment spans at least one clip plane.
-
-				if ( bc1near < 0 ) {
-
-					// v1 lies outside the near plane, v2 inside
-					alpha1 = Math.max( alpha1, bc1near / ( bc1near - bc2near ) );
-
-				} else if ( bc2near < 0 ) {
-
-					// v2 lies outside the near plane, v1 inside
-					alpha2 = Math.min( alpha2, bc1near / ( bc1near - bc2near ) );
-
-				}
-
-				if ( bc1far < 0 ) {
-
-					// v1 lies outside the far plane, v2 inside
-					alpha1 = Math.max( alpha1, bc1far / ( bc1far - bc2far ) );
-
-				} else if ( bc2far < 0 ) {
-
-					// v2 lies outside the far plane, v2 inside
-					alpha2 = Math.min( alpha2, bc1far / ( bc1far - bc2far ) );
-
-				}
-
-				if ( alpha2 < alpha1 ) {
-
-					// The line segment spans two boundaries, but is outside both of them.
-					// (This can't happen when we're only clipping against just near/far but good
-					//  to leave the check here for future usage if other clip planes are added.)
-					return false;
-
-				} else {
-
-					// Update the s1 and s2 vertices to match the clipped line segment.
-					s1.lerp( s2, alpha1 );
-					s2.lerp( s1, 1 - alpha2 );
-
-					return true;
-
-				}
-
-			}
-
-		}
-
-	};
-
-/***/ },
-/* 63 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * @author mrdoob / http://mrdoob.com/
-	 */
-
-	THREE.SpriteCanvasMaterial = function ( parameters ) {
-
-		THREE.Material.call( this );
-
-		this.type = 'SpriteCanvasMaterial';
-
-		this.color = new THREE.Color( 0xffffff );
-		this.program = function ( context, color ) {};
-
-		this.setValues( parameters );
-
-	};
-
-	THREE.SpriteCanvasMaterial.prototype = Object.create( THREE.Material.prototype );
-
-	THREE.SpriteCanvasMaterial.prototype.clone = function () {
-
-		var material = new THREE.SpriteCanvasMaterial();
-
-		THREE.Material.prototype.clone.call( this, material );
-
-		material.color.copy( this.color );
-		material.program = this.program;
-
-		return material;
-
-	};
-
-	//
-
-	THREE.CanvasRenderer = function ( parameters ) {
-
-		console.log( 'THREE.CanvasRenderer', THREE.REVISION );
-
-		var smoothstep = THREE.Math.smoothstep;
-
-		parameters = parameters || {};
-
-		var _this = this,
-		_renderData, _elements, _lights,
-		_projector = new THREE.Projector(),
-
-		_canvas = parameters.canvas !== undefined
-				 ? parameters.canvas
-				 : document.createElement( 'canvas' ),
-
-		_canvasWidth = _canvas.width,
-		_canvasHeight = _canvas.height,
-		_canvasWidthHalf = Math.floor( _canvasWidth / 2 ),
-		_canvasHeightHalf = Math.floor( _canvasHeight / 2 ),
-
-		_viewportX = 0,
-		_viewportY = 0,
-		_viewportWidth = _canvasWidth,
-		_viewportHeight = _canvasHeight,
-
-		_context = _canvas.getContext( '2d', {
-			alpha: parameters.alpha === true
-		} ),
-
-		_clearColor = new THREE.Color( 0x000000 ),
-		_clearAlpha = 0,
-
-		_contextGlobalAlpha = 1,
-		_contextGlobalCompositeOperation = 0,
-		_contextStrokeStyle = null,
-		_contextFillStyle = null,
-		_contextLineWidth = null,
-		_contextLineCap = null,
-		_contextLineJoin = null,
-		_contextLineDash = [],
-
-		_camera,
-
-		_v1, _v2, _v3, _v4,
-		_v5 = new THREE.RenderableVertex(),
-		_v6 = new THREE.RenderableVertex(),
-
-		_v1x, _v1y, _v2x, _v2y, _v3x, _v3y,
-		_v4x, _v4y, _v5x, _v5y, _v6x, _v6y,
-
-		_color = new THREE.Color(),
-		_color1 = new THREE.Color(),
-		_color2 = new THREE.Color(),
-		_color3 = new THREE.Color(),
-		_color4 = new THREE.Color(),
-
-		_diffuseColor = new THREE.Color(),
-		_emissiveColor = new THREE.Color(),
-
-		_lightColor = new THREE.Color(),
-
-		_patterns = {},
-
-		_image, _uvs,
-		_uv1x, _uv1y, _uv2x, _uv2y, _uv3x, _uv3y,
-
-		_clipBox = new THREE.Box2(),
-		_clearBox = new THREE.Box2(),
-		_elemBox = new THREE.Box2(),
-
-		_ambientLight = new THREE.Color(),
-		_directionalLights = new THREE.Color(),
-		_pointLights = new THREE.Color(),
-
-		_vector3 = new THREE.Vector3(), // Needed for PointLight
-		_centroid = new THREE.Vector3(),
-		_normal = new THREE.Vector3(),
-		_normalViewMatrix = new THREE.Matrix3();
-
-		// dash+gap fallbacks for Firefox and everything else
-
-		if ( _context.setLineDash === undefined ) {
-
-			_context.setLineDash = function () {}
-
-		}
-
-		this.domElement = _canvas;
-
-		this.devicePixelRatio = parameters.devicePixelRatio !== undefined
-					 ? parameters.devicePixelRatio
-					 : self.devicePixelRatio !== undefined
-						 ? self.devicePixelRatio
-						 : 1;
-
-		this.autoClear = true;
-		this.sortObjects = true;
-		this.sortElements = true;
-
-		this.info = {
-
-			render: {
-
-				vertices: 0,
-				faces: 0
-
-			}
-
-		}
-
-		// WebGLRenderer compatibility
-
-		this.supportsVertexTextures = function () {};
-		this.setFaceCulling = function () {};
-
-		this.setSize = function ( width, height, updateStyle ) {
-
-			_canvasWidth = width * this.devicePixelRatio;
-			_canvasHeight = height * this.devicePixelRatio;
-
-			_canvas.width = _canvasWidth;
-			_canvas.height = _canvasHeight;
-
-			_canvasWidthHalf = Math.floor( _canvasWidth / 2 );
-			_canvasHeightHalf = Math.floor( _canvasHeight / 2 );
-
-			if ( updateStyle !== false ) {
-
-				_canvas.style.width = width + 'px';
-				_canvas.style.height = height + 'px';
-
-			}
-
-			_clipBox.min.set( -_canvasWidthHalf, -_canvasHeightHalf ),
-			_clipBox.max.set(   _canvasWidthHalf,   _canvasHeightHalf );
-
-			_clearBox.min.set( - _canvasWidthHalf, - _canvasHeightHalf );
-			_clearBox.max.set(   _canvasWidthHalf,   _canvasHeightHalf );
-
-			_contextGlobalAlpha = 1;
-			_contextGlobalCompositeOperation = 0;
-			_contextStrokeStyle = null;
-			_contextFillStyle = null;
-			_contextLineWidth = null;
-			_contextLineCap = null;
-			_contextLineJoin = null;
-
-			this.setViewport( 0, 0, width, height );
-
-		};
-
-		this.setViewport = function ( x, y, width, height ) {
-
-			_viewportX = x * this.devicePixelRatio;
-			_viewportY = y * this.devicePixelRatio;
-
-			_viewportWidth = width * this.devicePixelRatio;
-			_viewportHeight = height * this.devicePixelRatio;
-
-		};
-
-		this.setScissor = function () {};
-		this.enableScissorTest = function () {};
-
-		this.setClearColor = function ( color, alpha ) {
-
-			_clearColor.set( color );
-			_clearAlpha = alpha !== undefined ? alpha : 1;
-
-			_clearBox.min.set( - _canvasWidthHalf, - _canvasHeightHalf );
-			_clearBox.max.set(   _canvasWidthHalf,   _canvasHeightHalf );
-
-		};
-
-		this.setClearColorHex = function ( hex, alpha ) {
-
-			console.warn( 'THREE.CanvasRenderer: .setClearColorHex() is being removed. Use .setClearColor() instead.' );
-			this.setClearColor( hex, alpha );
-
-		};
-
-		this.getClearColor = function () {
-
-			return _clearColor;
-
-		};
-
-		this.getClearAlpha = function () {
-
-			return _clearAlpha;
-
-		};
-
-		this.getMaxAnisotropy = function () {
-
-			return 0;
-
-		};
-
-		this.clear = function () {
-
-			if ( _clearBox.empty() === false ) {
-
-				_clearBox.intersect( _clipBox );
-				_clearBox.expandByScalar( 2 );
-
-				_clearBox.min.x = _clearBox.min.x + _canvasWidthHalf;
-				_clearBox.min.y =  - _clearBox.min.y + _canvasHeightHalf;
-				_clearBox.max.x = _clearBox.max.x + _canvasWidthHalf;
-				_clearBox.max.y =  - _clearBox.max.y + _canvasHeightHalf;
-
-				if ( _clearAlpha < 1 ) {
-
-					_context.clearRect(
-						_clearBox.min.x | 0,
-						_clearBox.min.y | 0,
-						( _clearBox.max.x - _clearBox.min.x ) | 0,
-						( _clearBox.max.y - _clearBox.min.y ) | 0
-					);
-
-				}
-
-				if ( _clearAlpha > 0 ) {
-
-					setBlending( THREE.NormalBlending );
-					setOpacity( 1 );
-
-					setFillStyle( 'rgba(' + Math.floor( _clearColor.r * 255 ) + ',' + Math.floor( _clearColor.g * 255 ) + ',' + Math.floor( _clearColor.b * 255 ) + ',' + _clearAlpha + ')' );
-
-					_context.fillRect(
-						_clearBox.min.x | 0,
-						_clearBox.min.y | 0,
-						( _clearBox.max.x - _clearBox.min.x ) | 0,
-						( _clearBox.max.y - _clearBox.min.y ) | 0
-					);
-
-				}
-
-				_clearBox.makeEmpty();
-
-			}
-
-		};
-
-		// compatibility
-
-		this.clearColor = function () {};
-		this.clearDepth = function () {};
-		this.clearStencil = function () {};
-
-		this.render = function ( scene, camera ) {
-
-			if ( camera instanceof THREE.Camera === false ) {
-
-				console.error( 'THREE.CanvasRenderer.render: camera is not an instance of THREE.Camera.' );
-				return;
-
-			}
-
-			if ( this.autoClear === true ) this.clear();
-
-			_this.info.render.vertices = 0;
-			_this.info.render.faces = 0;
-
-			_context.setTransform( _viewportWidth / _canvasWidth, 0, 0, - _viewportHeight / _canvasHeight, _viewportX, _canvasHeight - _viewportY );
-			_context.translate( _canvasWidthHalf, _canvasHeightHalf );
-
-			_renderData = _projector.projectScene( scene, camera, this.sortObjects, this.sortElements );
-			_elements = _renderData.elements;
-			_lights = _renderData.lights;
-			_camera = camera;
-
-			_normalViewMatrix.getNormalMatrix( camera.matrixWorldInverse );
-
-			/* DEBUG
-			setFillStyle( 'rgba( 0, 255, 255, 0.5 )' );
-			_context.fillRect( _clipBox.min.x, _clipBox.min.y, _clipBox.max.x - _clipBox.min.x, _clipBox.max.y - _clipBox.min.y );
-			*/
-
-			calculateLights();
-
-			for ( var e = 0, el = _elements.length; e < el; e ++ ) {
-
-				var element = _elements[ e ];
-
-				var material = element.material;
-
-				if ( material === undefined || material.opacity === 0 ) continue;
-
-				_elemBox.makeEmpty();
-
-				if ( element instanceof THREE.RenderableSprite ) {
-
-					_v1 = element;
-					_v1.x *= _canvasWidthHalf; _v1.y *= _canvasHeightHalf;
-
-					renderSprite( _v1, element, material );
-
-				} else if ( element instanceof THREE.RenderableLine ) {
-
-					_v1 = element.v1; _v2 = element.v2;
-
-					_v1.positionScreen.x *= _canvasWidthHalf; _v1.positionScreen.y *= _canvasHeightHalf;
-					_v2.positionScreen.x *= _canvasWidthHalf; _v2.positionScreen.y *= _canvasHeightHalf;
-
-					_elemBox.setFromPoints( [
-						_v1.positionScreen,
-						_v2.positionScreen
-					] );
-
-					if ( _clipBox.isIntersectionBox( _elemBox ) === true ) {
-
-						renderLine( _v1, _v2, element, material );
-
-					}
-
-				} else if ( element instanceof THREE.RenderableFace ) {
-
-					_v1 = element.v1; _v2 = element.v2; _v3 = element.v3;
-
-					if ( _v1.positionScreen.z < - 1 || _v1.positionScreen.z > 1 ) continue;
-					if ( _v2.positionScreen.z < - 1 || _v2.positionScreen.z > 1 ) continue;
-					if ( _v3.positionScreen.z < - 1 || _v3.positionScreen.z > 1 ) continue;
-
-					_v1.positionScreen.x *= _canvasWidthHalf; _v1.positionScreen.y *= _canvasHeightHalf;
-					_v2.positionScreen.x *= _canvasWidthHalf; _v2.positionScreen.y *= _canvasHeightHalf;
-					_v3.positionScreen.x *= _canvasWidthHalf; _v3.positionScreen.y *= _canvasHeightHalf;
-
-					if ( material.overdraw > 0 ) {
-
-						expand( _v1.positionScreen, _v2.positionScreen, material.overdraw );
-						expand( _v2.positionScreen, _v3.positionScreen, material.overdraw );
-						expand( _v3.positionScreen, _v1.positionScreen, material.overdraw );
-
-					}
-
-					_elemBox.setFromPoints( [
-						_v1.positionScreen,
-						_v2.positionScreen,
-						_v3.positionScreen
-					] );
-
-					if ( _clipBox.isIntersectionBox( _elemBox ) === true ) {
-
-						renderFace3( _v1, _v2, _v3, 0, 1, 2, element, material );
-
-					}
-
-				}
-
-				/* DEBUG
-				setLineWidth( 1 );
-				setStrokeStyle( 'rgba( 0, 255, 0, 0.5 )' );
-				_context.strokeRect( _elemBox.min.x, _elemBox.min.y, _elemBox.max.x - _elemBox.min.x, _elemBox.max.y - _elemBox.min.y );
-				*/
-
-				_clearBox.union( _elemBox );
-
-			}
-
-			/* DEBUG
-			setLineWidth( 1 );
-			setStrokeStyle( 'rgba( 255, 0, 0, 0.5 )' );
-			_context.strokeRect( _clearBox.min.x, _clearBox.min.y, _clearBox.max.x - _clearBox.min.x, _clearBox.max.y - _clearBox.min.y );
-			*/
-
-			_context.setTransform( 1, 0, 0, 1, 0, 0 );
-
-		};
-
-		//
-
-		function calculateLights() {
-
-			_ambientLight.setRGB( 0, 0, 0 );
-			_directionalLights.setRGB( 0, 0, 0 );
-			_pointLights.setRGB( 0, 0, 0 );
-
-			for ( var l = 0, ll = _lights.length; l < ll; l ++ ) {
-
-				var light = _lights[ l ];
-				var lightColor = light.color;
-
-				if ( light instanceof THREE.AmbientLight ) {
-
-					_ambientLight.add( lightColor );
-
-				} else if ( light instanceof THREE.DirectionalLight ) {
-
-					// for sprites
-
-					_directionalLights.add( lightColor );
-
-				} else if ( light instanceof THREE.PointLight ) {
-
-					// for sprites
-
-					_pointLights.add( lightColor );
-
-				}
-
-			}
-
-		}
-
-		function calculateLight( position, normal, color ) {
-
-			for ( var l = 0, ll = _lights.length; l < ll; l ++ ) {
-
-				var light = _lights[ l ];
-
-				_lightColor.copy( light.color );
-
-				if ( light instanceof THREE.DirectionalLight ) {
-
-					var lightPosition = _vector3.setFromMatrixPosition( light.matrixWorld ).normalize();
-
-					var amount = normal.dot( lightPosition );
-
-					if ( amount <= 0 ) continue;
-
-					amount *= light.intensity;
-
-					color.add( _lightColor.multiplyScalar( amount ) );
-
-				} else if ( light instanceof THREE.PointLight ) {
-
-					var lightPosition = _vector3.setFromMatrixPosition( light.matrixWorld );
-
-					var amount = normal.dot( _vector3.subVectors( lightPosition, position ).normalize() );
-
-					if ( amount <= 0 ) continue;
-
-					amount *= light.distance == 0 ? 1 : 1 - Math.min( position.distanceTo( lightPosition ) / light.distance, 1 );
-
-					if ( amount == 0 ) continue;
-
-					amount *= light.intensity;
-
-					color.add( _lightColor.multiplyScalar( amount ) );
-
-				}
-
-			}
-
-		}
-
-		function renderSprite( v1, element, material ) {
-
-			setOpacity( material.opacity );
-			setBlending( material.blending );
-
-			var scaleX = element.scale.x * _canvasWidthHalf;
-			var scaleY = element.scale.y * _canvasHeightHalf;
-
-			var dist = 0.5 * Math.sqrt( scaleX * scaleX + scaleY * scaleY ); // allow for rotated sprite
-			_elemBox.min.set( v1.x - dist, v1.y - dist );
-			_elemBox.max.set( v1.x + dist, v1.y + dist );
-
-			if ( material instanceof THREE.SpriteMaterial ) {
-
-				var texture = material.map;
-
-				if ( texture !== null && texture.image !== undefined ) {
-
-					if ( texture.hasEventListener( 'update', onTextureUpdate ) === false ) {
-
-						if ( texture.image.width > 0 ) {
-
-							textureToPattern( texture );
-
-						}
-
-						texture.addEventListener( 'update', onTextureUpdate );
-
-					}
-
-					var pattern = _patterns[ texture.id ];
-
-					if ( pattern !== undefined ) {
-
-						setFillStyle( pattern );
-
-					} else {
-
-						setFillStyle( 'rgba( 0, 0, 0, 1 )' );
-
-					}
-
-					//
-
-					var bitmap = texture.image;
-
-					var ox = bitmap.width * texture.offset.x;
-					var oy = bitmap.height * texture.offset.y;
-
-					var sx = bitmap.width * texture.repeat.x;
-					var sy = bitmap.height * texture.repeat.y;
-
-					var cx = scaleX / sx;
-					var cy = scaleY / sy;
-
-					_context.save();
-					_context.translate( v1.x, v1.y );
-					if ( material.rotation !== 0 ) _context.rotate( material.rotation );
-					_context.translate( - scaleX / 2, - scaleY / 2 );
-					_context.scale( cx, cy );
-					_context.translate( - ox, - oy );
-					_context.fillRect( ox, oy, sx, sy );
-					_context.restore();
-
-				} else {
-
-					// no texture
-
-					setFillStyle( material.color.getStyle() );
-
-					_context.save();
-					_context.translate( v1.x, v1.y );
-					if ( material.rotation !== 0 ) _context.rotate( material.rotation );
-					_context.scale( scaleX, - scaleY );
-					_context.fillRect( - 0.5, - 0.5, 1, 1 );
-					_context.restore();
-
-				}
-
-			} else if ( material instanceof THREE.SpriteCanvasMaterial ) {
-
-				setStrokeStyle( material.color.getStyle() );
-				setFillStyle( material.color.getStyle() );
-
-				_context.save();
-				_context.translate( v1.x, v1.y );
-				if ( material.rotation !== 0 ) _context.rotate( material.rotation );
-				_context.scale( scaleX, scaleY );
-
-				material.program( _context );
-
-				_context.restore();
-
-			}
-
-			/* DEBUG
-			setStrokeStyle( 'rgb(255,255,0)' );
-			_context.beginPath();
-			_context.moveTo( v1.x - 10, v1.y );
-			_context.lineTo( v1.x + 10, v1.y );
-			_context.moveTo( v1.x, v1.y - 10 );
-			_context.lineTo( v1.x, v1.y + 10 );
-			_context.stroke();
-			*/
-
-		}
-
-		function renderLine( v1, v2, element, material ) {
-
-			setOpacity( material.opacity );
-			setBlending( material.blending );
-
-			_context.beginPath();
-			_context.moveTo( v1.positionScreen.x, v1.positionScreen.y );
-			_context.lineTo( v2.positionScreen.x, v2.positionScreen.y );
-
-			if ( material instanceof THREE.LineBasicMaterial ) {
-
-				setLineWidth( material.linewidth );
-				setLineCap( material.linecap );
-				setLineJoin( material.linejoin );
-
-				if ( material.vertexColors !== THREE.VertexColors ) {
-
-					setStrokeStyle( material.color.getStyle() );
-
-				} else {
-
-					var colorStyle1 = element.vertexColors[ 0 ].getStyle();
-					var colorStyle2 = element.vertexColors[ 1 ].getStyle();
-
-					if ( colorStyle1 === colorStyle2 ) {
-
-						setStrokeStyle( colorStyle1 );
-
-					} else {
-
-						try {
-
-							var grad = _context.createLinearGradient(
-								v1.positionScreen.x,
-								v1.positionScreen.y,
-								v2.positionScreen.x,
-								v2.positionScreen.y
-							);
-							grad.addColorStop( 0, colorStyle1 );
-							grad.addColorStop( 1, colorStyle2 );
-
-						} catch ( exception ) {
-
-							grad = colorStyle1;
-
-						}
-
-						setStrokeStyle( grad );
-
-					}
-
-				}
-
-				_context.stroke();
-				_elemBox.expandByScalar( material.linewidth * 2 );
-
-			} else if ( material instanceof THREE.LineDashedMaterial ) {
-
-				setLineWidth( material.linewidth );
-				setLineCap( material.linecap );
-				setLineJoin( material.linejoin );
-				setStrokeStyle( material.color.getStyle() );
-				setLineDash( [ material.dashSize, material.gapSize ] );
-
-				_context.stroke();
-
-				_elemBox.expandByScalar( material.linewidth * 2 );
-
-				setLineDash( [] );
-
-			}
-
-		}
-
-		function renderFace3( v1, v2, v3, uv1, uv2, uv3, element, material ) {
-
-			_this.info.render.vertices += 3;
-			_this.info.render.faces ++;
-
-			setOpacity( material.opacity );
-			setBlending( material.blending );
-
-			_v1x = v1.positionScreen.x; _v1y = v1.positionScreen.y;
-			_v2x = v2.positionScreen.x; _v2y = v2.positionScreen.y;
-			_v3x = v3.positionScreen.x; _v3y = v3.positionScreen.y;
-
-			drawTriangle( _v1x, _v1y, _v2x, _v2y, _v3x, _v3y );
-
-			if ( ( material instanceof THREE.MeshLambertMaterial || material instanceof THREE.MeshPhongMaterial ) && material.map === null ) {
-
-				_diffuseColor.copy( material.color );
-				_emissiveColor.copy( material.emissive );
-
-				if ( material.vertexColors === THREE.FaceColors ) {
-
-					_diffuseColor.multiply( element.color );
-
-				}
-
-				_color.copy( _ambientLight );
-
-				_centroid.copy( v1.positionWorld ).add( v2.positionWorld ).add( v3.positionWorld ).divideScalar( 3 );
-
-				calculateLight( _centroid, element.normalModel, _color );
-
-				_color.multiply( _diffuseColor ).add( _emissiveColor );
-
-				material.wireframe === true
-					 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
-					 : fillPath( _color );
-
-			} else if ( material instanceof THREE.MeshBasicMaterial ||
-					    material instanceof THREE.MeshLambertMaterial ||
-					    material instanceof THREE.MeshPhongMaterial ) {
-
-				if ( material.map !== null ) {
-
-					if ( material.map.mapping instanceof THREE.UVMapping ) {
-
-						_uvs = element.uvs;
-						patternPath( _v1x, _v1y, _v2x, _v2y, _v3x, _v3y, _uvs[ uv1 ].x, _uvs[ uv1 ].y, _uvs[ uv2 ].x, _uvs[ uv2 ].y, _uvs[ uv3 ].x, _uvs[ uv3 ].y, material.map );
-
-					}
-
-				} else if ( material.envMap !== null ) {
-
-					if ( material.envMap.mapping instanceof THREE.SphericalReflectionMapping ) {
-
-						_normal.copy( element.vertexNormalsModel[ uv1 ] ).applyMatrix3( _normalViewMatrix );
-						_uv1x = 0.5 * _normal.x + 0.5;
-						_uv1y = 0.5 * _normal.y + 0.5;
-
-						_normal.copy( element.vertexNormalsModel[ uv2 ] ).applyMatrix3( _normalViewMatrix );
-						_uv2x = 0.5 * _normal.x + 0.5;
-						_uv2y = 0.5 * _normal.y + 0.5;
-
-						_normal.copy( element.vertexNormalsModel[ uv3 ] ).applyMatrix3( _normalViewMatrix );
-						_uv3x = 0.5 * _normal.x + 0.5;
-						_uv3y = 0.5 * _normal.y + 0.5;
-
-						patternPath( _v1x, _v1y, _v2x, _v2y, _v3x, _v3y, _uv1x, _uv1y, _uv2x, _uv2y, _uv3x, _uv3y, material.envMap );
-
-					} else if ( material.envMap.mapping instanceof THREE.SphericalRefractionMapping ) {
-
-						_normal.copy( element.vertexNormalsModel[ uv1 ] ).applyMatrix3( _normalViewMatrix );
-						_uv1x = - 0.5 * _normal.x + 0.5;
-						_uv1y = - 0.5 * _normal.y + 0.5;
-
-						_normal.copy( element.vertexNormalsModel[ uv2 ] ).applyMatrix3( _normalViewMatrix );
-						_uv2x = - 0.5 * _normal.x + 0.5;
-						_uv2y = - 0.5 * _normal.y + 0.5;
-
-						_normal.copy( element.vertexNormalsModel[ uv3 ] ).applyMatrix3( _normalViewMatrix );
-						_uv3x = - 0.5 * _normal.x + 0.5;
-						_uv3y = - 0.5 * _normal.y + 0.5;
-
-						patternPath( _v1x, _v1y, _v2x, _v2y, _v3x, _v3y, _uv1x, _uv1y, _uv2x, _uv2y, _uv3x, _uv3y, material.envMap );
-
-					}
-
-
-				} else {
-
-					_color.copy( material.color );
-
-					if ( material.vertexColors === THREE.FaceColors ) {
-
-						_color.multiply( element.color );
-
-					}
-
-					material.wireframe === true
-						 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
-						 : fillPath( _color );
-
-				}
-
-			} else if ( material instanceof THREE.MeshDepthMaterial ) {
-
-				_color.r = _color.g = _color.b = 1 - smoothstep( v1.positionScreen.z * v1.positionScreen.w, _camera.near, _camera.far );
-
-				material.wireframe === true
-						 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
-						 : fillPath( _color );
-
-			} else if ( material instanceof THREE.MeshNormalMaterial ) {
-
-				_normal.copy( element.normalModel ).applyMatrix3( _normalViewMatrix );
-
-				_color.setRGB( _normal.x, _normal.y, _normal.z ).multiplyScalar( 0.5 ).addScalar( 0.5 );
-
-				material.wireframe === true
-					 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
-					 : fillPath( _color );
-
-			} else {
-
-				_color.setRGB( 1, 1, 1 );
-
-				material.wireframe === true
-					 ? strokePath( _color, material.wireframeLinewidth, material.wireframeLinecap, material.wireframeLinejoin )
-					 : fillPath( _color );
-
-			}
-
-		}
-
-		//
-
-		function drawTriangle( x0, y0, x1, y1, x2, y2 ) {
-
-			_context.beginPath();
-			_context.moveTo( x0, y0 );
-			_context.lineTo( x1, y1 );
-			_context.lineTo( x2, y2 );
-			_context.closePath();
-
-		}
-
-		function strokePath( color, linewidth, linecap, linejoin ) {
-
-			setLineWidth( linewidth );
-			setLineCap( linecap );
-			setLineJoin( linejoin );
-			setStrokeStyle( color.getStyle() );
-
-			_context.stroke();
-
-			_elemBox.expandByScalar( linewidth * 2 );
-
-		}
-
-		function fillPath( color ) {
-
-			setFillStyle( color.getStyle() );
-			_context.fill();
-
-		}
-
-		function onTextureUpdate ( event ) {
-
-			textureToPattern( event.target );
-
-		}
-
-		function textureToPattern( texture ) {
-
-			if ( texture instanceof THREE.CompressedTexture ) return;
-
-			var repeatX = texture.wrapS === THREE.RepeatWrapping;
-			var repeatY = texture.wrapT === THREE.RepeatWrapping;
-
-			var image = texture.image;
-
-			var canvas = document.createElement( 'canvas' );
-			canvas.width = image.width;
-			canvas.height = image.height;
-
-			var context = canvas.getContext( '2d' );
-			context.setTransform( 1, 0, 0, - 1, 0, image.height );
-			context.drawImage( image, 0, 0 );
-
-			_patterns[ texture.id ] = _context.createPattern(
-				canvas, repeatX === true && repeatY === true
-					 ? 'repeat'
-					 : repeatX === true && repeatY === false
-						 ? 'repeat-x'
-						 : repeatX === false && repeatY === true
-							 ? 'repeat-y'
-							 : 'no-repeat'
-			);
-
-		}
-
-		function patternPath( x0, y0, x1, y1, x2, y2, u0, v0, u1, v1, u2, v2, texture ) {
-
-			if ( texture instanceof THREE.DataTexture ) return;
-
-			if ( texture.hasEventListener( 'update', onTextureUpdate ) === false ) {
-
-				if ( texture.image !== undefined && texture.image.width > 0 ) {
-
-					textureToPattern( texture );
-
-				}
-
-				texture.addEventListener( 'update', onTextureUpdate );
-
-			}
-
-			var pattern = _patterns[ texture.id ];
-
-			if ( pattern !== undefined ) {
-
-				setFillStyle( pattern );
-
-			} else {
-
-				setFillStyle( 'rgba(0,0,0,1)' );
-				_context.fill();
-
-				return;
-
-			}
-
-			// http://extremelysatisfactorytotalitarianism.com/blog/?p=2120
-
-			var a, b, c, d, e, f, det, idet,
-			offsetX = texture.offset.x / texture.repeat.x,
-			offsetY = texture.offset.y / texture.repeat.y,
-			width = texture.image.width * texture.repeat.x,
-			height = texture.image.height * texture.repeat.y;
-
-			u0 = ( u0 + offsetX ) * width;
-			v0 = ( v0 + offsetY ) * height;
-
-			u1 = ( u1 + offsetX ) * width;
-			v1 = ( v1 + offsetY ) * height;
-
-			u2 = ( u2 + offsetX ) * width;
-			v2 = ( v2 + offsetY ) * height;
-
-			x1 -= x0; y1 -= y0;
-			x2 -= x0; y2 -= y0;
-
-			u1 -= u0; v1 -= v0;
-			u2 -= u0; v2 -= v0;
-
-			det = u1 * v2 - u2 * v1;
-
-			if ( det === 0 ) return;
-
-			idet = 1 / det;
-
-			a = ( v2 * x1 - v1 * x2 ) * idet;
-			b = ( v2 * y1 - v1 * y2 ) * idet;
-			c = ( u1 * x2 - u2 * x1 ) * idet;
-			d = ( u1 * y2 - u2 * y1 ) * idet;
-
-			e = x0 - a * u0 - c * v0;
-			f = y0 - b * u0 - d * v0;
-
-			_context.save();
-			_context.transform( a, b, c, d, e, f );
-			_context.fill();
-			_context.restore();
-
-		}
-
-		function clipImage( x0, y0, x1, y1, x2, y2, u0, v0, u1, v1, u2, v2, image ) {
-
-			// http://extremelysatisfactorytotalitarianism.com/blog/?p=2120
-
-			var a, b, c, d, e, f, det, idet,
-			width = image.width - 1,
-			height = image.height - 1;
-
-			u0 *= width; v0 *= height;
-			u1 *= width; v1 *= height;
-			u2 *= width; v2 *= height;
-
-			x1 -= x0; y1 -= y0;
-			x2 -= x0; y2 -= y0;
-
-			u1 -= u0; v1 -= v0;
-			u2 -= u0; v2 -= v0;
-
-			det = u1 * v2 - u2 * v1;
-
-			idet = 1 / det;
-
-			a = ( v2 * x1 - v1 * x2 ) * idet;
-			b = ( v2 * y1 - v1 * y2 ) * idet;
-			c = ( u1 * x2 - u2 * x1 ) * idet;
-			d = ( u1 * y2 - u2 * y1 ) * idet;
-
-			e = x0 - a * u0 - c * v0;
-			f = y0 - b * u0 - d * v0;
-
-			_context.save();
-			_context.transform( a, b, c, d, e, f );
-			_context.clip();
-			_context.drawImage( image, 0, 0 );
-			_context.restore();
-
-		}
-
-		// Hide anti-alias gaps
-
-		function expand( v1, v2, pixels ) {
-
-			var x = v2.x - v1.x, y = v2.y - v1.y,
-			det = x * x + y * y, idet;
-
-			if ( det === 0 ) return;
-
-			idet = pixels / Math.sqrt( det );
-
-			x *= idet; y *= idet;
-
-			v2.x += x; v2.y += y;
-			v1.x -= x; v1.y -= y;
-
-		}
-
-		// Context cached methods.
-
-		function setOpacity( value ) {
-
-			if ( _contextGlobalAlpha !== value ) {
-
-				_context.globalAlpha = value;
-				_contextGlobalAlpha = value;
-
-			}
-
-		}
-
-		function setBlending( value ) {
-
-			if ( _contextGlobalCompositeOperation !== value ) {
-
-				if ( value === THREE.NormalBlending ) {
-
-					_context.globalCompositeOperation = 'source-over';
-
-				} else if ( value === THREE.AdditiveBlending ) {
-
-					_context.globalCompositeOperation = 'lighter';
-
-				} else if ( value === THREE.SubtractiveBlending ) {
-
-					_context.globalCompositeOperation = 'darker';
-
-				}
-
-				_contextGlobalCompositeOperation = value;
-
-			}
-
-		}
-
-		function setLineWidth( value ) {
-
-			if ( _contextLineWidth !== value ) {
-
-				_context.lineWidth = value;
-				_contextLineWidth = value;
-
-			}
-
-		}
-
-		function setLineCap( value ) {
-
-			// "butt", "round", "square"
-
-			if ( _contextLineCap !== value ) {
-
-				_context.lineCap = value;
-				_contextLineCap = value;
-
-			}
-
-		}
-
-		function setLineJoin( value ) {
-
-			// "round", "bevel", "miter"
-
-			if ( _contextLineJoin !== value ) {
-
-				_context.lineJoin = value;
-				_contextLineJoin = value;
-
-			}
-
-		}
-
-		function setStrokeStyle( value ) {
-
-			if ( _contextStrokeStyle !== value ) {
-
-				_context.strokeStyle = value;
-				_contextStrokeStyle = value;
-
-			}
-
-		}
-
-		function setFillStyle( value ) {
-
-			if ( _contextFillStyle !== value ) {
-
-				_context.fillStyle = value;
-				_contextFillStyle = value;
-
-			}
-
-		}
-
-		function setLineDash( value ) {
-
-			if ( _contextLineDash.length !== value.length ) {
-
-				_context.setLineDash( value );
-				_contextLineDash = value;
-
-			}
-
-		}
-
-	};
-
-/***/ },
 /* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var hljs = __webpack_require__(88);
+	var hljs = __webpack_require__(72);
 
 	hljs.registerLanguage('1c', __webpack_require__(89));
 	hljs.registerLanguage('actionscript', __webpack_require__(90));
@@ -70247,1678 +70247,6 @@
 /* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('board')
-	    .author('doubleshow')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('width')
-	    .defaultValue(30)
-
-	model.parameter('height')
-	    .defaultValue(30)
-
-	model.parameter('depth')
-	    .defaultValue(1)
-
-	//
-	// Examples
-	//
-
-	model.example('default board')
-
-	model.example('a bigger board')
-	    .height(50)
-	    .width(50)
-
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params) {   
-	    var width = params.width
-	    var height = params.height
-	    var depth = params.depth
-
-	    var c = $$$.cube({
-	        center: true
-	    })
-	    c = c.setColor([0.8, 0.8, 0])
-	    c = c.scale([width, height, depth])
-	    return c
-	})
-
-/***/ },
-/* 73 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('placeholder')
-	    .author('doubleshow')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('width')
-	    .defaultValue(30)
-
-	model.parameter('height')
-	    .defaultValue(30)
-
-	model.parameter('depth')
-	    .defaultValue(1)
-
-	// 
-	// Spaces
-	//
-
-	model.space('top', function($$$, params){
-	    return $$$.cube({center:true})
-	        .scale([params.width,params.height,1])
-	        .translate([0,0,-0.5])
-	})
-
-	model.space('base', function($$$, params){
-	    return $$$.cube({center:true})
-	        .scale([params.width,params.height,1])
-	        .translate([0,0,-params.depth-0.5])
-	})
-
-	//
-	// Examples
-	//
-
-	model.example('default placeholder')
-
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params) {   
-	    var width = params.width
-	    var height = params.height
-	    var depth = params.depth
-
-	    var c = $$$.cube({
-	        center: true
-	    })
-	    c = c.scale([width, height, depth])
-	    return c
-	})
-
-/***/ },
-/* 74 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('chair1')
-	    .author('caleb')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	// 
-
-	model.parameter('size')
-	    .defaultValue(1)
-
-	model.parameter('seat_length')
-	    .defaultValue(15)
-
-	model.parameter('leg_length')
-	    .defaultValue(14)
-
-
-	//
-	// Examples
-	// 
-
-	model.example('default chair')
-
-
-	model.example('a long chair')
-	    .seat_length(25)
-
-	model.example('a tall chair')
-	    .leg_length(25)
-
-	model.example('a short, long chair')
-	    .seat_length(30)
-	    .leg_length(5) 
-
-
-	// 
-	// Factory
-	//
-	 
-	model.factory(function($$$, params) {    
-	    var size = params.size;
-	    var leg_length = params.leg_length;
-	    var seat_length = params.seat_length;
-
-	    return seat().scale(size);
-
-	// chair components
-	function seat() {
-	    var c, d;
-
-	    // seat base
-	    c = $$$.cube({size:[seat_length,15,1]}).translate([0,0,14]);
-
-	    // seat back
-	    var back_main = $$$.cube({size:[1,15,7.5]});
-	    var back_dome = $$$.cylinder({r:6.5, h:1});
-	    var back_support_l = $$$.cube({size:[2,2,16]});
-	    var back_support_r = $$$.cube({size:[2,2,16]});
-	    
-	    // legs
-	    var leg = $$$.cube({size:[2,2,leg_length]});
-	    var leg_support = $$$.cube({size:[seat_length-1,1.5,1.5]});
-	    
-	    // seat back transformations
-	    back_main = back_main.translate([0.2,0,10]);
-	    back_dome = $$$.rotate([0,90,0], back_dome).translate([0.2,7.5,18.5]);
-	    back_support_l = back_support_l.translate([0,0,7]);
-	    back_support_r = back_support_r.translate([0,13,7]);
-	   
-	    d = $$$.union(back_main, back_dome, back_support_l, back_support_r);
-	    d = d.translate([0,0,8]);
-	    d = $$$.union(c,d);
-	    
-	    // leg transformations
-	    var leg_fl = leg.translate([seat_length-2,0,14-leg_length]);
-	    var leg_fr = leg.translate([seat_length-2,13,14-leg_length]);
-	    var leg_bl = leg.translate([0,0,14-leg_length]);
-	    var leg_br = leg.translate([0,13,14-leg_length]);
-	    
-	    var leg_support_l = leg_support.translate([1,0,17-leg_length]);
-	    var leg_support_r = leg_support.translate([1,13.5,17-leg_length]);
-	    
-	    return $$$.union(d, leg_fl, leg_fr, leg_bl, leg_br, leg_support_l, leg_support_r);
-	}
-	})
-
-
-/***/ },
-/* 75 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('cube')
-		.author('caleb')
-		.version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('width')
-		.defaultValue(10)
-		
-	model.parameter('height')
-		.defaultValue(10)
-		
-	model.parameter('depth')
-		.defaultValue(10)
-		
-	model.parameter('rounded')
-		.defaultValue(false)
-
-	//
-	// Examples
-	//
-
-	model.example('default cube')
-
-	model.example('rounded cube')
-		.rounded(true)
-		
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params) {
-		var width = params.width;
-		var height = params.height;
-		var depth = params.depth;
-		var rounded = params.rounded;
-
-		var c = $$$.cube({
-	        center: true,
-	        round: rounded
-	    })
-
-		c = c.scale([width, depth, height])
-		return c
-	})
-
-
-/***/ },
-/* 76 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('pin')
-	    .author('doubleshow')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('depth')
-	    .defaultValue(5)
-
-	model.parameter('head_radius')
-	    .defaultValue(2)
-
-	model.parameter('head_depth')
-	    .defaultValue(1)
-
-	//
-	// Examples
-	//
-
-	model.example('default pin')
-
-	model.example('a tall pin')
-	    .depth(10);
-
-	model.example('a pin with a wider head')
-	    .head_radius(5);
-
-	model.example('a tall pin with a wider/thicker head')
-	    .depth(5)
-	    .head_radius(5)
-	    .head_depth(3)
-
-	// 
-	// Spaces
-	//
-
-	// model.space('base', function($$$, params) {
-	//     return $$$.cube({
-	//             center: true
-	//         })
-	//         .scale([2, 2, 1])
-	//         .translate([0, 0, -0.5])
-	// })
-
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params) {
-	    var depth = params.depth
-	    var head_radius = params.head_radius;
-	    var head_depth = params.head_depth;
-
-	    // needle
-	    var needle = $$$.cylinder({
-	        r: 1,
-	        h: depth,
-	        center: [true, true, false]
-	    });
-
-	    // head
-	    var head = $$$.cylinder({
-	        r: head_radius,
-	        h: head_depth,
-	        center: [true, true, false]
-	    });
-	    head = head.translate([0, 0, depth]);
-	    return $$$.union(head, needle);
-	})
-
-/***/ },
-/* 77 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('cross')
-	    .author('doubleshow')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('size')
-	    .defaultValue(3)
-
-	model.parameter('depth')
-	    .defaultValue(1)
-
-	//
-	// Examples
-	//
-
-	model.example('default cross')
-
-	model.example('a bigger cross')
-	    .size(10)
-
-	model.example('a ticker and bigger cross')
-	    .size(30)
-	    .depth(5)
-
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params) {
-	    var size = params.size;
-	    var depth = params.depth;
-
-	    var c = $$$.cube();
-	    c = c.scale([1, size, depth]).center([true, true, false]);
-	    c = $$$.union(c, c.rotateZ(90));
-	    return c;
-	})
-
-/***/ },
-/* 78 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-	var board = __webpack_require__(203).model.require('board')
-
-	model.name('desk')
-	    .author('doubleshow')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('width')
-	    .defaultValue(20)
-
-	model.parameter('height')
-	    .defaultValue(10)
-
-	model.parameter('depth')
-	    .defaultValue(3)
-
-	model.parameter('support_type')
-	    .defaultValue('four-legs')
-
-	model.parameter('support_padding')
-	    .defaultValue(1)
-
-	model.parameter('support_thickness')
-	    .defaultValue(1)
-
-	//
-	// Examples
-	//
-
-	model.example('default table')
-
-	model.example('wider table')
-	    .width(40)
-	    .height(20)
-
-	model.example('bigger, taller table, flushed to corners')
-	    .width(30)
-	    .height(30)
-	    .depth(10)
-	    .support_padding(0);
-
-	model.example('table supported by two walls')
-	    .support_type('two-walls')
-	    .support_padding(3)
-	    .depth(10)
-
-	model.example('table supported by four walls')
-	    .support_type('four-walls')
-	    .depth(5)
-
-	// 
-	// Spaces
-	//
-
-	// model.space('base', function($$$, params){
-	//     return $$$.cube({center:true})
-	//         .scale([params.width-params.support_padding*2,params.height-params.support_padding*2,1])
-	//         .translate([0,0,-params.depth-0.5])
-	// })
-
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params) {
-
-	    var width = params.width;
-	    var height = params.height;
-	    var depth = params.depth;
-	    var sp = params.support_padding;
-	    var st = params.support_thickness;
-	    var support_type = params.support_type;
-
-	    var c = board.generate({
-	        width: width,
-	        height: height
-	    });
-	    c = $$$.color([0.6, 0.6, 0, 0.5], c)
-
-	    var ps = []; // holds an array of support models
-
-	    if (support_type == 'two-walls' || support_type == 'four-walls') {
-	        var wall = $$$.color('brown', $$$.cube({
-	            center: [true, true, false]
-	        }));
-
-	        ps.push(wall.scale([st, height - sp * 2, depth]).translate([-(width - sp * 2 - st) / 2, 0, -depth]));
-	        ps.push(wall.scale([st, height - sp * 2, depth]).translate([(width - sp * 2 - st) / 2, 0, -depth]));
-
-	        if (support_type == 'four-walls') {
-
-	            ps.push(wall.scale([width - sp * 2, st, depth]).translate([0, -(height - sp * 2 - st) / 2, -depth]));
-	            ps.push(wall.scale([width - sp * 2, st, depth]).translate([0, (height - sp * 2 - st) / 2, -depth]));
-	        }
-
-	        ps.push(c);
-	        return $$$.union(ps);
-
-	    } else {
-	        var leg = $$$.color('brown', $$$.cube({
-	            center: [true, true, false]
-	        }).scale([st, st, depth]));
-
-	        var w = width - st - sp * 2;
-	        var h = height - st - sp * 2;
-
-	        var leg1 = leg.translate([-w / 2, -h / 2, -depth])
-	        var leg2 = leg.translate([w / 2, -h / 2, -depth])
-	        var leg3 = leg.translate([-w / 2, h / 2, -depth])
-	        var leg4 = leg.translate([w / 2, h / 2, -depth])
-	        return $$$.union(c, leg1, leg2, leg3, leg4);
-	    }
-	})
-
-/***/ },
-/* 79 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('text')
-		.author('doubleshow')
-	    .version('1.0.0');
-
-	//
-	// Parameters
-	//
-
-	model.parameter('font_size')
-	    .defaultValue(10);
-
-	model.parameter('text')
-	    .defaultValue('');
-
-	//
-	// Examples
-	//
-
-	model.example('hello')
-		.text('hello');
-
-	model.example('1234 (bigger)')
-		.text('1234')
-		.font_size(15);
-
-	model.example('x y z (smaller)')
-		.text('x y z')
-		.font_size(5);
-
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params){	
-		var size = params.font_size;
-		var text = params.text;
-
-		var l = $$$.vector_text(0,0,text);   // l contains a list of polylines to be drawn
-		var o = [];
-		l.forEach(function(pl) {                   // pl = polyline (not closed)
-		   o.push($$$.rectangular_extrude(pl, {w: 2, h: 2}));   // extrude it to 3D
-		});
-		
-		var scaleFactor = 0.25 * (size/10);
-		var depthScaleFactor = 0.1;
-
-		// var r = union(o).scale([scaleFactor,scaleFactor,depthScaleFactor]);	
-		// speedup for now
-		var r = $$$.group(o).scale([scaleFactor,scaleFactor,depthScaleFactor]);
-
-		// compute ymax in order to set upper left to origin (0,0)
-		// var b = r.getBounds();
-		// var ymax = b[1].y;
-		var ymax = 5.5;	// hard coded, the value is about the same
-		
-		return r.center(true);
-	});
-
-/***/ },
-/* 80 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('ring')
-	    .author('doubleshow')
-	    .version('1.0.0');
-
-	//
-	// Parameters
-	//
-
-	model.parameter('radius')
-	    .defaultValue(5);
-
-	model.parameter('depth')
-	    .defaultValue(1);
-
-	model.parameter('thickness')
-	    .defaultValue(1);
-
-	//
-	// Examples
-	//
-
-	model.example('default ring');
-
-	model.example('a bigger ring')
-	    .radius(10);
-
-	model.example('a ticker ring')
-	    .thickness(3);
-
-	model.example('a taller ring')
-	    .depth(10);
-
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params) {
-	    var radius = params.radius
-	    var depth = params.depth
-	    var thickness = params.thickness
-
-	    var outter = $$$.cylinder({
-	        r: radius,
-	        h: depth,
-	        center: [true, true, false]
-	    });
-	    var inner = $$$.cylinder({
-	        r: radius - thickness,
-	        h: depth,
-	        center: [true, true, false]
-	    });
-	    var r = $$$.difference(outter, inner)
-	    return r;
-	});
-
-/***/ },
-/* 81 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('flower')
-	    .author('dragosh')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('petal_length')
-	    .defaultValue(2)
-
-	model.parameter('center_radius')
-	    .defaultValue(1)
-
-	//
-	// Examples
-	//
-
-	model.example('default flower')
-
-	model.example('a bigger flower')
-	    .center_radius(3)
-
-	model.example('a ticker and bigger cross')
-	    .center_radius(5)
-	    .petal_length(5)
-
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params) {
-
-	    //vars
-	    var petal_length = params.petal_length;
-	    if(petal_length < 0) petal_length = 2;
-
-	    var center_radius = params.center_radius;
-	    if(center_radius < 0) center_radius = 1;
-
-	    var min = Math.ceil(4 * Math.PI * center_radius/petal_length);
-	    var max = Math.floor(8 * Math.PI * center_radius/petal_length);
-	    
-	    var no_of_petals = params.number_of_petals || min;
-	    if(no_of_petals < min || no_of_petals > max) no_of_petals = Math.round((min + max)/2);
-
-	    //-----------------------
-
-	    var c = $$$.difference($$$.sphere().scale([1,1,0.3]) , $$$.sphere().scale([1,1,0.3]).translate([0,0,0.4]));
-
-	    c = c.scale(center_radius);
-
-	    //one petal
-	    var petal = $$$.sphere(0.25);
-
-	    petal = $$$.difference(petal.translate([0,0,-0.1]) , $$$.cube(0.5).translate([-0.25,-0.25,-0.5])).scale([1,1,0.85]);
-
-	    var matrix = $$$.rotate_extrude( $$$.translate([0.25,0,0], $$$.circle({r: 0.025, center: true}) ) ).rotateY(90);
-	    matrix =  $$$.difference(matrix , $$$.union(matrix.scale(0.9).translate([0.02,0,0]),matrix.scale(0.9).translate([-0.02,0,0])));
-
-
-	     var petal_begin = $$$.difference(petal, matrix.scale([3,1,1]).translate([0,0,-0.125]));
-
-	    petal = $$$.union(petal_begin, $$$.difference($$$.difference(petal,matrix.scale([3,1.2,1]).translate([0,0,-0.125])).scale([1,3.5,1]),$$$.cube(2).center([false,true,false]).translate([-1,-1,0]))).scale([1,1,0.5]);
-
-	    petal = petal.scale([petal_length,petal_length,petal_length]).rotateY(7);
-	    
-	    petal = petal.translate([0,center_radius  + 0.08 * petal_length,0]);
-	    //-----------------------
-
-	    for(var i = 0; i < no_of_petals; i++) c = $$$.group(c,petal.rotateZ(360/no_of_petals*i));
-
-	    return c;
-	});
-
-/***/ },
-/* 82 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('cup')
-	     .author('jeeeun')
-	     .version('1.0.0');
-						   
-	//parameter
-	model.parameter('radius')
-	     .defaultValue(1.5);
-	model.parameter('height')
-		.defaultValue(10);
-
-
-	//model viewer
-	model.example('default cup');
-
-	model.example('small cup')
-		.radius(2);
-
-
-	model.factory(function($$$, params) {
-
-		var radius = params.radius;
-		var height = params.height;
-
-		var body = $$$.cylinder({r:2*radius, h:height, $fn:100, center:true});
-		var holder = $$$.torus({r1:1*radius, ro:1.2*radius}).translate([2*radius,0,0]);
-		holder = $$$.rotate([90,0,0],holder);
-		body = $$$.union(body, holder);
-
-		var hole = $$$.cylinder({r:1.8*radius, h:height, $fn:100, center:true}).translate([0,0,.3]);
-
-		body = $$$.difference(body, hole);
-		return body;
-	});
-
-
-/***/ },
-/* 83 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('braille')
-	    .author('doubleshow')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('text')
-	    .defaultValue('')
-
-	model.parameter('plate_thickness')
-	    .defaultValue(0.3)
-
-	model.parameter('plate_spacing')
-	    .defaultValue(0.5)
-
-
-	//
-	// Examples
-	//
-
-	model.example('hello')
-	    .text('hello')
-
-	model.example('12345')
-	    .text('12345')
-
-	// 
-	// Factory
-	//
-
-	var radius = 0.3;
-	var spacing = 1.5;
-	var distance = 3 + spacing;
-
-	var plate_height = 10;
-
-	model.factory(function($$$, params) {
-	    var plate_thickness = params.plate_thickness
-	    var plate_spacing = params.plate_spacing
-
-	    var text = params.text;    
-	    text = text.toUpperCase();
-	    var csg = braille_str(text)//.center(true)
-
-	    var b = csg.getBounds()
-	    var h = 3 * spacing + 2 * plate_spacing
-	    var w = b[1].x - b[0].x + 2 * plate_spacing
-
-	    var plate = $$$.cube()
-	        .scale([w,h,plate_thickness])
-	        .translate([b[0].x - plate_spacing, plate_spacing,-plate_thickness])
-	    return $$$.union(csg, plate).center(true)
-
-
-	    // adapated from work by jaqtikkun
-	    // http://www.thingiverse.com/jaqtikkun/about
-
-	    // TODOS:
-	    // - braille contractions
-
-	    function braille_str(text) {
-	        var csgs = new Array();
-
-	        // tokens - this needs to be placed by code to compute contractions
-	        var tokens = text;
-
-	        for (var i = 0; i < tokens.length; i = i + 1) {
-	            if (tokens[i] == ' ') {
-	                // space, do nothing
-	            } else {
-	                var csg = braille_char(tokens[i]);
-	                csg = csg.translate([i * distance, 0, 0]);
-	                csg = $$$.color('black', csg);
-	                csgs.push(csg);
-	            }
-	        }
-	        return $$$.group(csgs);
-	    }
-
-	    function letter(bitmap) {
-	        var row_size = 2;
-	        var col_size = 3;
-	        var bitmap_size = row_size * col_size;
-
-	        function loc_y(loc) {
-	            return (3 - Math.floor(loc / row_size)) * spacing;
-	        }
-
-	        function loc_x(loc) {
-	            return loc % row_size * spacing + (distance - spacing) / 2;
-	        }
-
-	        var bits = new Array();
-	        for (var loc = 0; loc < bitmap_size; loc = loc + 1) {
-	            if (bitmap[loc] != 0) {
-	                var bit = $$$.sphere({
-	                        r: radius * bitmap[loc],
-	                        center: true,
-	                        fn: 10
-	                    })
-	                    .translate([loc_x(loc), loc_y(loc), 0]);
-	                bits.push(bit);
-	            }
-	        }
-	        return $$$.group(bits);
-	    }
-
-	    function braille_char(char) {
-	        if (char == "A") {
-	            return letter([
-	                1, 0,
-	                0, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "B") {
-	            return letter([
-	                1, 0,
-	                1, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "C") {
-	            return letter([
-	                1, 1,
-	                0, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "D") {
-	            return letter([
-	                1, 1,
-	                0, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "E") {
-	            return letter([
-	                1, 0,
-	                0, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "F") {
-	            return letter([
-	                1, 1,
-	                1, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "G") {
-	            return letter([
-	                1, 1,
-	                1, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "H") {
-	            return letter([
-	                1, 0,
-	                1, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "I") {
-	            return letter([
-	                0, 1,
-	                1, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "J") {
-	            return letter([
-	                0, 1,
-	                1, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "K") {
-	            return letter([
-	                1, 0,
-	                0, 0,
-	                1, 0
-	            ]);
-	        } else if (char == "L") {
-	            return letter([
-	                1, 0,
-	                1, 0,
-	                1, 0
-	            ]);
-	        } else if (char == "M") {
-	            return letter([
-	                1, 1,
-	                0, 0,
-	                1, 0
-	            ]);
-	        } else if (char == "N") {
-	            return letter([
-	                1, 1,
-	                0, 1,
-	                1, 0
-	            ]);
-	        } else if (char == "O") {
-	            return letter([
-	                1, 0,
-	                0, 1,
-	                1, 0
-	            ]);
-	        } else if (char == "P") {
-	            return letter([
-	                1, 1,
-	                1, 0,
-	                1, 0
-	            ]);
-	        } else if (char == "Q") {
-	            return letter([
-	                1, 1,
-	                1, 1,
-	                1, 0
-	            ]);
-	        } else if (char == "R") {
-	            return letter([
-	                1, 0,
-	                1, 1,
-	                1, 0
-	            ]);
-	        } else if (char == "S") {
-	            return letter([
-	                0, 1,
-	                1, 0,
-	                1, 0
-	            ]);
-	        } else if (char == "T") {
-	            return letter([
-	                0, 1,
-	                1, 1,
-	                1, 0
-	            ]);
-	        } else if (char == "U") {
-	            return letter([
-	                1, 0,
-	                0, 0,
-	                1, 1
-	            ]);
-	        } else if (char == "V") {
-	            return letter([
-	                1, 0,
-	                1, 0,
-	                1, 1
-	            ]);
-	        } else if (char == "W") {
-	            return letter([
-	                0, 1,
-	                1, 1,
-	                0, 1
-	            ]);
-	        } else if (char == "X") {
-	            return letter([
-	                1, 1,
-	                0, 0,
-	                1, 1
-	            ]);
-	        } else if (char == "Y") {
-	            return letter([
-	                1, 1,
-	                0, 1,
-	                1, 1
-	            ]);
-	        } else if (char == "Z") {
-	            return letter([
-	                1, 0,
-	                0, 1,
-	                1, 1
-	            ]);
-	        } else if (char == "CH") {
-	            return letter([
-	                1, 0,
-	                0, 0,
-	                0, 1
-	            ]);
-	        } else if (char == "SH") {
-	            return letter([
-	                1, 1,
-	                0, 0,
-	                0, 1
-	            ]);
-	        } else if (char == "TH") {
-	            return letter([
-	                1, 1,
-	                0, 1,
-	                0, 1
-	            ]);
-	        } else if (char == "WH") {
-	            return letter([
-	                1, 0,
-	                0, 1,
-	                0, 1
-	            ]);
-	        } else if (char == "OU") {
-	            return letter([
-	                1, 0,
-	                1, 1,
-	                0, 1
-	            ]);
-	        } else if (char == "ST") {
-	            return letter([
-	                0, 1,
-	                0, 0,
-	                1, 0
-	            ]);
-	        } else if (char == "AND") {
-	            return letter([
-	                1, 1,
-	                1, 0,
-	                1, 1
-	            ]);
-	        } else if (char == "FOR") {
-	            return letter([
-	                1, 1,
-	                1, 1,
-	                1, 1
-	            ]);
-	        } else if (char == "OF") {
-	            return letter([
-	                1, 0,
-	                1, 1,
-	                1, 1
-	            ]);
-	        } else if (char == "THE") {
-	            return letter([
-	                0, 1,
-	                1, 0,
-	                1, 1
-	            ]);
-	        } else if (char == "WITH") {
-	            return letter([
-	                0, 1,
-	                1, 1,
-	                1, 1
-	            ]);
-	        } else if (char == "IN") {
-	            return letter([
-	                0, 0,
-	                0, 1,
-	                1, 0
-	            ]);
-	        } else if (char == "EN") {
-	            return letter([
-	                0, 0,
-	                1, 0,
-	                0, 1
-	            ]);
-	        } else if (char == "CON") {
-	            return letter([
-	                0, 0,
-	                1, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "DIS") {
-	            return letter([
-	                0, 0,
-	                1, 1,
-	                0, 1
-	            ]);
-	        } else if (char == "COM") {
-	            return letter([
-	                0, 0,
-	                0, 0,
-	                1, 1
-	            ]);
-	        } else if (char == "BE") {
-	            return letter([
-	                0, 0,
-	                1, 0,
-	                1, 0
-	            ]);
-	        } else if (char == "EA") {
-	            return letter([
-	                0, 0,
-	                1, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "BB") {
-	            return letter([
-	                0, 0,
-	                1, 0,
-	                1, 0
-	            ]);
-	        } else if (char == "CC") {
-	            return letter([
-	                0, 0,
-	                1, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "DD") {
-	            return letter([
-	                0, 0,
-	                1, 1,
-	                0, 1
-	            ]);
-	        } else if (char == "FF") {
-	            return letter([
-	                0, 0,
-	                1, 1,
-	                1, 0
-	            ]);
-	        } else if (char == "GG") {
-	            return letter([
-	                0, 0,
-	                1, 1,
-	                1, 1
-	            ]);
-	        } else if (char == "AR") {
-	            return letter([
-	                0, 1,
-	                0, 1,
-	                1, 0
-	            ]);
-	        } else if (char == "BLE") {
-	            return letter([
-	                0, 1,
-	                0, 1,
-	                1, 1
-	            ]);
-	        } else if (char == "ED") {
-	            return letter([
-	                1, 1,
-	                1, 0,
-	                0, 1
-	            ]);
-	        } else if (char == "ER") {
-	            return letter([
-	                1, 1,
-	                1, 1,
-	                0, 1
-	            ]);
-	        } else if (char == "GH") {
-	            return letter([
-	                1, 0,
-	                1, 0,
-	                0, 1
-	            ]);
-	        } else if (char == "ING") {
-	            return letter([
-	                0, 1,
-	                0, 0,
-	                1, 1
-	            ]);
-	        } else if (char == "OW") {
-	            return letter([
-	                0, 1,
-	                1, 0,
-	                0, 1
-	            ]);
-	        } else if (char == "cap") {
-	            return letter([
-	                0, 0,
-	                0, 0,
-	                0, 1
-	            ]);
-	        } else if (char == "#") {
-	            return letter([
-	                0, 1,
-	                0, 1,
-	                1, 1
-	            ]);
-	        } else if (char == "let") {
-	            return letter([
-	                0, 0,
-	                0, 1,
-	                0, 1
-	            ]);
-	        } else if (char == ".") {
-	            return letter([
-	                0, 0,
-	                1, 1,
-	                0, 1
-	            ]);
-	        } else if (char == "?") {
-	            return letter([
-	                0, 0,
-	                1, 0,
-	                1, 1
-	            ]);
-	        } else if (char == "!") {
-	            return letter([
-	                0, 0,
-	                1, 1,
-	                1, 0
-	            ]);
-	        } else if (char == "-") {
-	            return letter([
-	                0, 0,
-	                0, 0,
-	                1, 1
-	            ]);
-	        } else if (char == "quote") {
-	            return letter([
-	                0, 0,
-	                0, 1,
-	                1, 1
-	            ]);
-	        } else if (char == "1") {
-	            return letter([
-	                1, 0,
-	                0, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "2") {
-	            return letter([
-	                1, 0,
-	                1, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "3") {
-	            return letter([
-	                1, 1,
-	                0, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "4") {
-	            return letter([
-	                1, 1,
-	                0, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "5") {
-	            return letter([
-	                1, 0,
-	                0, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "6") {
-	            return letter([
-	                1, 1,
-	                1, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "7") {
-	            return letter([
-	                1, 1,
-	                1, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "8") {
-	            return letter([
-	                1, 0,
-	                1, 1,
-	                0, 0
-	            ]);
-	        } else if (char == "9") {
-	            return letter([
-	                0, 1,
-	                1, 0,
-	                0, 0
-	            ]);
-	        } else if (char == "0") {
-	            return letter([
-	                0, 1,
-	                1, 1,
-	                0, 0
-	            ]);
-	        } else if (char == " ") {
-	            return letter([
-	                0, 0,
-	                0, 0,
-	                0, 0
-	            ]);
-	        } else {
-	            console.log("Invalid Character: ", char);
-	        }
-
-	    }
-	})
-
-/***/ },
-/* 84 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-	var braille = __webpack_require__(203).model.require('braille')
-
-	model.name('barchart')
-	    .author('doubleshow')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('values')
-	    .defaultValue([1, 2, 3])
-
-	model.parameter('height')
-	    .defaultValue(20)
-
-	model.parameter('bar_width')
-	    .defaultValue(10)
-
-	model.parameter('bar_depth')
-	    .defaultValue(1)    
-
-	model.parameter('bar_spacing')
-	    .defaultValue(1)
-
-
-	//
-	// Examples
-	//
-
-	model.example('1 2 3 4 5')
-	    .values([1, 2, 3, 4, 5])
-
-	model.example('50 20 30')
-	    .values([50,20,30])
-	    .height(40)
-	    .bar_spacing(5)
-	    .bar_depth(3)
-
-	model.example('123 234 345')
-	    .values([123,234,345])
-	    .bar_spacing(4)
-
-
-	model.factory(function($$$, params) {    
-
-	    var values = params.values
-
-	    var height = params.height
-	    var bar_width = params.bar_width
-	    var bar_spacing = params.bar_spacing
-	    var bar_depth = params.bar_depth
-
-	    var max = Math.max.apply(Math, values)
-	    var yscale = height / max
-
-	    var bars = new Array();
-	    values.forEach(function(d, i) {
-	        var bar = $$$.cube()
-	            .scale([bar_width, d * yscale, bar_depth])
-	            .translate([i * (bar_width + bar_spacing), 0, 0])
-
-	        var label = braille.generate({text:''+d})
-	        	.translate([i*(bar_width+bar_spacing)+bar_width/2,5+d*yscale,0])
-
-	        label = $$$.alignMinZ(label, bar)
-
-	        bars.push(label)
-	        bars.push(bar)
-	    })
-
-	    var c = $$$.group(bars)
-	    return c.center(true)
-	})
-
-/***/ },
-/* 85 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-	var braille = __webpack_require__(203).model.require('braille')
-
-	model.name('piechart')
-	    .author('doubleshow')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('values')
-	    .defaultValue([])
-
-	model.parameter('labels')
-	    .defaultValue([])
-
-	model.parameter('radius')
-	    .defaultValue(20)
-
-	//
-	// Examples
-	//
-
-	model.example('1 2 3 3')
-	    .values([1, 2, 3, 3])
-	    .labels(['a', 'b', 'c', 'd'])
-
-	model.example('2 3 4')
-	    .values([2, 3, 4])
-	    .labels(['x', 'y', 'z'])
-	    .radius(15)
-
-
-	model.factory(function($$$, params) {
-
-	    var values = params.values
-	    var labels = params.labels
-	    var radius = params.radius
-
-	    var sum = values.reduce(function(a, b) {
-	        return a + b;
-	    });
-
-	    var slices = new Array();
-	    var start = 0;
-	    var end = 0;
-
-	    values.forEach(function(value, i) {
-
-
-	        var perct = value / sum;
-
-	        var da = 360 * value / sum;
-	        end = start + da;
-
-	        var arc = $$$.CSG.Path2D.arc({
-	            center: [0, 0, 0],
-	            radius: radius,
-	            startangle: start + 2,
-	            endangle: end - 2,
-	            resolution: 16,
-	        });
-	        var p = arc.appendPoint([0, 0]).close();
-
-	        var slice = p.innerToCAG().extrude({
-	            offset: [0, 0, 2]
-	        });
-	        slices.push(slice);
-
-	        var theta = Math.PI * ((start + end) / 2) / 180;
-
-	        var r1 = radius / 2 + 3;
-	        var r2 = radius + 5;
-
-	        var percttext = Math.round(perct * 100);
-	        var perctlabel = braille.generate({
-	                text: "" + percttext
-	            })
-	            .center(true)
-	            .rotateZ(-90)
-	            .translate([r1 * Math.cos(theta), r1 * Math.sin(theta), 2]);
-	        slices.push(perctlabel)
-
-
-	        var label = labels[i]      
-	        if (label) {
-	            var namelabel = braille.generate({
-	                    text: label
-	                })
-	                .center(true)
-	                .rotateZ(-90)
-	                .translate([r2 * Math.cos(theta), r2 * Math.sin(theta), 0]);
-	            slices.push(namelabel);
-	        }
-
-	        start = end;
-	    })
-
-	    var c = $$$.group(slices);
-	    return c
-	})
-
-/***/ },
-/* 86 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('grill')
-	    .author('doubleshow')
-	    .version('1.0.0')
-
-	//
-	// Parameters
-	//
-
-	model.parameter('height')
-	    .defaultValue(15)
-
-	model.parameter('width')
-	    .defaultValue(30)
-
-	model.parameter('depth')
-	    .defaultValue(1)
-
-	model.parameter('orientation')
-	    .defaultValue('horizontal')
-
-	model.parameter('bar_count')
-	    .defaultValue(5)
-
-	model.parameter('bar_width')
-	    .defaultValue(1)
-
-	//
-	// Examples
-	//
-
-	model.example('default grill')
-
-	model.example('a longer, denser grill')
-	    .width(50)
-	    .bar_count(40)
-	    .bar_width(0.2)
-
-	model.example('a vertical grill')
-	    .width(50)
-	    .height(50)
-	    .orientation('vertical')
-
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params) {
-	    var height = params.height
-	    var width = params.width
-	    var depth = params.depth
-	    var orientation = params.orientation
-	    var bar_count = params.bar_count
-	    var bar_width = params.bar_width
-
-	    var length = 0;
-	    if (orientation == 'vertical'){
-	        length = height;
-	        var bar_length = width;
-	    }else{
-	        length = width;
-	        var bar_length = height;
-	    }
-
-	    var gap_between_bars = 1.0 * (length - bar_width) / (bar_count - 1);
-
-	    var models = new Array();
-
-	    var bar = $$$.cube({
-	        center: [false, false, false]
-	    });
-	    bar = bar.scale([bar_width, bar_length, 2]);
-
-	    models.push(bar);
-	    for (var i = 0; i < bar_count - 1; i = i + 1) {
-	        bar = bar.translate([gap_between_bars, 0, 0]);
-	        models.push(bar);
-	    }
-
-	    var bars = $$$.union(models).scale([1, 1, depth / 2]);
-
-	    // center
-	     bars = bars.translate([-length/2,-bar_length/2,0])
-
-	    if (orientation == 'vertical'){        
-	        bars = bars.rotateZ(90);
-	    }
-	    return bars;
-	})
-
-/***/ },
-/* 87 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var model = module.exports = __webpack_require__(203).model.define()
-
-	model.name('wave')
-		.author('doubleshow')
-	    .version('1.0.0');
-
-	//
-	// Parameters
-	//
-
-	model.parameter('height')
-	    .defaultValue(10);
-
-	model.parameter('width')
-	    .defaultValue(20);
-
-	model.parameter('count')
-	    .defaultValue(6);    
-
-	//
-	// Examples
-	//
-
-	model.example('default wave')
-
-	model.example('a longer, wider wave')
-		.width(40)
-		.height(15)
-		.count(15)
-
-	//
-	// Factory
-	//
-
-	model.factory(function($$$, params){
-
-		var height = params.height
-		var width = params.width
-		var count = params.count
-
-		var c = $$$.cylinder({r:5, h:height});
-
-		var cut = $$$.cube({});	
-		cut = cut.scale([5*(count+1),10,height]).translate([0,-4,0]);
-
-		var models = new Array();
-		for (var i = 0; i < count; i = i + 1){
-			c = c.translate([5,0,0]);
-			models.push(c);
-		}
-		var r = $$$.difference($$$.union(models), cut);
-
-		// fit the width
-		var b = r.getBounds();
-		var dx = b[1].x - b[0].x;
-		r = r.scale([width/dx, 1, 1]);
-		return r.center(true).rotateX(-90);
-	})
-
-/***/ },
-/* 88 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/*
 	Syntax highlighting with language autodetection.
 	https://highlightjs.org/
@@ -72659,6 +70987,1678 @@
 	  return hljs;
 	}));
 
+
+/***/ },
+/* 73 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('board')
+	    .author('doubleshow')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('width')
+	    .defaultValue(30)
+
+	model.parameter('height')
+	    .defaultValue(30)
+
+	model.parameter('depth')
+	    .defaultValue(1)
+
+	//
+	// Examples
+	//
+
+	model.example('default board')
+
+	model.example('a bigger board')
+	    .height(50)
+	    .width(50)
+
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params) {   
+	    var width = params.width
+	    var height = params.height
+	    var depth = params.depth
+
+	    var c = $$$.cube({
+	        center: true
+	    })
+	    c = c.setColor([0.8, 0.8, 0])
+	    c = c.scale([width, height, depth])
+	    return c
+	})
+
+/***/ },
+/* 74 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('placeholder')
+	    .author('doubleshow')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('width')
+	    .defaultValue(30)
+
+	model.parameter('height')
+	    .defaultValue(30)
+
+	model.parameter('depth')
+	    .defaultValue(1)
+
+	// 
+	// Spaces
+	//
+
+	model.space('top', function($$$, params){
+	    return $$$.cube({center:true})
+	        .scale([params.width,params.height,1])
+	        .translate([0,0,-0.5])
+	})
+
+	model.space('base', function($$$, params){
+	    return $$$.cube({center:true})
+	        .scale([params.width,params.height,1])
+	        .translate([0,0,-params.depth-0.5])
+	})
+
+	//
+	// Examples
+	//
+
+	model.example('default placeholder')
+
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params) {   
+	    var width = params.width
+	    var height = params.height
+	    var depth = params.depth
+
+	    var c = $$$.cube({
+	        center: true
+	    })
+	    c = c.scale([width, height, depth])
+	    return c
+	})
+
+/***/ },
+/* 75 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('chair1')
+	    .author('caleb')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	// 
+
+	model.parameter('size')
+	    .defaultValue(1)
+
+	model.parameter('seat_length')
+	    .defaultValue(15)
+
+	model.parameter('leg_length')
+	    .defaultValue(14)
+
+
+	//
+	// Examples
+	// 
+
+	model.example('default chair')
+
+
+	model.example('a long chair')
+	    .seat_length(25)
+
+	model.example('a tall chair')
+	    .leg_length(25)
+
+	model.example('a short, long chair')
+	    .seat_length(30)
+	    .leg_length(5) 
+
+
+	// 
+	// Factory
+	//
+	 
+	model.factory(function($$$, params) {    
+	    var size = params.size;
+	    var leg_length = params.leg_length;
+	    var seat_length = params.seat_length;
+
+	    return seat().scale(size);
+
+	// chair components
+	function seat() {
+	    var c, d;
+
+	    // seat base
+	    c = $$$.cube({size:[seat_length,15,1]}).translate([0,0,14]);
+
+	    // seat back
+	    var back_main = $$$.cube({size:[1,15,7.5]});
+	    var back_dome = $$$.cylinder({r:6.5, h:1});
+	    var back_support_l = $$$.cube({size:[2,2,16]});
+	    var back_support_r = $$$.cube({size:[2,2,16]});
+	    
+	    // legs
+	    var leg = $$$.cube({size:[2,2,leg_length]});
+	    var leg_support = $$$.cube({size:[seat_length-1,1.5,1.5]});
+	    
+	    // seat back transformations
+	    back_main = back_main.translate([0.2,0,10]);
+	    back_dome = $$$.rotate([0,90,0], back_dome).translate([0.2,7.5,18.5]);
+	    back_support_l = back_support_l.translate([0,0,7]);
+	    back_support_r = back_support_r.translate([0,13,7]);
+	   
+	    d = $$$.union(back_main, back_dome, back_support_l, back_support_r);
+	    d = d.translate([0,0,8]);
+	    d = $$$.union(c,d);
+	    
+	    // leg transformations
+	    var leg_fl = leg.translate([seat_length-2,0,14-leg_length]);
+	    var leg_fr = leg.translate([seat_length-2,13,14-leg_length]);
+	    var leg_bl = leg.translate([0,0,14-leg_length]);
+	    var leg_br = leg.translate([0,13,14-leg_length]);
+	    
+	    var leg_support_l = leg_support.translate([1,0,17-leg_length]);
+	    var leg_support_r = leg_support.translate([1,13.5,17-leg_length]);
+	    
+	    return $$$.union(d, leg_fl, leg_fr, leg_bl, leg_br, leg_support_l, leg_support_r);
+	}
+	})
+
+
+/***/ },
+/* 76 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('cube')
+		.author('caleb')
+		.version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('width')
+		.defaultValue(10)
+		
+	model.parameter('height')
+		.defaultValue(10)
+		
+	model.parameter('depth')
+		.defaultValue(10)
+		
+	model.parameter('rounded')
+		.defaultValue(false)
+
+	//
+	// Examples
+	//
+
+	model.example('default cube')
+
+	model.example('rounded cube')
+		.rounded(true)
+		
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params) {
+		var width = params.width;
+		var height = params.height;
+		var depth = params.depth;
+		var rounded = params.rounded;
+
+		var c = $$$.cube({
+	        center: true,
+	        round: rounded
+	    })
+
+		c = c.scale([width, depth, height])
+		return c
+	})
+
+
+/***/ },
+/* 77 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('pin')
+	    .author('doubleshow')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('depth')
+	    .defaultValue(5)
+
+	model.parameter('head_radius')
+	    .defaultValue(2)
+
+	model.parameter('head_depth')
+	    .defaultValue(1)
+
+	//
+	// Examples
+	//
+
+	model.example('default pin')
+
+	model.example('a tall pin')
+	    .depth(10);
+
+	model.example('a pin with a wider head')
+	    .head_radius(5);
+
+	model.example('a tall pin with a wider/thicker head')
+	    .depth(5)
+	    .head_radius(5)
+	    .head_depth(3)
+
+	// 
+	// Spaces
+	//
+
+	// model.space('base', function($$$, params) {
+	//     return $$$.cube({
+	//             center: true
+	//         })
+	//         .scale([2, 2, 1])
+	//         .translate([0, 0, -0.5])
+	// })
+
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params) {
+	    var depth = params.depth
+	    var head_radius = params.head_radius;
+	    var head_depth = params.head_depth;
+
+	    // needle
+	    var needle = $$$.cylinder({
+	        r: 1,
+	        h: depth,
+	        center: [true, true, false]
+	    });
+
+	    // head
+	    var head = $$$.cylinder({
+	        r: head_radius,
+	        h: head_depth,
+	        center: [true, true, false]
+	    });
+	    head = head.translate([0, 0, depth]);
+	    return $$$.union(head, needle);
+	})
+
+/***/ },
+/* 78 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('cross')
+	    .author('doubleshow')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('size')
+	    .defaultValue(3)
+
+	model.parameter('depth')
+	    .defaultValue(1)
+
+	//
+	// Examples
+	//
+
+	model.example('default cross')
+
+	model.example('a bigger cross')
+	    .size(10)
+
+	model.example('a ticker and bigger cross')
+	    .size(30)
+	    .depth(5)
+
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params) {
+	    var size = params.size;
+	    var depth = params.depth;
+
+	    var c = $$$.cube();
+	    c = c.scale([1, size, depth]).center([true, true, false]);
+	    c = $$$.union(c, c.rotateZ(90));
+	    return c;
+	})
+
+/***/ },
+/* 79 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+	var board = __webpack_require__(203).model.require('board')
+
+	model.name('desk')
+	    .author('doubleshow')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('width')
+	    .defaultValue(20)
+
+	model.parameter('height')
+	    .defaultValue(10)
+
+	model.parameter('depth')
+	    .defaultValue(3)
+
+	model.parameter('support_type')
+	    .defaultValue('four-legs')
+
+	model.parameter('support_padding')
+	    .defaultValue(1)
+
+	model.parameter('support_thickness')
+	    .defaultValue(1)
+
+	//
+	// Examples
+	//
+
+	model.example('default table')
+
+	model.example('wider table')
+	    .width(40)
+	    .height(20)
+
+	model.example('bigger, taller table, flushed to corners')
+	    .width(30)
+	    .height(30)
+	    .depth(10)
+	    .support_padding(0);
+
+	model.example('table supported by two walls')
+	    .support_type('two-walls')
+	    .support_padding(3)
+	    .depth(10)
+
+	model.example('table supported by four walls')
+	    .support_type('four-walls')
+	    .depth(5)
+
+	// 
+	// Spaces
+	//
+
+	// model.space('base', function($$$, params){
+	//     return $$$.cube({center:true})
+	//         .scale([params.width-params.support_padding*2,params.height-params.support_padding*2,1])
+	//         .translate([0,0,-params.depth-0.5])
+	// })
+
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params) {
+
+	    var width = params.width;
+	    var height = params.height;
+	    var depth = params.depth;
+	    var sp = params.support_padding;
+	    var st = params.support_thickness;
+	    var support_type = params.support_type;
+
+	    var c = board.generate({
+	        width: width,
+	        height: height
+	    });
+	    c = $$$.color([0.6, 0.6, 0, 0.5], c)
+
+	    var ps = []; // holds an array of support models
+
+	    if (support_type == 'two-walls' || support_type == 'four-walls') {
+	        var wall = $$$.color('brown', $$$.cube({
+	            center: [true, true, false]
+	        }));
+
+	        ps.push(wall.scale([st, height - sp * 2, depth]).translate([-(width - sp * 2 - st) / 2, 0, -depth]));
+	        ps.push(wall.scale([st, height - sp * 2, depth]).translate([(width - sp * 2 - st) / 2, 0, -depth]));
+
+	        if (support_type == 'four-walls') {
+
+	            ps.push(wall.scale([width - sp * 2, st, depth]).translate([0, -(height - sp * 2 - st) / 2, -depth]));
+	            ps.push(wall.scale([width - sp * 2, st, depth]).translate([0, (height - sp * 2 - st) / 2, -depth]));
+	        }
+
+	        ps.push(c);
+	        return $$$.union(ps);
+
+	    } else {
+	        var leg = $$$.color('brown', $$$.cube({
+	            center: [true, true, false]
+	        }).scale([st, st, depth]));
+
+	        var w = width - st - sp * 2;
+	        var h = height - st - sp * 2;
+
+	        var leg1 = leg.translate([-w / 2, -h / 2, -depth])
+	        var leg2 = leg.translate([w / 2, -h / 2, -depth])
+	        var leg3 = leg.translate([-w / 2, h / 2, -depth])
+	        var leg4 = leg.translate([w / 2, h / 2, -depth])
+	        return $$$.union(c, leg1, leg2, leg3, leg4);
+	    }
+	})
+
+/***/ },
+/* 80 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('text')
+		.author('doubleshow')
+	    .version('1.0.0');
+
+	//
+	// Parameters
+	//
+
+	model.parameter('font_size')
+	    .defaultValue(10);
+
+	model.parameter('text')
+	    .defaultValue('');
+
+	//
+	// Examples
+	//
+
+	model.example('hello')
+		.text('hello');
+
+	model.example('1234 (bigger)')
+		.text('1234')
+		.font_size(15);
+
+	model.example('x y z (smaller)')
+		.text('x y z')
+		.font_size(5);
+
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params){	
+		var size = params.font_size;
+		var text = params.text;
+
+		var l = $$$.vector_text(0,0,text);   // l contains a list of polylines to be drawn
+		var o = [];
+		l.forEach(function(pl) {                   // pl = polyline (not closed)
+		   o.push($$$.rectangular_extrude(pl, {w: 2, h: 2}));   // extrude it to 3D
+		});
+		
+		var scaleFactor = 0.25 * (size/10);
+		var depthScaleFactor = 0.1;
+
+		// var r = union(o).scale([scaleFactor,scaleFactor,depthScaleFactor]);	
+		// speedup for now
+		var r = $$$.group(o).scale([scaleFactor,scaleFactor,depthScaleFactor]);
+
+		// compute ymax in order to set upper left to origin (0,0)
+		// var b = r.getBounds();
+		// var ymax = b[1].y;
+		var ymax = 5.5;	// hard coded, the value is about the same
+		
+		return r.center(true);
+	});
+
+/***/ },
+/* 81 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('ring')
+	    .author('doubleshow')
+	    .version('1.0.0');
+
+	//
+	// Parameters
+	//
+
+	model.parameter('radius')
+	    .defaultValue(5);
+
+	model.parameter('depth')
+	    .defaultValue(1);
+
+	model.parameter('thickness')
+	    .defaultValue(1);
+
+	//
+	// Examples
+	//
+
+	model.example('default ring');
+
+	model.example('a bigger ring')
+	    .radius(10);
+
+	model.example('a ticker ring')
+	    .thickness(3);
+
+	model.example('a taller ring')
+	    .depth(10);
+
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params) {
+	    var radius = params.radius
+	    var depth = params.depth
+	    var thickness = params.thickness
+
+	    var outter = $$$.cylinder({
+	        r: radius,
+	        h: depth,
+	        center: [true, true, false]
+	    });
+	    var inner = $$$.cylinder({
+	        r: radius - thickness,
+	        h: depth,
+	        center: [true, true, false]
+	    });
+	    var r = $$$.difference(outter, inner)
+	    return r;
+	});
+
+/***/ },
+/* 82 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('flower')
+	    .author('dragosh')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('petal_length')
+	    .defaultValue(2)
+
+	model.parameter('center_radius')
+	    .defaultValue(1)
+
+	//
+	// Examples
+	//
+
+	model.example('default flower')
+
+	model.example('a bigger flower')
+	    .center_radius(3)
+
+	model.example('a ticker and bigger cross')
+	    .center_radius(5)
+	    .petal_length(5)
+
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params) {
+
+	    //vars
+	    var petal_length = params.petal_length;
+	    if(petal_length < 0) petal_length = 2;
+
+	    var center_radius = params.center_radius;
+	    if(center_radius < 0) center_radius = 1;
+
+	    var min = Math.ceil(4 * Math.PI * center_radius/petal_length);
+	    var max = Math.floor(8 * Math.PI * center_radius/petal_length);
+	    
+	    var no_of_petals = params.number_of_petals || min;
+	    if(no_of_petals < min || no_of_petals > max) no_of_petals = Math.round((min + max)/2);
+
+	    //-----------------------
+
+	    var c = $$$.difference($$$.sphere().scale([1,1,0.3]) , $$$.sphere().scale([1,1,0.3]).translate([0,0,0.4]));
+
+	    c = c.scale(center_radius);
+
+	    //one petal
+	    var petal = $$$.sphere(0.25);
+
+	    petal = $$$.difference(petal.translate([0,0,-0.1]) , $$$.cube(0.5).translate([-0.25,-0.25,-0.5])).scale([1,1,0.85]);
+
+	    var matrix = $$$.rotate_extrude( $$$.translate([0.25,0,0], $$$.circle({r: 0.025, center: true}) ) ).rotateY(90);
+	    matrix =  $$$.difference(matrix , $$$.union(matrix.scale(0.9).translate([0.02,0,0]),matrix.scale(0.9).translate([-0.02,0,0])));
+
+
+	     var petal_begin = $$$.difference(petal, matrix.scale([3,1,1]).translate([0,0,-0.125]));
+
+	    petal = $$$.union(petal_begin, $$$.difference($$$.difference(petal,matrix.scale([3,1.2,1]).translate([0,0,-0.125])).scale([1,3.5,1]),$$$.cube(2).center([false,true,false]).translate([-1,-1,0]))).scale([1,1,0.5]);
+
+	    petal = petal.scale([petal_length,petal_length,petal_length]).rotateY(7);
+	    
+	    petal = petal.translate([0,center_radius  + 0.08 * petal_length,0]);
+	    //-----------------------
+
+	    for(var i = 0; i < no_of_petals; i++) c = $$$.group(c,petal.rotateZ(360/no_of_petals*i));
+
+	    return c;
+	});
+
+/***/ },
+/* 83 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('cup')
+	     .author('jeeeun')
+	     .version('1.0.0');
+						   
+	//parameter
+	model.parameter('radius')
+	     .defaultValue(1.5);
+	model.parameter('height')
+		.defaultValue(10);
+
+
+	//model viewer
+	model.example('default cup');
+
+	model.example('small cup')
+		.radius(2);
+
+
+	model.factory(function($$$, params) {
+
+		var radius = params.radius;
+		var height = params.height;
+
+		var body = $$$.cylinder({r:2*radius, h:height, $fn:100, center:true});
+		var holder = $$$.torus({r1:1*radius, ro:1.2*radius}).translate([2*radius,0,0]);
+		holder = $$$.rotate([90,0,0],holder);
+		body = $$$.union(body, holder);
+
+		var hole = $$$.cylinder({r:1.8*radius, h:height, $fn:100, center:true}).translate([0,0,.3]);
+
+		body = $$$.difference(body, hole);
+		return body;
+	});
+
+
+/***/ },
+/* 84 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('braille')
+	    .author('doubleshow')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('text')
+	    .defaultValue('')
+
+	model.parameter('plate_thickness')
+	    .defaultValue(0.3)
+
+	model.parameter('plate_spacing')
+	    .defaultValue(0.5)
+
+
+	//
+	// Examples
+	//
+
+	model.example('hello')
+	    .text('hello')
+
+	model.example('12345')
+	    .text('12345')
+
+	// 
+	// Factory
+	//
+
+	var radius = 0.3;
+	var spacing = 1.5;
+	var distance = 3 + spacing;
+
+	var plate_height = 10;
+
+	model.factory(function($$$, params) {
+	    var plate_thickness = params.plate_thickness
+	    var plate_spacing = params.plate_spacing
+
+	    var text = params.text;    
+	    text = text.toUpperCase();
+	    var csg = braille_str(text)//.center(true)
+
+	    var b = csg.getBounds()
+	    var h = 3 * spacing + 2 * plate_spacing
+	    var w = b[1].x - b[0].x + 2 * plate_spacing
+
+	    var plate = $$$.cube()
+	        .scale([w,h,plate_thickness])
+	        .translate([b[0].x - plate_spacing, plate_spacing,-plate_thickness])
+	    return $$$.union(csg, plate).center(true)
+
+
+	    // adapated from work by jaqtikkun
+	    // http://www.thingiverse.com/jaqtikkun/about
+
+	    // TODOS:
+	    // - braille contractions
+
+	    function braille_str(text) {
+	        var csgs = new Array();
+
+	        // tokens - this needs to be placed by code to compute contractions
+	        var tokens = text;
+
+	        for (var i = 0; i < tokens.length; i = i + 1) {
+	            if (tokens[i] == ' ') {
+	                // space, do nothing
+	            } else {
+	                var csg = braille_char(tokens[i]);
+	                csg = csg.translate([i * distance, 0, 0]);
+	                csg = $$$.color('black', csg);
+	                csgs.push(csg);
+	            }
+	        }
+	        return $$$.group(csgs);
+	    }
+
+	    function letter(bitmap) {
+	        var row_size = 2;
+	        var col_size = 3;
+	        var bitmap_size = row_size * col_size;
+
+	        function loc_y(loc) {
+	            return (3 - Math.floor(loc / row_size)) * spacing;
+	        }
+
+	        function loc_x(loc) {
+	            return loc % row_size * spacing + (distance - spacing) / 2;
+	        }
+
+	        var bits = new Array();
+	        for (var loc = 0; loc < bitmap_size; loc = loc + 1) {
+	            if (bitmap[loc] != 0) {
+	                var bit = $$$.sphere({
+	                        r: radius * bitmap[loc],
+	                        center: true,
+	                        fn: 10
+	                    })
+	                    .translate([loc_x(loc), loc_y(loc), 0]);
+	                bits.push(bit);
+	            }
+	        }
+	        return $$$.group(bits);
+	    }
+
+	    function braille_char(char) {
+	        if (char == "A") {
+	            return letter([
+	                1, 0,
+	                0, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "B") {
+	            return letter([
+	                1, 0,
+	                1, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "C") {
+	            return letter([
+	                1, 1,
+	                0, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "D") {
+	            return letter([
+	                1, 1,
+	                0, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "E") {
+	            return letter([
+	                1, 0,
+	                0, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "F") {
+	            return letter([
+	                1, 1,
+	                1, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "G") {
+	            return letter([
+	                1, 1,
+	                1, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "H") {
+	            return letter([
+	                1, 0,
+	                1, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "I") {
+	            return letter([
+	                0, 1,
+	                1, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "J") {
+	            return letter([
+	                0, 1,
+	                1, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "K") {
+	            return letter([
+	                1, 0,
+	                0, 0,
+	                1, 0
+	            ]);
+	        } else if (char == "L") {
+	            return letter([
+	                1, 0,
+	                1, 0,
+	                1, 0
+	            ]);
+	        } else if (char == "M") {
+	            return letter([
+	                1, 1,
+	                0, 0,
+	                1, 0
+	            ]);
+	        } else if (char == "N") {
+	            return letter([
+	                1, 1,
+	                0, 1,
+	                1, 0
+	            ]);
+	        } else if (char == "O") {
+	            return letter([
+	                1, 0,
+	                0, 1,
+	                1, 0
+	            ]);
+	        } else if (char == "P") {
+	            return letter([
+	                1, 1,
+	                1, 0,
+	                1, 0
+	            ]);
+	        } else if (char == "Q") {
+	            return letter([
+	                1, 1,
+	                1, 1,
+	                1, 0
+	            ]);
+	        } else if (char == "R") {
+	            return letter([
+	                1, 0,
+	                1, 1,
+	                1, 0
+	            ]);
+	        } else if (char == "S") {
+	            return letter([
+	                0, 1,
+	                1, 0,
+	                1, 0
+	            ]);
+	        } else if (char == "T") {
+	            return letter([
+	                0, 1,
+	                1, 1,
+	                1, 0
+	            ]);
+	        } else if (char == "U") {
+	            return letter([
+	                1, 0,
+	                0, 0,
+	                1, 1
+	            ]);
+	        } else if (char == "V") {
+	            return letter([
+	                1, 0,
+	                1, 0,
+	                1, 1
+	            ]);
+	        } else if (char == "W") {
+	            return letter([
+	                0, 1,
+	                1, 1,
+	                0, 1
+	            ]);
+	        } else if (char == "X") {
+	            return letter([
+	                1, 1,
+	                0, 0,
+	                1, 1
+	            ]);
+	        } else if (char == "Y") {
+	            return letter([
+	                1, 1,
+	                0, 1,
+	                1, 1
+	            ]);
+	        } else if (char == "Z") {
+	            return letter([
+	                1, 0,
+	                0, 1,
+	                1, 1
+	            ]);
+	        } else if (char == "CH") {
+	            return letter([
+	                1, 0,
+	                0, 0,
+	                0, 1
+	            ]);
+	        } else if (char == "SH") {
+	            return letter([
+	                1, 1,
+	                0, 0,
+	                0, 1
+	            ]);
+	        } else if (char == "TH") {
+	            return letter([
+	                1, 1,
+	                0, 1,
+	                0, 1
+	            ]);
+	        } else if (char == "WH") {
+	            return letter([
+	                1, 0,
+	                0, 1,
+	                0, 1
+	            ]);
+	        } else if (char == "OU") {
+	            return letter([
+	                1, 0,
+	                1, 1,
+	                0, 1
+	            ]);
+	        } else if (char == "ST") {
+	            return letter([
+	                0, 1,
+	                0, 0,
+	                1, 0
+	            ]);
+	        } else if (char == "AND") {
+	            return letter([
+	                1, 1,
+	                1, 0,
+	                1, 1
+	            ]);
+	        } else if (char == "FOR") {
+	            return letter([
+	                1, 1,
+	                1, 1,
+	                1, 1
+	            ]);
+	        } else if (char == "OF") {
+	            return letter([
+	                1, 0,
+	                1, 1,
+	                1, 1
+	            ]);
+	        } else if (char == "THE") {
+	            return letter([
+	                0, 1,
+	                1, 0,
+	                1, 1
+	            ]);
+	        } else if (char == "WITH") {
+	            return letter([
+	                0, 1,
+	                1, 1,
+	                1, 1
+	            ]);
+	        } else if (char == "IN") {
+	            return letter([
+	                0, 0,
+	                0, 1,
+	                1, 0
+	            ]);
+	        } else if (char == "EN") {
+	            return letter([
+	                0, 0,
+	                1, 0,
+	                0, 1
+	            ]);
+	        } else if (char == "CON") {
+	            return letter([
+	                0, 0,
+	                1, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "DIS") {
+	            return letter([
+	                0, 0,
+	                1, 1,
+	                0, 1
+	            ]);
+	        } else if (char == "COM") {
+	            return letter([
+	                0, 0,
+	                0, 0,
+	                1, 1
+	            ]);
+	        } else if (char == "BE") {
+	            return letter([
+	                0, 0,
+	                1, 0,
+	                1, 0
+	            ]);
+	        } else if (char == "EA") {
+	            return letter([
+	                0, 0,
+	                1, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "BB") {
+	            return letter([
+	                0, 0,
+	                1, 0,
+	                1, 0
+	            ]);
+	        } else if (char == "CC") {
+	            return letter([
+	                0, 0,
+	                1, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "DD") {
+	            return letter([
+	                0, 0,
+	                1, 1,
+	                0, 1
+	            ]);
+	        } else if (char == "FF") {
+	            return letter([
+	                0, 0,
+	                1, 1,
+	                1, 0
+	            ]);
+	        } else if (char == "GG") {
+	            return letter([
+	                0, 0,
+	                1, 1,
+	                1, 1
+	            ]);
+	        } else if (char == "AR") {
+	            return letter([
+	                0, 1,
+	                0, 1,
+	                1, 0
+	            ]);
+	        } else if (char == "BLE") {
+	            return letter([
+	                0, 1,
+	                0, 1,
+	                1, 1
+	            ]);
+	        } else if (char == "ED") {
+	            return letter([
+	                1, 1,
+	                1, 0,
+	                0, 1
+	            ]);
+	        } else if (char == "ER") {
+	            return letter([
+	                1, 1,
+	                1, 1,
+	                0, 1
+	            ]);
+	        } else if (char == "GH") {
+	            return letter([
+	                1, 0,
+	                1, 0,
+	                0, 1
+	            ]);
+	        } else if (char == "ING") {
+	            return letter([
+	                0, 1,
+	                0, 0,
+	                1, 1
+	            ]);
+	        } else if (char == "OW") {
+	            return letter([
+	                0, 1,
+	                1, 0,
+	                0, 1
+	            ]);
+	        } else if (char == "cap") {
+	            return letter([
+	                0, 0,
+	                0, 0,
+	                0, 1
+	            ]);
+	        } else if (char == "#") {
+	            return letter([
+	                0, 1,
+	                0, 1,
+	                1, 1
+	            ]);
+	        } else if (char == "let") {
+	            return letter([
+	                0, 0,
+	                0, 1,
+	                0, 1
+	            ]);
+	        } else if (char == ".") {
+	            return letter([
+	                0, 0,
+	                1, 1,
+	                0, 1
+	            ]);
+	        } else if (char == "?") {
+	            return letter([
+	                0, 0,
+	                1, 0,
+	                1, 1
+	            ]);
+	        } else if (char == "!") {
+	            return letter([
+	                0, 0,
+	                1, 1,
+	                1, 0
+	            ]);
+	        } else if (char == "-") {
+	            return letter([
+	                0, 0,
+	                0, 0,
+	                1, 1
+	            ]);
+	        } else if (char == "quote") {
+	            return letter([
+	                0, 0,
+	                0, 1,
+	                1, 1
+	            ]);
+	        } else if (char == "1") {
+	            return letter([
+	                1, 0,
+	                0, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "2") {
+	            return letter([
+	                1, 0,
+	                1, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "3") {
+	            return letter([
+	                1, 1,
+	                0, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "4") {
+	            return letter([
+	                1, 1,
+	                0, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "5") {
+	            return letter([
+	                1, 0,
+	                0, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "6") {
+	            return letter([
+	                1, 1,
+	                1, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "7") {
+	            return letter([
+	                1, 1,
+	                1, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "8") {
+	            return letter([
+	                1, 0,
+	                1, 1,
+	                0, 0
+	            ]);
+	        } else if (char == "9") {
+	            return letter([
+	                0, 1,
+	                1, 0,
+	                0, 0
+	            ]);
+	        } else if (char == "0") {
+	            return letter([
+	                0, 1,
+	                1, 1,
+	                0, 0
+	            ]);
+	        } else if (char == " ") {
+	            return letter([
+	                0, 0,
+	                0, 0,
+	                0, 0
+	            ]);
+	        } else {
+	            console.log("Invalid Character: ", char);
+	        }
+
+	    }
+	})
+
+/***/ },
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+	var braille = __webpack_require__(203).model.require('braille')
+
+	model.name('barchart')
+	    .author('doubleshow')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('values')
+	    .defaultValue([1, 2, 3])
+
+	model.parameter('height')
+	    .defaultValue(20)
+
+	model.parameter('bar_width')
+	    .defaultValue(10)
+
+	model.parameter('bar_depth')
+	    .defaultValue(1)    
+
+	model.parameter('bar_spacing')
+	    .defaultValue(1)
+
+
+	//
+	// Examples
+	//
+
+	model.example('1 2 3 4 5')
+	    .values([1, 2, 3, 4, 5])
+
+	model.example('50 20 30')
+	    .values([50,20,30])
+	    .height(40)
+	    .bar_spacing(5)
+	    .bar_depth(3)
+
+	model.example('123 234 345')
+	    .values([123,234,345])
+	    .bar_spacing(4)
+
+
+	model.factory(function($$$, params) {    
+
+	    var values = params.values
+
+	    var height = params.height
+	    var bar_width = params.bar_width
+	    var bar_spacing = params.bar_spacing
+	    var bar_depth = params.bar_depth
+
+	    var max = Math.max.apply(Math, values)
+	    var yscale = height / max
+
+	    var bars = new Array();
+	    values.forEach(function(d, i) {
+	        var bar = $$$.cube()
+	            .scale([bar_width, d * yscale, bar_depth])
+	            .translate([i * (bar_width + bar_spacing), 0, 0])
+
+	        var label = braille.generate({text:''+d})
+	        	.translate([i*(bar_width+bar_spacing)+bar_width/2,5+d*yscale,0])
+
+	        label = $$$.alignMinZ(label, bar)
+
+	        bars.push(label)
+	        bars.push(bar)
+	    })
+
+	    var c = $$$.group(bars)
+	    return c.center(true)
+	})
+
+/***/ },
+/* 86 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+	var braille = __webpack_require__(203).model.require('braille')
+
+	model.name('piechart')
+	    .author('doubleshow')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('values')
+	    .defaultValue([])
+
+	model.parameter('labels')
+	    .defaultValue([])
+
+	model.parameter('radius')
+	    .defaultValue(20)
+
+	//
+	// Examples
+	//
+
+	model.example('1 2 3 3')
+	    .values([1, 2, 3, 3])
+	    .labels(['a', 'b', 'c', 'd'])
+
+	model.example('2 3 4')
+	    .values([2, 3, 4])
+	    .labels(['x', 'y', 'z'])
+	    .radius(15)
+
+
+	model.factory(function($$$, params) {
+
+	    var values = params.values
+	    var labels = params.labels
+	    var radius = params.radius
+
+	    var sum = values.reduce(function(a, b) {
+	        return a + b;
+	    });
+
+	    var slices = new Array();
+	    var start = 0;
+	    var end = 0;
+
+	    values.forEach(function(value, i) {
+
+
+	        var perct = value / sum;
+
+	        var da = 360 * value / sum;
+	        end = start + da;
+
+	        var arc = $$$.CSG.Path2D.arc({
+	            center: [0, 0, 0],
+	            radius: radius,
+	            startangle: start + 2,
+	            endangle: end - 2,
+	            resolution: 16,
+	        });
+	        var p = arc.appendPoint([0, 0]).close();
+
+	        var slice = p.innerToCAG().extrude({
+	            offset: [0, 0, 2]
+	        });
+	        slices.push(slice);
+
+	        var theta = Math.PI * ((start + end) / 2) / 180;
+
+	        var r1 = radius / 2 + 3;
+	        var r2 = radius + 5;
+
+	        var percttext = Math.round(perct * 100);
+	        var perctlabel = braille.generate({
+	                text: "" + percttext
+	            })
+	            .center(true)
+	            .rotateZ(-90)
+	            .translate([r1 * Math.cos(theta), r1 * Math.sin(theta), 2]);
+	        slices.push(perctlabel)
+
+
+	        var label = labels[i]      
+	        if (label) {
+	            var namelabel = braille.generate({
+	                    text: label
+	                })
+	                .center(true)
+	                .rotateZ(-90)
+	                .translate([r2 * Math.cos(theta), r2 * Math.sin(theta), 0]);
+	            slices.push(namelabel);
+	        }
+
+	        start = end;
+	    })
+
+	    var c = $$$.group(slices);
+	    return c
+	})
+
+/***/ },
+/* 87 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('grill')
+	    .author('doubleshow')
+	    .version('1.0.0')
+
+	//
+	// Parameters
+	//
+
+	model.parameter('height')
+	    .defaultValue(15)
+
+	model.parameter('width')
+	    .defaultValue(30)
+
+	model.parameter('depth')
+	    .defaultValue(1)
+
+	model.parameter('orientation')
+	    .defaultValue('horizontal')
+
+	model.parameter('bar_count')
+	    .defaultValue(5)
+
+	model.parameter('bar_width')
+	    .defaultValue(1)
+
+	//
+	// Examples
+	//
+
+	model.example('default grill')
+
+	model.example('a longer, denser grill')
+	    .width(50)
+	    .bar_count(40)
+	    .bar_width(0.2)
+
+	model.example('a vertical grill')
+	    .width(50)
+	    .height(50)
+	    .orientation('vertical')
+
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params) {
+	    var height = params.height
+	    var width = params.width
+	    var depth = params.depth
+	    var orientation = params.orientation
+	    var bar_count = params.bar_count
+	    var bar_width = params.bar_width
+
+	    var length = 0;
+	    if (orientation == 'vertical'){
+	        length = height;
+	        var bar_length = width;
+	    }else{
+	        length = width;
+	        var bar_length = height;
+	    }
+
+	    var gap_between_bars = 1.0 * (length - bar_width) / (bar_count - 1);
+
+	    var models = new Array();
+
+	    var bar = $$$.cube({
+	        center: [false, false, false]
+	    });
+	    bar = bar.scale([bar_width, bar_length, 2]);
+
+	    models.push(bar);
+	    for (var i = 0; i < bar_count - 1; i = i + 1) {
+	        bar = bar.translate([gap_between_bars, 0, 0]);
+	        models.push(bar);
+	    }
+
+	    var bars = $$$.union(models).scale([1, 1, depth / 2]);
+
+	    // center
+	     bars = bars.translate([-length/2,-bar_length/2,0])
+
+	    if (orientation == 'vertical'){        
+	        bars = bars.rotateZ(90);
+	    }
+	    return bars;
+	})
+
+/***/ },
+/* 88 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var model = module.exports = __webpack_require__(203).model.define()
+
+	model.name('wave')
+		.author('doubleshow')
+	    .version('1.0.0');
+
+	//
+	// Parameters
+	//
+
+	model.parameter('height')
+	    .defaultValue(10);
+
+	model.parameter('width')
+	    .defaultValue(20);
+
+	model.parameter('count')
+	    .defaultValue(6);    
+
+	//
+	// Examples
+	//
+
+	model.example('default wave')
+
+	model.example('a longer, wider wave')
+		.width(40)
+		.height(15)
+		.count(15)
+
+	//
+	// Factory
+	//
+
+	model.factory(function($$$, params){
+
+		var height = params.height
+		var width = params.width
+		var count = params.count
+
+		var c = $$$.cylinder({r:5, h:height});
+
+		var cut = $$$.cube({});	
+		cut = cut.scale([5*(count+1),10,height]).translate([0,-4,0]);
+
+		var models = new Array();
+		for (var i = 0; i < count; i = i + 1){
+			c = c.translate([5,0,0]);
+			models.push(c);
+		}
+		var r = $$$.difference($$$.union(models), cut);
+
+		// fit the width
+		var b = r.getBounds();
+		var dx = b[1].x - b[0].x;
+		r = r.scale([width/dx, 1, 1]);
+		return r.center(true).rotateX(-90);
+	})
 
 /***/ },
 /* 89 */
