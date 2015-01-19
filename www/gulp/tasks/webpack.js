@@ -29,7 +29,9 @@ gulp.task('webpack:dev', function(cb) {
     hot:         false,
     stats: {
       colors: true
-    }
+    },
+    headers: {"Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}
   }).listen(8090, 'localhost', function(err) {
 
     if (err) {
@@ -49,12 +51,14 @@ gulp.task('webpack:build', function(cb) {
     'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new ngAnnotatePlugin({
-      add: true
-    }),
-    new webpack.optimize.UglifyJsPlugin());
+    })
+    // ,
+    // new webpack.optimize.DedupePlugin(),
+    // new ngAnnotatePlugin({
+    //   add: true
+    // }),
+    // new webpack.optimize.UglifyJsPlugin()
+    );
 
   return webpack(webpackProductionConfig, function(err, stats) {
 

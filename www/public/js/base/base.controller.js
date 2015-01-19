@@ -2,11 +2,9 @@
 
 var ace = require('brace');
 
-require('brace/mode/markdown');
 require('../documents/theme-dillinger');
 
 var Viewer = require('../../../../lib/viewers/stlviewer')
-var craft = require('../../../../lib/craft')
 
 module.exports =
     angular
@@ -17,88 +15,137 @@ module.exports =
         'diBase.directives.menuToggle',
         'diBase.directives.settingsToggle',
         'diBase.directives.previewToggle',
-        'diBase.directives.preview'
+        'diBase.directives.preview',
+        'craft',
+        'project'
     ])
-    .controller('BaseController', function($scope, $timeout, $rootScope, $http, $routeParams, userService, documentsService) {
+    .run(function($rootScope) {
 
-        var name = $routeParams.name
-        $http.get('/examples/' + name).
-        success(function(data, status, headers, config) {
-            
-            var item = documentsService.createItem();
-            item.title = name;
-            item.body = data;
-            documentsService.setCurrentDocument(item);
+    })
+    .controller('SideBar', function($scope, $rootScope, $timeout, projectService) {
 
-            $rootScope.$emit('document.refresh');
-      
-        }).
-        error(function(data, status, headers, config) {
-            // file can not be loaded
-            // TODO: display an error message
+        $scope.exampleGroups = [{
+            title: 'Basic',
+            collapse: false,
+            examples: ['2pins.xml', '2rings.xml',
+                'hellopin.xml', 'helloworld.xml',
+                'pins.xml', 'pintower.xml', 'desk.xml'
+            ]
+        }, {
+            title: 'Braille',
+            collapse: false,
+            examples: ['braille.xml','barchart.xml']
+        }, {
+            title: 'Style',
+            collapse: true,
+            examples: ['style-pins.xml', 'heading.xml']
+        }]
 
-        });
+    })
+    .controller('Export', function($scope, $rootScope, $timeout, projectService) {
 
-        $scope.profile = userService.profile;
+        // http://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = 'display: none';
 
-        // Editor configurations
-        $rootScope.editor = ace.edit('editor');
-        $rootScope.editor.getSession().setMode('ace/mode/xml');
-        $rootScope.editor.setTheme('ace/theme/dillinger');
-        $rootScope.editor.getSession().setUseWrapMode(true);
-        $rootScope.editor.setShowPrintMargin(false);
-        $rootScope.editor.setOption('minLines', 50);
-        $rootScope.editor.setOption('maxLines', 90000);
+        $scope.asSTL = asSTL;
 
-        $rootScope.editor.commands.addCommand({
+        function initDownload(contentString, name) {
+
+            var blob = new Blob([contentString], {
+                type: 'application/stla'
+            })
+            var blobURL = URL.createObjectURL(blob)
+
+            a.download = name
+            a.href = blobURL
+            $timeout(function() {
+                a.click();
+                window.URL.revokeObjectURL(blobURL);
+            })
+        }
+
+        function asSTL() {
+            console.log('exporting done')
+            projectService
+                .build('export')
+                .then(function(doc) {
+                    console.log('exporting done')
+                    var stl = doc.craftdom.csgs[0].stl
+                    var name = doc.name + '.stl'
+                    initDownload(stl, name)
+                })
+        }
+
+    })
+    .controller('Preview', function($scope, $rootScope, projectService) {
+
+        var viewer = new Viewer('preview')
+        viewer.setCameraPosition(0, -0.5, 1);
+        viewer.render();
+
+        $scope.build = function() {
+            projectService.build('preview')
+        }
+
+        $rootScope.$on('craft.start', function() {
+            $scope.isWorkerGeneratingModel = true
+            delete $scope.errorMessage
+        })
+
+        $rootScope.$on('craft.end', function() {
+            $scope.isWorkerGeneratingModel = false
+        })
+
+        $rootScope.$on('craft.error', function(event, error) {
+            $scope.isWorkerGeneratingModel = false
+            $scope.errorMessage = error
+        })
+
+        $rootScope.$on('document.built', function(event, doc) {
+            var csgs = doc.craftdom.csgs
+            viewer.addCSGs(csgs)
+            viewer.render()
+        })
+
+    })
+    .controller('Editor', function($rootScope, projectService) {
+
+        var editor = ace.edit('editor');
+        editor.getSession().setMode('ace/mode/xml');
+        editor.setTheme('ace/theme/dillinger');
+        editor.getSession().setUseWrapMode(true);
+        editor.setShowPrintMargin(false);
+        editor.setOption('minLines', 50);
+        editor.setOption('maxLines', 90000);
+
+        $rootScope.$on('document.refresh', function(event, doc) {
+            editor.getSession().setValue(doc.body)
+        })
+
+        editor.on('change', function() {
+            var contents = editor.getSession().getValue()
+            $rootScope.$emit('editor.change', contents)
+        })
+
+        editor.commands.addCommand({
             name: "refresh",
             bindKey: {
                 win: "Shift-Return",
                 mac: "Shift-Return"
             },
             exec: function(editor) {
-                updatePreview();
+                console.debug('shift-return pressed')
+                projectService.build('preview')
             }
         })
+    })
+    .controller('BaseController', function($routeParams, projectService) {
 
-        $rootScope.editor.on('change', function(){
-            var item = documentsService.getCurrentDocument();
-            item.body = $rootScope.editor.getSession().getValue();
-            documentsService.setCurrentDocument(item);
-        });
-
-        var updatePreview = function() {
-            $rootScope.currentDocument = documentsService.getCurrentDocument();
-            var src = $rootScope.currentDocument.body
-            var craftdom = craft.xml.generate(src)
-            // var stlString = craftdom.csg.toStlString()
-
-            //$rootScope.viewer.setStl(stlString)
-
-            $rootScope.viewer.addCSGs(craftdom.csgs)
-            //var csgs = _.flatten(collect_csgs(craftdom))
-
-            $rootScope.viewer.render();
-            // TODO: update three.js viewer on demand
-            return;
-        };
-
-        var documentRefresh = function() {
-            $rootScope.currentDocument = documentsService.getCurrentDocument();
-            updatePreview()
-            return $rootScope.editor.getSession().setValue($rootScope.currentDocument.body);
-        };
-
-        $rootScope.$on('document.refresh', documentRefresh);
-
-        $rootScope.viewer = new Viewer('preview')
-        $rootScope.viewer.setCameraPosition(0, -0.5, 1);
-
-        animate();
-
-        function animate() {
-            // requestAnimationFrame(animate);
-            $rootScope.viewer.render();
-        }
-
-    });
+        projectService
+            .open('examples/' + $routeParams.name)
+            .then(function() {
+                projectService.build('preview')
+            })
+    })
