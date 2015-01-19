@@ -36,6 +36,23 @@ e.g.,
 	bin/craft xml examples/xml/patterns.xml
 
 
+# Deployment 
+
+## Website
+
+In www/, build for production
+
+	$ gulp --production
+
+Commit generated webpack bundles (e.g., app.css, main.bundle.js, worker.bundle.js)
+
+	$ git commit -a -m 'production bundles'
+
+	
+
+	$ git subtree push --prefix www origin gh-pages
+
+
 ## Contributing
 
 
