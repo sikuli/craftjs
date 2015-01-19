@@ -452,11 +452,10 @@
 	module.exports = function(craft){
 		craft.pack()
 			.name('standard')
-			.add(__webpack_require__(72))
 			.add(__webpack_require__(73))
 			.add(__webpack_require__(74))
-			.add(__webpack_require__(75))	
-			.add(__webpack_require__(76))
+			.add(__webpack_require__(75))
+			.add(__webpack_require__(76))	
 			.add(__webpack_require__(77))
 			.add(__webpack_require__(78))
 			.add(__webpack_require__(79))
@@ -464,10 +463,11 @@
 			.add(__webpack_require__(81))
 			.add(__webpack_require__(82))
 			.add(__webpack_require__(83))
-			.add(__webpack_require__(84))		
-			.add(__webpack_require__(85))
+			.add(__webpack_require__(84))
+			.add(__webpack_require__(85))		
 			.add(__webpack_require__(86))
 			.add(__webpack_require__(87))
+			.add(__webpack_require__(88))
 
 	}
 
@@ -3964,7 +3964,7 @@
 
 /***/ },
 
-/***/ 72:
+/***/ 73:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4015,7 +4015,7 @@
 
 /***/ },
 
-/***/ 73:
+/***/ 74:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4077,7 +4077,7 @@
 
 /***/ },
 
-/***/ 74:
+/***/ 75:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4172,7 +4172,7 @@
 
 /***/ },
 
-/***/ 75:
+/***/ 76:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4228,7 +4228,7 @@
 
 /***/ },
 
-/***/ 76:
+/***/ 77:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4307,7 +4307,7 @@
 
 /***/ },
 
-/***/ 77:
+/***/ 78:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4355,7 +4355,7 @@
 
 /***/ },
 
-/***/ 78:
+/***/ 79:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4478,7 +4478,7 @@
 
 /***/ },
 
-/***/ 79:
+/***/ 80:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4543,7 +4543,7 @@
 
 /***/ },
 
-/***/ 80:
+/***/ 81:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4605,7 +4605,7 @@
 
 /***/ },
 
-/***/ 81:
+/***/ 82:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4687,7 +4687,7 @@
 
 /***/ },
 
-/***/ 82:
+/***/ 83:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -4729,7 +4729,7 @@
 
 /***/ },
 
-/***/ 83:
+/***/ 84:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -5303,7 +5303,7 @@
 
 /***/ },
 
-/***/ 84:
+/***/ 85:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -5384,7 +5384,7 @@
 
 /***/ },
 
-/***/ 85:
+/***/ 86:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -5492,7 +5492,7 @@
 
 /***/ },
 
-/***/ 86:
+/***/ 87:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()
@@ -5588,7 +5588,7 @@
 
 /***/ },
 
-/***/ 87:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 	var model = module.exports = __webpack_require__(203).model.define()

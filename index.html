@@ -33,7 +33,6 @@
 
   <div class="wrapper">
 
-
     <div class="sidebar-wrapper">
         <div class="sidebar" ng-controller="SideBar">   
        <nav class="nav nav-sidebar">
@@ -41,12 +40,12 @@
 
         <li ng-repeat="group in exampleGroups" class="menu-item menu-item--link-unlink in-sidebar">
           <a class="menu-link" ng-click="group.collapse = !group.collapse">
-          <span>{{group.title}}</span> <span class="caret"></span></a>          
+          <span ng-bind="group.title"></span> <span class="caret"></span></a>          
 
           <ul class="sidebar-list" collapse="group.collapse">
                 <li ng-repeat="example in group.examples">
                     <a ng-href="#/examples/{{example}}" class="import-dropbox unlinked">
-                        <span>{{example}}</span>             
+                        <span ng-bind="example"></span>             
                     </a>
                 </li>
           </ul>
@@ -62,9 +61,7 @@
 </div>
 
    <script src="http://code.jquery.com/jquery.js"></script>
-   <!--script src="js/main.bundle.js"></script-->
-      <script src="http://localhost:8090/webpack-dev-server.js"></script>
-   <script src="http://localhost:8090/assets/main.bundle.js"></script>  
-
+   <script src="js/main.bundle.js"></script>
+   
 </body>
 </html>
