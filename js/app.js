@@ -14,12 +14,16 @@
 
     // AngularJS
     angular = require('exports?angular!angular');
+    // angular = require('angular')
 
-    // Angular Route
+    // // Angular Route
     require('angular-route');
     
-    // Angular Bootstrap UI
+    // // Angular Bootstrap UI
     require('angular-bootstrap');
+
+    var ace = require('brace');
+    require('brace/mode/markdown');
 
     // Base
     require('./base/base.controller');
@@ -29,6 +33,10 @@
     require('./components/toggle-preview.directive');
     require('./components/switch.directive');
     require('./components/preview.directive');
+
+    // Craft
+    require('./services/craft.service')
+    require('./project/project.service')
 
     require('./components/wtfisdillinger-modal.controller');
 
@@ -83,7 +91,8 @@
         'plugins.dropbox',
         'plugins.googledrive',
         'plugins.onedrive',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'project'
     ])
     .config(['$routeProvider',
         function($routeProvider) {
@@ -94,7 +103,8 @@
             }).
             when('/examples/:name', {
                 templateUrl: 'templates/editor.html',
-                controller: 'BaseController'
+                controller: 'BaseController',
+                reloadOnSearch: false
             }).
             otherwise({
                 redirectTo: '/examples/pins.xml'

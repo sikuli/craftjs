@@ -11,7 +11,7 @@ module.exports =
     angular.extend(this, {
       id: new Date().getTime(),
       title: 'Untitled Document.xml',
-      body: require('raw!../../../canvas.xml')
+      body: ''//require('raw!../../../canvas.xml')
     });
 
     return angular.extend(this, sheetData);

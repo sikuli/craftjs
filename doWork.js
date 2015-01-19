@@ -1,22 +1,26 @@
 onmessage = function(e) {
-	var data = e.data
+
     try {
-    	var s = require('../../lib/craft.js')
+        console.debug('worker.build: [%s] start', e.data.command)
+        var s = require('../../lib/craft.js')
 
-        s.xml.build(data.craftdom)
+        var craftdom = e.data.craftdom        
 
-        var stls = data.craftdom.csgs.map(function(csg){
-            return {color: csg.color, stl: csg.toStlString()}
+        s.xml.build(craftdom, e.data.mode)
+
+        craftdom.csgs.forEach(function(csg) {
+            csg.stl = csg.toStlString()
         })
 
-
         var msg = {
-            type: 'stls',
-            stls: stls
+            type: 'craftdom',
+            craftdom: craftdom
         }
         postMessage(msg)
+        console.debug('worker.build: done')
 
     } catch (err) {
+        console.error('worker.build: failed %s', err)
         var msg = {
             type: 'error',
             error: err
