@@ -22,6 +22,26 @@ module.exports =
     .run(function($rootScope) {
 
     })
+    .controller('SideBar', function($scope, $rootScope, $timeout, projectService) {
+
+        $scope.exampleGroups = [{
+            title: 'Basic',
+            collapse: false,
+            examples: ['2pins.xml', '2rings.xml',
+                'hellopin.xml', 'helloworld.xml',
+                'pins.xml', 'pintower.xml', 'desk.xml'
+            ]
+        }, {
+            title: 'Braille',
+            collapse: false,
+            examples: ['braille.xml','barchart.xml']
+        }, {
+            title: 'Style',
+            collapse: true,
+            examples: ['style-pins.xml', 'heading.xml']
+        }]
+
+    })
     .controller('Export', function($scope, $rootScope, $timeout, projectService) {
 
         // http://stackoverflow.com/questions/19327749/javascript-blob-filename-without-link
@@ -37,55 +57,54 @@ module.exports =
                 type: 'application/stla'
             })
             var blobURL = URL.createObjectURL(blob)
-            
+
             a.download = name
             a.href = blobURL
             $timeout(function() {
                 a.click();
                 window.URL.revokeObjectURL(blobURL);
-            })            
+            })
         }
 
         function asSTL() {
             console.log('exporting done')
             projectService
                 .build('export')
-                .then(function(doc){
+                .then(function(doc) {
                     console.log('exporting done')
                     var stl = doc.craftdom.csgs[0].stl
                     var name = doc.name + '.stl'
                     initDownload(stl, name)
-                })            
+                })
         }
 
     })
     .controller('Preview', function($scope, $rootScope, projectService) {
-        
+
         var viewer = new Viewer('preview')
         viewer.setCameraPosition(0, -0.5, 1);
         viewer.render();
 
-        $scope.build = function(){
+        $scope.build = function() {
             projectService.build('preview')
         }
 
-        $rootScope.$on('craft.start', function(){
+        $rootScope.$on('craft.start', function() {
             $scope.isWorkerGeneratingModel = true
             delete $scope.errorMessage
         })
 
-        $rootScope.$on('craft.end', function(){
+        $rootScope.$on('craft.end', function() {
             $scope.isWorkerGeneratingModel = false
         })
 
-        $rootScope.$on('craft.error', function(event, error){
+        $rootScope.$on('craft.error', function(event, error) {
             $scope.isWorkerGeneratingModel = false
             $scope.errorMessage = error
         })
 
-        $rootScope.$on('document.built', function(event, doc) {            
+        $rootScope.$on('document.built', function(event, doc) {
             var csgs = doc.craftdom.csgs
-            console.debug(csgs)
             viewer.addCSGs(csgs)
             viewer.render()
         })
@@ -126,7 +145,7 @@ module.exports =
 
         projectService
             .open('examples/' + $routeParams.name)
-            .then(function(){
+            .then(function() {
                 projectService.build('preview')
             })
     })
