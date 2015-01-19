@@ -46,7 +46,7 @@ In www/, build for production
 
 Commit generated webpack bundles (e.g., app.css, main.bundle.js, worker.bundle.js)
 
-	$ git commit -a -m 'production bundles'
+	$ git commit -a -m 'ready to deploy'
 
 In project root,  	
 
