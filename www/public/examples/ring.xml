@@ -1,0 +1,4 @@
+<canvas height="20">
+	<ring radius="40%height"></ring>
+	<ring radius="45%height"></ring>
+</canvas>

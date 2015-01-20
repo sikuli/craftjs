@@ -6,15 +6,6 @@ module.exports =
         'diDocuments.service',
         'diDocuments.export'
     ])
-    .controller('Preview', function($scope, $rootScope) {
-
-        $scope.refresh = refresh;
-
-        function refresh() {
-          return $rootScope.$emit('document.refresh');     
-        }
-
-    })
     .controller('Documents', function($scope, $timeout, $rootScope, userService, documentsService) {
 
         var vm = this;
@@ -49,10 +40,10 @@ module.exports =
         }
 
         function initDocument() {
-            var item;
+            // var item;
 
-            item = documentsService.getItemById($rootScope.currentDocument.id);
-            documentsService.setCurrentDocument(item);
+            // item = documentsService.getItemById($rootScope.currentDocument.id);                    
+            // documentsService.setCurrentDocument(item);
 
             return $rootScope.$emit('document.refresh');
         }

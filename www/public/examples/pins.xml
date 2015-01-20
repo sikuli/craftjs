@@ -1,0 +1,12 @@
+<board width="30">
+    <pin></pin>
+    <pin></pin>
+    <pin></pin>
+    <pin depth="2"></pin>
+    <pin head_radius="3" depth="10"></pin>    
+    <pin depth="2"></pin>
+    <pin></pin>
+    <pin head_radius="3"></pin>
+    <pin head_radius="3"></pin>
+    <pin head_radius="3"></pin>
+</board>

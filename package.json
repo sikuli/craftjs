@@ -20,9 +20,11 @@
   },
   "dependencies": {
     "commander": "^2.5.0",
+    "css": "^2.1.0",
     "ejs": "^1.0.0",
     "glob": "^4.2.1",
-    "lodash": "^2.4.1",
+    "jsdom": "^1.5.0",
+    "lodash": "https://github.com/lodash/lodash/tarball/860aa65d109388db84a63228783b0760f7e9f763",
     "open": "0.0.5",
     "xmldoc": "^0.1.3"
   },

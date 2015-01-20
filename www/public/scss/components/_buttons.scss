@@ -19,12 +19,12 @@
   text-transform: uppercase;
   font-weight: map-get($headingtype, bold);
   font-family: unquote(map-get($headingtype, font-family));
-  font-size: 14px;
+  font-size: 16px;
   text-shadow: 0 1px 0 darken($c-highlight, 20%);
-  padding: 16px 24px;
-  background-color: $c-highlight;
+  padding: 8px 24px;
+  background-color: darken($c-highlight, 10%);
   border-radius: 3px;
-  margin: 0 auto 16px;
+  margin: 0 auto 2px;
   line-height: 1;
   color: #fff;
   transition: all .15s linear;

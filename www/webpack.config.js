@@ -7,10 +7,14 @@ var
   nodeModulesPath = path.join(__dirname, 'node_modules');
 
 module.exports = {
-  cache: true,
-  entry: './public/js/app.js',
+  cache: false,
+  entry: {
+    main: './public/js/app.js',
+    worker: ['./public/doWork.js']
+  },
   output: {
-    path: path.join(__dirname, 'public/js')
+    path: path.join(__dirname, 'public/js'),
+    filename: '[name].bundle.js'
   },
   module: {
     noParse: [

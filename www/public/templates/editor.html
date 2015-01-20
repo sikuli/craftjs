@@ -1,0 +1,73 @@
+
+
+    <div class="notification-container">
+        <div class="notification"></div>
+    </div>
+
+    <div class="page">
+        <div class="navbar">
+
+            <menu-toggle></menu-toggle>
+
+            <h1 class="navbar-brand">
+    <a class="brand" href="">CraftML</a>
+          </h1>
+
+
+            <nav class="nav nav-right">
+
+                <ul class="menu menu-utilities">
+                    <li class="menu-item menu-item--export-as has-dropdown" dropdown>
+                        <a class="dropdown-toggle" dropdown-toggle>Export as <span class="caret"></span></a>
+                        <ul class="dropdown dropdown-menu" role="menu" ng-controller="Export">
+                            <li>
+                                <a ng-click="asSTL()" class="export-html">STL</a>
+                            </li>
+                        </ul>
+
+                    </li>
+                    <li class="menu-item menu-item--save-to has-dropdown" dropdown>
+                        <a class="dropdown-toggle">Save<span class="caret"></span></a>
+
+                        <ul class="dropdown dropdown-menu" role="menu">
+
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="header">
+            <document-title></document-title>
+
+
+        </div>
+
+        <div class="g mnone">
+            <div class="g-b g-b--t1of2 split split-editor" ng-controller="Editor">
+                <h3 class="title">XML</h3>
+                <div id="editor"></div>
+            </div>
+
+            <div class="g-b g-b--t1of2 split split-preview" ng-controller="Preview">
+                <h3 class="title">Preview</h3>
+                <a class="btn btn--new" href="" ng-click="build()" style="float:right">CRAFT<br>
+                    <span style="font-size:70%">(SHIFT-RETURN)</span>  
+                </a>
+
+                <div style="float:right; padding-left:10px">
+                    <h3 class="title" ng-if="isWorkerGeneratingModel">
+                            generating model
+                            <img src="img/busy.gif" style="margin-left:5px"></img>
+                    </h3>
+                    <h3 class="title" ng-if="errorMessage" style="color:red">
+                        {{ errorMessage }}
+                    </h3>
+                </div>
+
+                <div id="preview" preview>
+                </div>
+            </div>
+        </div>
+
+    </div>

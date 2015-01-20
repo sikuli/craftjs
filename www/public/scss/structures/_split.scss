@@ -71,6 +71,7 @@
     display: none;
     position: absolute;
     top: 129px;
+    padding-top: 2px;
     z-index: map-get($z-index, preview);
 
     .show-preview & {
