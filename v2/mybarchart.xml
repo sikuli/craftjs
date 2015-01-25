@@ -1,0 +1,10 @@
+<craft>
+    <require module='craft-barchart' as='barchart'/>
+    <main>
+        <barchart>
+        	<value>5</value>
+        	<value>3</value>
+        	<value>2</value>
+        </barchart>        
+    </main>
+</craft>

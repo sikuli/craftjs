@@ -1,0 +1,7 @@
+<craft>
+    <require module='./2pins.xml' as='twopins'/>
+    <main>
+        <twopins></twopins>
+        <twopins></twopins>
+    </main>
+</craft>

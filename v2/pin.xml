@@ -1,0 +1,45 @@
+<craft>
+    <parameters>
+        <parameter>
+            <name>depth</name>
+            <default>5</default>
+            <type>number</type>
+        </parameter>
+        
+        <parameter>
+            <name>headRadius</name>
+            <default>2</default>
+            <type>number</type>
+        </parameter>
+
+        <parameter>
+            <name>headDepth</name>
+            <default>1</default>
+            <type>number</type>
+        </parameter>
+    </parameters>
+
+    <main type="openjscad">
+
+        function main(depth, headRadius, headDepth) {
+
+            // needle
+            var needle = cylinder({
+                r: 1,
+                h: depth,
+                center: [true, true, false]
+            })
+
+            // head
+            var head = cylinder({
+                r: headRadius,
+                h: headDepth,
+                center: [true, true, false]
+            })
+            head = head.translate([0, 0, depth])
+            return union(head, needle)
+        }
+
+    </main>
+    
+</craft>

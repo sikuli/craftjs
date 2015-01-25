@@ -1,0 +1,31 @@
+<craft>
+    <parameters>
+        <parameter>
+            <name>count</name>
+            <default>5</default>
+            <type>number</type>
+        </parameter>
+    </parameters>
+
+    <require name='pin' src='craft-pin'>
+
+    <main type="openjscad">
+
+        function main(count) {
+
+            var ps = []
+            var p = pin({headRadius:3})
+            for (var i = 0; i < count; i = i + 1){
+                
+                p = p.translate([20, 0, 0])
+                ps.push(p)
+
+            }
+
+            return union(ps)
+
+        }
+
+    </main>
+    
+</craft>
