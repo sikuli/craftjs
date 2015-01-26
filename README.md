@@ -1,4 +1,4 @@
-#craftjs
+#CraftML
 ---
 ## Using Git
 Collaboration using Git and GitHub. 
