@@ -54,8 +54,8 @@ module.exports =
 
                     } else {
                         console.log('initiating craft worker')
-                        var url = 'http://localhost:8090/assets/worker.bundle.js'
-                            // var url = 'js/worker.bundle.js'
+                        // var url = 'http://localhost:8090/assets/worker.bundle.js'
+                        var url = 'js/worker.bundle.js'
                         var xhr = new XMLHttpRequest()
                         xhr.open('GET', url)
                         xhr.onload = function() {

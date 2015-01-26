@@ -1,0 +1,7 @@
+<craft>
+    <require module='craft-pin' as='pin'>
+    <main>
+        <pin></pin>
+        <pin></pin>
+    </main>
+</craft>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #CraftML
 ---
 ## Using Git
@@ -106,7 +107,24 @@ If the viewer remains blank, there is probably a bug in the model code.
 - Open Developer tools (or right-click in the window & select "Inspect Element")
 - Go to "Console" to see error output
 
----   
+---
+## Deployment 
+
+### Website
+
+In www/, build for production
+
+	$ gulp --production
+
+Commit generated webpack bundles (e.g., app.css, main.bundle.js, worker.bundle.js)
+
+	$ git commit -a -m 'ready to deploy'
+
+In project root,  	
+
+	$ git subtree push --prefix www/public origin gh-pages
+
+
 ## Contributing
 
 ## Release History

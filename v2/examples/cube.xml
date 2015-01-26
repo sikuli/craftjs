@@ -1,0 +1,7 @@
+<craft>
+    <main type="openjscad">
+        function main(){
+            return cube()
+        }
+    </main>
+</craft>

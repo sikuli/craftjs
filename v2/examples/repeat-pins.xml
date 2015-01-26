@@ -1,0 +1,20 @@
+<craft>
+    <require name='pin' src='craft-pin'>
+
+    <parameters>
+        <parameter>
+            <name>heightArray</name>
+            <default>
+                <number>1</number>
+                <number>2</number>
+                <number>3</number>
+            </default>
+            <type>array</type>
+        </parameter>
+    </parameters>
+
+    <main>        
+        <pin craft-repeat="x in heightArray" depth="{{x}}"></pin>
+    </main>
+
+</craft>

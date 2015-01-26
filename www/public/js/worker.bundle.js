@@ -54,24 +54,28 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	onmessage = function(e) {
-		var data = e.data
+
 	    try {
-	    	var s = __webpack_require__(37)
+	        console.debug('worker.build: [%s] start', e.data.command)
+	        var s = __webpack_require__(35)
 
-	        s.xml.build(data.craftdom)
+	        var craftdom = e.data.craftdom        
 
-	        var stls = data.craftdom.csgs.map(function(csg){
-	            return {color: csg.color, stl: csg.toStlString()}
+	        s.xml.build(craftdom, e.data.mode)
+
+	        craftdom.csgs.forEach(function(csg) {
+	            csg.stl = csg.toStlString()
 	        })
 
-
 	        var msg = {
-	            type: 'stls',
-	            stls: stls
+	            type: 'craftdom',
+	            craftdom: craftdom
 	        }
 	        postMessage(msg)
+	        console.debug('worker.build: done')
 
 	    } catch (err) {
+	        console.error('worker.build: failed %s', err)
 	        var msg = {
 	            type: 'error',
 	            error: err
@@ -82,7 +86,7 @@
 
 /***/ },
 
-/***/ 37:
+/***/ 35:
 /***/ function(module, exports, __webpack_require__) {
 
 	var craft = module.exports = {};
@@ -95,19 +99,251 @@
 	    fn(craft)
 	}
 
+	craft.use(__webpack_require__(57))
 	craft.use(__webpack_require__(58))
 	craft.use(__webpack_require__(59))
 	craft.use(__webpack_require__(60))
-	craft.use(__webpack_require__(65))
 	// craft.use(require('./viewers'))
 
 /***/ },
 
-/***/ 58:
+/***/ 56:
 /***/ function(module, exports, __webpack_require__) {
 
-	var CSG = __webpack_require__(66).CSG
-	var scad = __webpack_require__(66)
+	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	// resolves . and .. elements in a path array with directory names there
+	// must be no slashes, empty elements, or device names (c:\) in the array
+	// (so also no leading and trailing slashes - it does not distinguish
+	// relative and absolute paths)
+	function normalizeArray(parts, allowAboveRoot) {
+	  // if the path tries to go above the root, `up` ends up > 0
+	  var up = 0;
+	  for (var i = parts.length - 1; i >= 0; i--) {
+	    var last = parts[i];
+	    if (last === '.') {
+	      parts.splice(i, 1);
+	    } else if (last === '..') {
+	      parts.splice(i, 1);
+	      up++;
+	    } else if (up) {
+	      parts.splice(i, 1);
+	      up--;
+	    }
+	  }
+
+	  // if the path is allowed to go above the root, restore leading ..s
+	  if (allowAboveRoot) {
+	    for (; up--; up) {
+	      parts.unshift('..');
+	    }
+	  }
+
+	  return parts;
+	}
+
+	// Split a filename into [root, dir, basename, ext], unix version
+	// 'root' is just a slash, or nothing.
+	var splitPathRe =
+	    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+	var splitPath = function(filename) {
+	  return splitPathRe.exec(filename).slice(1);
+	};
+
+	// path.resolve([from ...], to)
+	// posix version
+	exports.resolve = function() {
+	  var resolvedPath = '',
+	      resolvedAbsolute = false;
+
+	  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+	    var path = (i >= 0) ? arguments[i] : process.cwd();
+
+	    // Skip empty and invalid entries
+	    if (typeof path !== 'string') {
+	      throw new TypeError('Arguments to path.resolve must be strings');
+	    } else if (!path) {
+	      continue;
+	    }
+
+	    resolvedPath = path + '/' + resolvedPath;
+	    resolvedAbsolute = path.charAt(0) === '/';
+	  }
+
+	  // At this point the path should be resolved to a full absolute path, but
+	  // handle relative paths to be safe (might happen when process.cwd() fails)
+
+	  // Normalize the path
+	  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+	    return !!p;
+	  }), !resolvedAbsolute).join('/');
+
+	  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+	};
+
+	// path.normalize(path)
+	// posix version
+	exports.normalize = function(path) {
+	  var isAbsolute = exports.isAbsolute(path),
+	      trailingSlash = substr(path, -1) === '/';
+
+	  // Normalize the path
+	  path = normalizeArray(filter(path.split('/'), function(p) {
+	    return !!p;
+	  }), !isAbsolute).join('/');
+
+	  if (!path && !isAbsolute) {
+	    path = '.';
+	  }
+	  if (path && trailingSlash) {
+	    path += '/';
+	  }
+
+	  return (isAbsolute ? '/' : '') + path;
+	};
+
+	// posix version
+	exports.isAbsolute = function(path) {
+	  return path.charAt(0) === '/';
+	};
+
+	// posix version
+	exports.join = function() {
+	  var paths = Array.prototype.slice.call(arguments, 0);
+	  return exports.normalize(filter(paths, function(p, index) {
+	    if (typeof p !== 'string') {
+	      throw new TypeError('Arguments to path.join must be strings');
+	    }
+	    return p;
+	  }).join('/'));
+	};
+
+
+	// path.relative(from, to)
+	// posix version
+	exports.relative = function(from, to) {
+	  from = exports.resolve(from).substr(1);
+	  to = exports.resolve(to).substr(1);
+
+	  function trim(arr) {
+	    var start = 0;
+	    for (; start < arr.length; start++) {
+	      if (arr[start] !== '') break;
+	    }
+
+	    var end = arr.length - 1;
+	    for (; end >= 0; end--) {
+	      if (arr[end] !== '') break;
+	    }
+
+	    if (start > end) return [];
+	    return arr.slice(start, end - start + 1);
+	  }
+
+	  var fromParts = trim(from.split('/'));
+	  var toParts = trim(to.split('/'));
+
+	  var length = Math.min(fromParts.length, toParts.length);
+	  var samePartsLength = length;
+	  for (var i = 0; i < length; i++) {
+	    if (fromParts[i] !== toParts[i]) {
+	      samePartsLength = i;
+	      break;
+	    }
+	  }
+
+	  var outputParts = [];
+	  for (var i = samePartsLength; i < fromParts.length; i++) {
+	    outputParts.push('..');
+	  }
+
+	  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+	  return outputParts.join('/');
+	};
+
+	exports.sep = '/';
+	exports.delimiter = ':';
+
+	exports.dirname = function(path) {
+	  var result = splitPath(path),
+	      root = result[0],
+	      dir = result[1];
+
+	  if (!root && !dir) {
+	    // No dirname whatsoever
+	    return '.';
+	  }
+
+	  if (dir) {
+	    // It has a dirname, strip trailing slash
+	    dir = dir.substr(0, dir.length - 1);
+	  }
+
+	  return root + dir;
+	};
+
+
+	exports.basename = function(path, ext) {
+	  var f = splitPath(path)[2];
+	  // TODO: make this comparison case-insensitive on windows?
+	  if (ext && f.substr(-1 * ext.length) === ext) {
+	    f = f.substr(0, f.length - ext.length);
+	  }
+	  return f;
+	};
+
+
+	exports.extname = function(path) {
+	  return splitPath(path)[3];
+	};
+
+	function filter (xs, f) {
+	    if (xs.filter) return xs.filter(f);
+	    var res = [];
+	    for (var i = 0; i < xs.length; i++) {
+	        if (f(xs[i], i, xs)) res.push(xs[i]);
+	    }
+	    return res;
+	}
+
+	// String.prototype.substr - negative index don't work in IE8
+	var substr = 'ab'.substr(-1) === 'b'
+	    ? function (str, start, len) { return str.substr(start, len) }
+	    : function (str, start, len) {
+	        if (start < 0) start = str.length + start;
+	        return str.substr(start, len);
+	    }
+	;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(201)))
+
+/***/ },
+
+/***/ 57:
+/***/ function(module, exports, __webpack_require__) {
+
+	var CSG = __webpack_require__(68).CSG
+	var scad = __webpack_require__(68)
 
 	module.exports = function(craft) {
 	    craft.scad = scad
@@ -157,18 +393,18 @@
 
 /***/ },
 
-/***/ 59:
+/***/ 58:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(67)
+	module.exports = __webpack_require__(69)
 
 /***/ },
 
-/***/ 60:
+/***/ 59:
 /***/ function(module, exports, __webpack_require__) {
 
-	var parser = __webpack_require__(68),
-	    builder = __webpack_require__(69)
+	var parser = __webpack_require__(70),
+	    builder = __webpack_require__(71)
 
 	module.exports = function(craft) {
 
@@ -199,42 +435,46 @@
 	        return parser.parse(xmlstring)
 	    }
 
-	    craft.xml.build = function(craftdom){
-	        return builder.build(craftdom)
+	    craft.xml.build = function(craftdom, mode){
+	        if (mode === 'preview'){
+	            builder.build(craftdom)
+	        }else if (mode === 'export'){
+	            builder.buildToExport(craftdom)
+	        }
 	    }
 	}
 
 /***/ },
 
-/***/ 65:
+/***/ 60:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(craft){
 		craft.pack()
 			.name('standard')
-			.add(__webpack_require__(183))
-			.add(__webpack_require__(184))
-			.add(__webpack_require__(185))
-			.add(__webpack_require__(186))	
-			.add(__webpack_require__(187))
-			.add(__webpack_require__(188))
-			.add(__webpack_require__(189))
-			.add(__webpack_require__(190))
-			.add(__webpack_require__(191))
-			.add(__webpack_require__(192))
-			.add(__webpack_require__(193))
-			.add(__webpack_require__(194))
-			.add(__webpack_require__(195))		
-			.add(__webpack_require__(196))
-			.add(__webpack_require__(197))
-			.add(__webpack_require__(198))
+			.add(__webpack_require__(73))
+			.add(__webpack_require__(74))
+			.add(__webpack_require__(75))
+			.add(__webpack_require__(76))	
+			.add(__webpack_require__(77))
+			.add(__webpack_require__(78))
+			.add(__webpack_require__(79))
+			.add(__webpack_require__(80))
+			.add(__webpack_require__(81))
+			.add(__webpack_require__(82))
+			.add(__webpack_require__(83))
+			.add(__webpack_require__(84))
+			.add(__webpack_require__(85))		
+			.add(__webpack_require__(86))
+			.add(__webpack_require__(87))
+			.add(__webpack_require__(88))
 
 	}
 
 
 /***/ },
 
-/***/ 66:
+/***/ 68:
 /***/ function(module, exports, __webpack_require__) {
 
 	// openscad.js, a few functions to simplify coding OpenSCAD-like
@@ -2960,8 +3200,8 @@
 
 	if(true) {    // we are used as module in nodejs require()
 	   //var CSG = require(global.lib+'./csg.js').CSG;
-	   var CSG = __webpack_require__(199).CSG;
-	   var CAG = __webpack_require__(199).CAG;
+	   var CSG = __webpack_require__(202).CSG;
+	   var CAG = __webpack_require__(202).CAG;
 	   //console.log("lib="+global.lib);
 	   module.exports = { 
 	      // -- list all functions we export
@@ -2997,10 +3237,10 @@
 
 /***/ },
 
-/***/ 67:
+/***/ 69:
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(203)
+	var _ = __webpack_require__(204)
 
 	module.exports = function(craft) {
 
@@ -3230,7 +3470,7 @@
 	    Pack.prototype.addFolder = function(folder) {
 
 	        // var glob = require('glob');
-	        var path = __webpack_require__(201);
+	        var path = __webpack_require__(56);
 
 	        glob.glob(folder + '/*.js', {
 	            sync: true
@@ -3253,10 +3493,10 @@
 
 /***/ },
 
-/***/ 68:
+/***/ 70:
 /***/ function(module, exports, __webpack_require__) {
 
-	var css = __webpack_require__(202);
+	var cssparse = __webpack_require__(205);
 
 	var parser = module.exports = {}
 
@@ -3350,7 +3590,7 @@
 	    var csstext = $(dom).find("style").text()
 	    $(dom).find("style").remove()
 
-	    var cssdom = css.parse(default_css + csstext)
+	    var cssdom = cssparse(default_css + csstext)
 	        // console.log(cssdom)
 
 	    function apply_css_rule_to_element(rule, el) {
@@ -3400,11 +3640,11 @@
 
 /***/ },
 
-/***/ 69:
+/***/ 71:
 /***/ function(module, exports, __webpack_require__) {
 
-	var craft = __webpack_require__(200)
-	var _ = __webpack_require__(203)
+	var craft = __webpack_require__(203)
+	var _ = __webpack_require__(204)
 	var $$$ = craft.scad
 
 	var builder = module.exports = {}
@@ -3425,6 +3665,20 @@
 	    csgs.forEach(function(csg, index) {
 	        csg.color = colors[index % 6]
 	    })
+	}
+
+	builder.buildToExport = function(craftdom) {
+	    construct(craftdom)
+
+	    // TODO: put compact, flatten into collect_csgs function
+	    // strange behavior of _.flatten (need 'true' flag to go deep)
+	    var csgs = _.compact(_.flatten(collect_csgs(craftdom),true))
+
+	    // TODO: uncomment this to see just one csg, make this an option    
+	    craftdom.csgs = [$$$.union(csgs)]
+	    // craftdom.csgs = csgs
+
+	    craftdom.csgs[0].color = 'fuchsia'
 	}
 
 	function collect_csgs(node) {
@@ -3710,10 +3964,10 @@
 
 /***/ },
 
-/***/ 183:
+/***/ 73:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('board')
 	    .author('doubleshow')
@@ -3761,10 +4015,10 @@
 
 /***/ },
 
-/***/ 184:
+/***/ 74:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('placeholder')
 	    .author('doubleshow')
@@ -3823,10 +4077,10 @@
 
 /***/ },
 
-/***/ 185:
+/***/ 75:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('chair1')
 	    .author('caleb')
@@ -3918,10 +4172,10 @@
 
 /***/ },
 
-/***/ 186:
+/***/ 76:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('cube')
 		.author('caleb')
@@ -3974,10 +4228,10 @@
 
 /***/ },
 
-/***/ 187:
+/***/ 77:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('pin')
 	    .author('doubleshow')
@@ -4053,10 +4307,10 @@
 
 /***/ },
 
-/***/ 188:
+/***/ 78:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('cross')
 	    .author('doubleshow')
@@ -4101,11 +4355,11 @@
 
 /***/ },
 
-/***/ 189:
+/***/ 79:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
-	var board = __webpack_require__(200).model.require('board')
+	var model = module.exports = __webpack_require__(203).model.define()
+	var board = __webpack_require__(203).model.require('board')
 
 	model.name('desk')
 	    .author('doubleshow')
@@ -4224,10 +4478,10 @@
 
 /***/ },
 
-/***/ 190:
+/***/ 80:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('text')
 		.author('doubleshow')
@@ -4289,10 +4543,10 @@
 
 /***/ },
 
-/***/ 191:
+/***/ 81:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('ring')
 	    .author('doubleshow')
@@ -4351,10 +4605,10 @@
 
 /***/ },
 
-/***/ 192:
+/***/ 82:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('flower')
 	    .author('dragosh')
@@ -4433,10 +4687,10 @@
 
 /***/ },
 
-/***/ 193:
+/***/ 83:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('cup')
 	     .author('jeeeun')
@@ -4475,10 +4729,10 @@
 
 /***/ },
 
-/***/ 194:
+/***/ 84:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('braille')
 	    .author('doubleshow')
@@ -5049,11 +5303,11 @@
 
 /***/ },
 
-/***/ 195:
+/***/ 85:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
-	var braille = __webpack_require__(200).model.require('braille')
+	var model = module.exports = __webpack_require__(203).model.define()
+	var braille = __webpack_require__(203).model.require('braille')
 
 	model.name('barchart')
 	    .author('doubleshow')
@@ -5130,11 +5384,11 @@
 
 /***/ },
 
-/***/ 196:
+/***/ 86:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
-	var braille = __webpack_require__(200).model.require('braille')
+	var model = module.exports = __webpack_require__(203).model.define()
+	var braille = __webpack_require__(203).model.require('braille')
 
 	model.name('piechart')
 	    .author('doubleshow')
@@ -5238,10 +5492,10 @@
 
 /***/ },
 
-/***/ 197:
+/***/ 87:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('grill')
 	    .author('doubleshow')
@@ -5334,10 +5588,10 @@
 
 /***/ },
 
-/***/ 198:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
-	var model = module.exports = __webpack_require__(200).model.define()
+	var model = module.exports = __webpack_require__(203).model.define()
 
 	model.name('wave')
 		.author('doubleshow')
@@ -5398,7 +5652,100 @@
 
 /***/ },
 
-/***/ 199:
+/***/ 201:
+/***/ function(module, exports, __webpack_require__) {
+
+	// shim for using process in browser
+
+	var process = module.exports = {};
+
+	process.nextTick = (function () {
+	    var canSetImmediate = typeof window !== 'undefined'
+	    && window.setImmediate;
+	    var canMutationObserver = typeof window !== 'undefined'
+	    && window.MutationObserver;
+	    var canPost = typeof window !== 'undefined'
+	    && window.postMessage && window.addEventListener
+	    ;
+
+	    if (canSetImmediate) {
+	        return function (f) { return window.setImmediate(f) };
+	    }
+
+	    var queue = [];
+
+	    if (canMutationObserver) {
+	        var hiddenDiv = document.createElement("div");
+	        var observer = new MutationObserver(function () {
+	            var queueList = queue.slice();
+	            queue.length = 0;
+	            queueList.forEach(function (fn) {
+	                fn();
+	            });
+	        });
+
+	        observer.observe(hiddenDiv, { attributes: true });
+
+	        return function nextTick(fn) {
+	            if (!queue.length) {
+	                hiddenDiv.setAttribute('yes', 'no');
+	            }
+	            queue.push(fn);
+	        };
+	    }
+
+	    if (canPost) {
+	        window.addEventListener('message', function (ev) {
+	            var source = ev.source;
+	            if ((source === window || source === null) && ev.data === 'process-tick') {
+	                ev.stopPropagation();
+	                if (queue.length > 0) {
+	                    var fn = queue.shift();
+	                    fn();
+	                }
+	            }
+	        }, true);
+
+	        return function nextTick(fn) {
+	            queue.push(fn);
+	            window.postMessage('process-tick', '*');
+	        };
+	    }
+
+	    return function nextTick(fn) {
+	        setTimeout(fn, 0);
+	    };
+	})();
+
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+
+	function noop() {}
+
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+
+	// TODO(shtylman)
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+
+
+/***/ },
+
+/***/ 202:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -11406,255 +11753,14 @@
 
 /***/ },
 
-/***/ 200:
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(37)
-
-/***/ },
-
-/***/ 201:
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-	// resolves . and .. elements in a path array with directory names there
-	// must be no slashes, empty elements, or device names (c:\) in the array
-	// (so also no leading and trailing slashes - it does not distinguish
-	// relative and absolute paths)
-	function normalizeArray(parts, allowAboveRoot) {
-	  // if the path tries to go above the root, `up` ends up > 0
-	  var up = 0;
-	  for (var i = parts.length - 1; i >= 0; i--) {
-	    var last = parts[i];
-	    if (last === '.') {
-	      parts.splice(i, 1);
-	    } else if (last === '..') {
-	      parts.splice(i, 1);
-	      up++;
-	    } else if (up) {
-	      parts.splice(i, 1);
-	      up--;
-	    }
-	  }
-
-	  // if the path is allowed to go above the root, restore leading ..s
-	  if (allowAboveRoot) {
-	    for (; up--; up) {
-	      parts.unshift('..');
-	    }
-	  }
-
-	  return parts;
-	}
-
-	// Split a filename into [root, dir, basename, ext], unix version
-	// 'root' is just a slash, or nothing.
-	var splitPathRe =
-	    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-	var splitPath = function(filename) {
-	  return splitPathRe.exec(filename).slice(1);
-	};
-
-	// path.resolve([from ...], to)
-	// posix version
-	exports.resolve = function() {
-	  var resolvedPath = '',
-	      resolvedAbsolute = false;
-
-	  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-	    var path = (i >= 0) ? arguments[i] : process.cwd();
-
-	    // Skip empty and invalid entries
-	    if (typeof path !== 'string') {
-	      throw new TypeError('Arguments to path.resolve must be strings');
-	    } else if (!path) {
-	      continue;
-	    }
-
-	    resolvedPath = path + '/' + resolvedPath;
-	    resolvedAbsolute = path.charAt(0) === '/';
-	  }
-
-	  // At this point the path should be resolved to a full absolute path, but
-	  // handle relative paths to be safe (might happen when process.cwd() fails)
-
-	  // Normalize the path
-	  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
-	    return !!p;
-	  }), !resolvedAbsolute).join('/');
-
-	  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
-	};
-
-	// path.normalize(path)
-	// posix version
-	exports.normalize = function(path) {
-	  var isAbsolute = exports.isAbsolute(path),
-	      trailingSlash = substr(path, -1) === '/';
-
-	  // Normalize the path
-	  path = normalizeArray(filter(path.split('/'), function(p) {
-	    return !!p;
-	  }), !isAbsolute).join('/');
-
-	  if (!path && !isAbsolute) {
-	    path = '.';
-	  }
-	  if (path && trailingSlash) {
-	    path += '/';
-	  }
-
-	  return (isAbsolute ? '/' : '') + path;
-	};
-
-	// posix version
-	exports.isAbsolute = function(path) {
-	  return path.charAt(0) === '/';
-	};
-
-	// posix version
-	exports.join = function() {
-	  var paths = Array.prototype.slice.call(arguments, 0);
-	  return exports.normalize(filter(paths, function(p, index) {
-	    if (typeof p !== 'string') {
-	      throw new TypeError('Arguments to path.join must be strings');
-	    }
-	    return p;
-	  }).join('/'));
-	};
-
-
-	// path.relative(from, to)
-	// posix version
-	exports.relative = function(from, to) {
-	  from = exports.resolve(from).substr(1);
-	  to = exports.resolve(to).substr(1);
-
-	  function trim(arr) {
-	    var start = 0;
-	    for (; start < arr.length; start++) {
-	      if (arr[start] !== '') break;
-	    }
-
-	    var end = arr.length - 1;
-	    for (; end >= 0; end--) {
-	      if (arr[end] !== '') break;
-	    }
-
-	    if (start > end) return [];
-	    return arr.slice(start, end - start + 1);
-	  }
-
-	  var fromParts = trim(from.split('/'));
-	  var toParts = trim(to.split('/'));
-
-	  var length = Math.min(fromParts.length, toParts.length);
-	  var samePartsLength = length;
-	  for (var i = 0; i < length; i++) {
-	    if (fromParts[i] !== toParts[i]) {
-	      samePartsLength = i;
-	      break;
-	    }
-	  }
-
-	  var outputParts = [];
-	  for (var i = samePartsLength; i < fromParts.length; i++) {
-	    outputParts.push('..');
-	  }
-
-	  outputParts = outputParts.concat(toParts.slice(samePartsLength));
-
-	  return outputParts.join('/');
-	};
-
-	exports.sep = '/';
-	exports.delimiter = ':';
-
-	exports.dirname = function(path) {
-	  var result = splitPath(path),
-	      root = result[0],
-	      dir = result[1];
-
-	  if (!root && !dir) {
-	    // No dirname whatsoever
-	    return '.';
-	  }
-
-	  if (dir) {
-	    // It has a dirname, strip trailing slash
-	    dir = dir.substr(0, dir.length - 1);
-	  }
-
-	  return root + dir;
-	};
-
-
-	exports.basename = function(path, ext) {
-	  var f = splitPath(path)[2];
-	  // TODO: make this comparison case-insensitive on windows?
-	  if (ext && f.substr(-1 * ext.length) === ext) {
-	    f = f.substr(0, f.length - ext.length);
-	  }
-	  return f;
-	};
-
-
-	exports.extname = function(path) {
-	  return splitPath(path)[3];
-	};
-
-	function filter (xs, f) {
-	    if (xs.filter) return xs.filter(f);
-	    var res = [];
-	    for (var i = 0; i < xs.length; i++) {
-	        if (f(xs[i], i, xs)) res.push(xs[i]);
-	    }
-	    return res;
-	}
-
-	// String.prototype.substr - negative index don't work in IE8
-	var substr = 'ab'.substr(-1) === 'b'
-	    ? function (str, start, len) { return str.substr(start, len) }
-	    : function (str, start, len) {
-	        if (start < 0) start = str.length + start;
-	        return str.substr(start, len);
-	    }
-	;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(206)))
-
-/***/ },
-
-/***/ 202:
-/***/ function(module, exports, __webpack_require__) {
-
-	exports.parse = __webpack_require__(204);
-	// exports.stringify = require('./lib/stringify');
-
-
-/***/ },
-
 /***/ 203:
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(35)
+
+/***/ },
+
+/***/ 204:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -22513,11 +22619,11 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(205)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(206)(module), (function() { return this; }())))
 
 /***/ },
 
-/***/ 204:
+/***/ 205:
 /***/ function(module, exports, __webpack_require__) {
 
 	// http://www.w3.org/TR/CSS21/grammar.html
@@ -23120,7 +23226,7 @@
 
 /***/ },
 
-/***/ 205:
+/***/ 206:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(module) {
@@ -23133,99 +23239,6 @@
 		}
 		return module;
 	}
-
-
-/***/ },
-
-/***/ 206:
-/***/ function(module, exports, __webpack_require__) {
-
-	// shim for using process in browser
-
-	var process = module.exports = {};
-
-	process.nextTick = (function () {
-	    var canSetImmediate = typeof window !== 'undefined'
-	    && window.setImmediate;
-	    var canMutationObserver = typeof window !== 'undefined'
-	    && window.MutationObserver;
-	    var canPost = typeof window !== 'undefined'
-	    && window.postMessage && window.addEventListener
-	    ;
-
-	    if (canSetImmediate) {
-	        return function (f) { return window.setImmediate(f) };
-	    }
-
-	    var queue = [];
-
-	    if (canMutationObserver) {
-	        var hiddenDiv = document.createElement("div");
-	        var observer = new MutationObserver(function () {
-	            var queueList = queue.slice();
-	            queue.length = 0;
-	            queueList.forEach(function (fn) {
-	                fn();
-	            });
-	        });
-
-	        observer.observe(hiddenDiv, { attributes: true });
-
-	        return function nextTick(fn) {
-	            if (!queue.length) {
-	                hiddenDiv.setAttribute('yes', 'no');
-	            }
-	            queue.push(fn);
-	        };
-	    }
-
-	    if (canPost) {
-	        window.addEventListener('message', function (ev) {
-	            var source = ev.source;
-	            if ((source === window || source === null) && ev.data === 'process-tick') {
-	                ev.stopPropagation();
-	                if (queue.length > 0) {
-	                    var fn = queue.shift();
-	                    fn();
-	                }
-	            }
-	        }, true);
-
-	        return function nextTick(fn) {
-	            queue.push(fn);
-	            window.postMessage('process-tick', '*');
-	        };
-	    }
-
-	    return function nextTick(fn) {
-	        setTimeout(fn, 0);
-	    };
-	})();
-
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-
-	function noop() {}
-
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-
-	// TODO(shtylman)
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
 
 
 /***/ }

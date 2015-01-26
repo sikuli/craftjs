@@ -1,0 +1,32 @@
+<craft>
+
+    <require module='craft-pin' as='pin'>
+    <require module='craft-board' as='board'>
+
+    <style>
+        pin.short {
+            depth: 3
+        }
+        pin.tall {
+            depth: 6
+        }
+        pin.wide {
+            head-radius: 5
+        }
+        pin.narrow {
+            head-radius: 3
+        }
+    </style>
+
+    <main>
+
+        <board>
+            <pin class="narrow short"></pin>
+            <pin class="wide tall"></pin>
+            <pin class="wide short"></pin>
+            <pin class="narrow tall"></pin>
+        </board>
+
+    </main>
+   
+</craft>
