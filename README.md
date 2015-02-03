@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #CraftML
 ---
 ## Using Git
@@ -92,6 +91,12 @@ $ gulp watch
 
 This should open a tab in the web brower that allows users to view and test models. By keeping both terminals open during development, users can instantly see their rendered code, along with error messages (using DevTools) that allow for quicker debugging.
 
+Note: As of 01/27/15, the app will not automatically update & refresh after saving changes. To manually build for production, at the level of craftjs/www,
+```sh
+$ gulp --production
+```
+Then refresh the webpage.
+
 ##### Displaying Models
 To display a model, insert the model's name as tags in XML standard.
 ```sh
@@ -111,6 +116,7 @@ If the viewer remains blank, there is probably a bug in the model code.
 ## Deployment 
 
 ### Website
+The online version is currently accessibly at: craftml.org
 
 In www/, build for production
 
